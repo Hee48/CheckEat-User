@@ -134,4 +134,4 @@ iOSInjectionProject/
 # End of https://www.toptal.com/developers/gitignore/api/macos,swift,xcode
 
 # Secrets
-Secret.plist
+CheckEat-User/Secrets/Secret.plist
