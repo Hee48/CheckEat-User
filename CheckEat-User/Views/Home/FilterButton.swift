@@ -24,11 +24,6 @@ struct FilterButton: View {
                     }
                 }
             }
-            .padding(.horizontal)
         }
     }
 }
-
-//#Preview {
-//    FilterButton(selectedFilter: .constant("마이필터"))
-//}

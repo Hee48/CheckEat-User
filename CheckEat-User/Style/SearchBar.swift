@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchBar: View {
     @Binding var text: String
     var placeholder: String = ""
+    var onSearch: () -> Void
 
     var body: some View {
         HStack {
