@@ -6,13 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		390E45902E29F2BA0056819F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 390E458F2E29F2BA0056819F /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		39A0C0562E1678E00042F2F0 /* CheckEat-User.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CheckEat-User.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		39741CB32E2CD37A004AD961 /* Exceptions for "CheckEat-User" folder in "CheckEat-User" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 39A0C0552E1678E00042F2F0 /* CheckEat-User */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		39A0C0582E1678E00042F2F0 /* CheckEat-User */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				39741CB32E2CD37A004AD961 /* Exceptions for "CheckEat-User" folder in "CheckEat-User" target */,
+			);
 			path = "CheckEat-User";
 			sourceTree = "<group>";
 		};
@@ -23,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				390E45902E29F2BA0056819F /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +83,7 @@
 			);
 			name = "CheckEat-User";
 			packageProductDependencies = (
+				390E458F2E29F2BA0056819F /* Alamofire */,
 			);
 			productName = "CheckEat-User";
 			productReference = 39A0C0562E1678E00042F2F0 /* CheckEat-User.app */;
@@ -94,6 +113,9 @@
 			);
 			mainGroup = 39A0C04D2E1678E00042F2F0;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				390E458E2E29F2BA0056819F /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 39A0C0572E1678E00042F2F0 /* Products */;
 			projectDirPath = "";
@@ -256,6 +278,7 @@
 				DEVELOPMENT_TEAM = 8YXQMG6LKS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CheckEat-User/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -285,6 +308,7 @@
 				DEVELOPMENT_TEAM = 8YXQMG6LKS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CheckEat-User/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -326,6 +350,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		390E458E2E29F2BA0056819F /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		390E458F2E29F2BA0056819F /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 390E458E2E29F2BA0056819F /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 39A0C04E2E1678E00042F2F0 /* Project object */;
 }

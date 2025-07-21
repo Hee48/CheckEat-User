@@ -15,12 +15,10 @@ struct ContactVerificationSection: View {
     @Binding var didSendCode: Bool
     private let correctAuthCode = "1234"
     @State private var isVerificationCodeValid: Bool = false
+    @State private var hasSentOnce: Bool = false
+    @ObservedObject var viewModel: RegisterViewModel
     var body: some View {
         VStack(alignment: .leading){
-            Text("채식 구분 선택")
-                .semibold14()
-                .padding(.leading, 17)
-                .padding(.top, 10)
             Text("이메일")
                 .semibold14()
                 .padding(.leading, 17)
@@ -33,11 +31,16 @@ struct ContactVerificationSection: View {
                     .onChange(of: email) { newValue in
                         isEmailValid = isValidEmailAddress(email: newValue)
                     }
+                    .disabled(didSendCode)
                 Button {
-                    //이메일 인증코드받기
-                    didSendCode = true
+                    //이메일 중복확인 검사
+                    viewModel.checkEmailUnique(email: email) {
+                        print("✅ 인증코드 전송 시작됨")
+                        didSendCode = true
+                        hasSentOnce = true
+                    }
                 } label: {
-                    Text(didSendCode ? "재전송" : "인증코드 받기")
+                    Text(didSendCode ? "재전송" : "중복 확인")
                         .frame(width: 97, height: 34)
                         .bold14()
                         .foregroundColor(.black)
@@ -46,12 +49,12 @@ struct ContactVerificationSection: View {
                         .padding(.bottom, 13)
                         .padding(.trailing, 20)
                 }
-                .disabled(!isEmailValid)
+                .disabled(!isEmailValid || hasSentOnce)
 
             }
             if didSendCode {
                 Text("인증코드")
-                    .semibold16()
+                    .semibold14()
                     .padding(.leading, 17)
                     .padding(.top, 10)
                 ZStack(alignment: .trailing) {
@@ -63,21 +66,25 @@ struct ContactVerificationSection: View {
                             isVerificationCodeValid = (newValue == correctAuthCode)
                         }
                     Button {
-                        
+                        //인증코드 인증부분
+                        viewModel.verifyEmailToken(email: email, token: verificationCode)
                     } label: {
                         Text("인증하기")
                             .frame(width: 97, height: 34)
                             .bold14()
                             .foregroundColor(.black)
-                            .background(isVerificationCodeValid ? Color("Button_soft") : Color.gray.opacity(0.3))
+                            .background(Color("Button_soft"))
                             .cornerRadius(5)
                             .padding(.bottom, 13)
                             .padding(.trailing, 20)
                     }
-                    .disabled(!isVerificationCodeValid)
                 }
             }
         }
+        Text("채식 구분 선택")
+            .semibold14()
+            .padding(.leading, 17)
+            .padding(.top, 10)
     }
     func isValidEmailAddress(email: String) -> Bool {
         let emailRegex = "^[A-Z0-9a-z._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$"

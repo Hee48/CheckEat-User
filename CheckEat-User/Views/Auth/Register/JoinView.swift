@@ -26,6 +26,7 @@ struct JoinView: View {
     @State private var isChecked2:Bool = false
     @State private var isChecked3:Bool = false
     @State private var goUserRegistrationComplete = false
+    @StateObject private var viewModel = RegisterViewModel()
     @Environment(\.dismiss) private var dismiss
     private var isFormValid: Bool {
         return !id.isEmpty && !password.isEmpty && !passwordConfirm.isEmpty && !email.isEmpty && !verificationCode.isEmpty && isChecked && isChecked2 && isChecked3
@@ -47,9 +48,9 @@ struct JoinView: View {
                                 .padding(.trailing, 20)
                         }
                         //아이디,닉네임,비밀번호,비밀번호확인
-                        JoinBasicInfoSection(id: $id, password: $password, passwordConfirm: $passwordConfirm, isPasswordVisible: $isPasswordVisible, isPasswordConfirmVisible: $isPasswordConfirmVisible, isPasswordValid: $isPasswordValid, isLengthValid: $isLengthValid, nickName: $nickName, isPasswordFocused: $isPasswordFocused, isPasswordConfirmFocused: $isPasswordConfirmFocused)
+                        JoinBasicInfoSection(id: $id, password: $password, passwordConfirm: $passwordConfirm, isPasswordVisible: $isPasswordVisible, isPasswordConfirmVisible: $isPasswordConfirmVisible, isPasswordValid: $isPasswordValid, isLengthValid: $isLengthValid, nickName: $nickName, isPasswordFocused: $isPasswordFocused, isPasswordConfirmFocused: $isPasswordConfirmFocused, viewModel: viewModel)
                         //이메일,인증코드
-                        ContactVerificationSection(email: $email, verificationCode: $verificationCode, didSendCode: $didSendCode)
+                        ContactVerificationSection(email: $email, verificationCode: $verificationCode, didSendCode: $didSendCode, viewModel: viewModel)
                         
                         HStack {
                             CheckBoxButton(isChecked: $isChecked) {
@@ -90,9 +91,22 @@ struct JoinView: View {
                             
                         }
                         Button {
-                            goUserRegistrationComplete = true
+                            //사용자 입력값 전달
+                            viewModel.loginId = id
+                            viewModel.password = password
+                            viewModel.email = email
+                            viewModel.nickName = nickName
+                            //임시 테스트 데이터
+                            viewModel.selectedVeganLevel = .none
+                            viewModel.selectedHalalStatus = .no
+                            viewModel.selectedCommonAllergies = []
+                            viewModel.signUp { sucess in
+                                if sucess {
+                                    goUserRegistrationComplete = true
+                                }
+                            }
                         } label: {
-                            Text("다음")
+                            Text("완료")
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                                 .frame(width: 362, height: 56, alignment: .center)
@@ -102,13 +116,17 @@ struct JoinView: View {
                                 .padding(.leading, 20)
                         }
                         .disabled(!isFormValid)
-                        NavigationLink(destination: UserRegistrationComplete(), isActive: $goUserRegistrationComplete) {
-                            EmptyView()
+                        .fullScreenCover(isPresented: $goUserRegistrationComplete) {
+                            UserRegistrationComplete()
                         }
                         
                         Spacer()
                         
                     }
+                    .alert(item: $viewModel.alertItem, content: { alert in
+                        Alert(title: Text(alert.title), message: Text(alert.message),
+                              dismissButton: alert.dissmissButton)
+                    })
                     .navigationTitle("회원가입")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
@@ -125,7 +143,7 @@ struct JoinView: View {
             }
         }
     }
-
+    
     func updateAllCheckBox() {
         isChecked = isChecked2 && isChecked3
     }
