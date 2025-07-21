@@ -14,6 +14,7 @@ class LoginViewModel: ObservableObject {
     @Published var loginId: String = ""
     @Published var password: String = ""
     @Published var loginSuccess = false
+    @Published var alertMessage: String = ""
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -28,6 +29,7 @@ class LoginViewModel: ObservableObject {
                 switch completion {
                 case .failure(let error):
                     self.loginSuccess = false
+                    self.alertMessage = "입력하신 정보가 일치하지 않습니다. 다시 확인해주세요"
                     print("로그인실패 ❌❌❌ \(error.localizedDescription)")
                 case .finished:
                     break

@@ -11,7 +11,7 @@ import SwiftUI
 struct CheckEat_UserApp: App {
     var body: some Scene {
         WindowGroup {
-            JoinView()
+            LoginView()
         }
     }
 }

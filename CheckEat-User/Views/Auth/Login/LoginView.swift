@@ -9,8 +9,6 @@ import SwiftUI
 
 struct LoginView: View {
     
-//    @State var userId: String = ""
-//    @State private var userPassword: String = ""
     @State private var isPasswordVisible: Bool = false
     @State private var showFindId: Bool = false
     @State private var showFindPwd: Bool = false
@@ -62,7 +60,11 @@ struct LoginView: View {
                         }
                     }
                     .regular14()
-                    .padding(.bottom, 24)
+                    Text(viewModel.alertMessage)
+                        .regular12()
+                        .foregroundStyle(.red)
+                        .padding(.bottom, 24)
+                    
                     
                     Button {
                         viewModel.login()
