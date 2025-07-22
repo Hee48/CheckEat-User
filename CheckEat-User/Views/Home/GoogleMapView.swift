@@ -22,6 +22,7 @@ struct GoogleMapView: UIViewRepresentable {
         let mapView = GMSMapView(frame: .zero, camera: camera)
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
+        mapView.delegate = context.coordinator
         return mapView
     }
     
@@ -83,6 +84,25 @@ struct GoogleMapView: UIViewRepresentable {
                 return store.sto_halal == 1 ? .purple : .red
             }
             return store.sto_halal == 1 ? colorPair.halal : colorPair.nonHalal
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    class Coordinator: NSObject, GMSMapViewDelegate {
+        var parent: GoogleMapView
+
+        init(_ parent: GoogleMapView) {
+            self.parent = parent
+        }
+
+        func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+            DispatchQueue.main.async {
+                self.parent.centerCoordinate = position.target
+                print("📍 중심 좌표 변경 감지: \(position.target.latitude), \(position.target.longitude)")
+            }
         }
     }
 }

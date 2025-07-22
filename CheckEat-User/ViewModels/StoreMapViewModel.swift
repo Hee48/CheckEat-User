@@ -7,12 +7,15 @@
 
 import Foundation
 import Combine
+import CoreLocation
 
 class StoreMapViewModel: ObservableObject {
     
     @Published var allStores: [Store] = []
     @Published var allFoods: [Food] = []
     @Published var filteredStores: [Store] = []
+    
+    @Published var nearbyStores: [Store] = []
     
     @Published var searchText: String = "" {
         didSet { applyFilters() }
@@ -128,5 +131,17 @@ class StoreMapViewModel: ObservableObject {
             }
         }
         return keyword.contains("할랄") ? "할랄" : selectedFilter
+    }
+    
+    func updateNearbyStores(center: CLLocationCoordinate2D, radius: Double = 1000) {
+        print("🎯 중심 좌표(백엔드로 넘길 현재 좌표): \(center.latitude), \(center.longitude)")
+        let filtered = allStores.filter { store in
+            let storeLocation = CLLocation(latitude: store.sto_latitude, longitude: store.sto_longitude)
+            let centerLocation = CLLocation(latitude: center.latitude, longitude: center.longitude)
+            let distance = storeLocation.distance(from: centerLocation)
+            return distance <= radius
+        }
+        print("🔎 반경 내 가게 수: \(filtered.count)")
+        nearbyStores = filtered
     }
 }
