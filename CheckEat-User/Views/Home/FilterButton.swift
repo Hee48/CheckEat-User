@@ -17,9 +17,13 @@ struct FilterButton: View {
             HStack(spacing: 10) {
                 ForEach(filters, id: \.self) { filter in
                     Button(action: {
-                        selectedFilter = filter
+                        if selectedFilter == filter {
+                            selectedFilter = ""
+                        } else {
+                            selectedFilter = filter
+                        }
                     }) {
-                        Text(filter)                            
+                        Text(filter)
                             .selectedButtonStyle(isSelected: selectedFilter == filter)
                     }
                 }

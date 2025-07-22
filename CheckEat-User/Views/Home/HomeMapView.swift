@@ -10,17 +10,17 @@ import SwiftUI
 struct HomeMapView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var viewModel = StoreMapViewModel()
-
+    
     var body: some View {
         ZStack {
             GoogleMapView(
                 coordinate: $locationManager.userLocation,
                 centerCoordinate: $locationManager.centerMapOnLocation,
                 markers: viewModel.filteredStores,
-                currentFilter: viewModel.selectedFilter,
+                currentFilter: viewModel.activeCategoryFromSearch(),
                 viewModel: viewModel
             )
-
+            
             VStack {
                 Spacer()
                 if locationManager.userLocation == nil {
@@ -34,17 +34,18 @@ struct HomeMapView: View {
         }
         .overlay(
             VStack(spacing: 16) {
+                
                 SearchBar(
                     text: $viewModel.searchText,
                     placeholder: "찾으시려는 장소를 검색해보세요",
                     onSearch: {
-                        //TODO: 서치바 동작 구현
+                        viewModel.applyFilters()
                     }
                 )
                 FilterButton(selectedFilter: $viewModel.selectedFilter)
             }
-            .padding(.horizontal)
-            .padding(.top, 35),
+                .padding(.horizontal)
+                .padding(.top, 35),
             alignment: .top
         )
     }

@@ -31,8 +31,8 @@ struct GoogleMapView: UIViewRepresentable {
             let marker = GMSMarker(position: position)
             marker.title = store.sto_name
 
-            let level = viewModel.highestVeganLevel(for: store, filter: currentFilter)
-            let color = UIColor(markerColor(for: store, foodVeganLevel: level, filter: currentFilter))
+            let veganLevel = viewModel.veganLevelFromFilter(filter: currentFilter)
+            let color = UIColor(markerColor(for: store, foodVeganLevel: veganLevel, filter: currentFilter))
 
             let iconView = UIImageView(image: UIImage(systemName: markerIcon(for: store)))
             iconView.tintColor = color
@@ -73,18 +73,15 @@ struct GoogleMapView: UIViewRepresentable {
         case "폴로":
             return foodVeganLevel == 6 ? (store.sto_halal == 1 ? .brown : Color(red: 0.6, green: 0.4, blue: 0.2)) : .clear
         default:
-            if let level = foodVeganLevel {
-                switch level {
-                case 1: return store.sto_halal == 1 ? .green : Color(red: 0.6, green: 1.0, blue: 0.6)
-                case 2: return store.sto_halal == 1 ? .black : .white
-                case 3: return store.sto_halal == 1 ? .yellow : Color(red: 1.0, green: 1.0, blue: 0.7)
-                case 4: return store.sto_halal == 1 ? .orange : Color(red: 1.0, green: 0.8, blue: 0.6)
-                case 5: return store.sto_halal == 1 ? .blue : Color(red: 0.6, green: 0.8, blue: 1.0)
-                case 6: return store.sto_halal == 1 ? .brown : Color(red: 0.6, green: 0.4, blue: 0.2)
-                default: return store.sto_halal == 1 ? .green : .red
-                }
-            } else {
-                return store.sto_halal == 1 ? .purple : .red
+            let level = viewModel.highestVeganLevel(for: store, filter: "")
+            switch level {
+            case 1: return store.sto_halal == 1 ? .green : Color(red: 0.6, green: 1.0, blue: 0.6)
+            case 2: return store.sto_halal == 1 ? .black : .white
+            case 3: return store.sto_halal == 1 ? .yellow : Color(red: 1.0, green: 1.0, blue: 0.7)
+            case 4: return store.sto_halal == 1 ? .orange : Color(red: 1.0, green: 0.8, blue: 0.6)
+            case 5: return store.sto_halal == 1 ? .blue : Color(red: 0.6, green: 0.8, blue: 1.0)
+            case 6: return store.sto_halal == 1 ? .brown : Color(red: 0.6, green: 0.4, blue: 0.2)
+            default: return store.sto_halal == 1 ? .purple : .red
             }
         }
     }

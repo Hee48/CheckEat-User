@@ -14,12 +14,18 @@ struct SearchBar: View {
 
     var body: some View {
         HStack {
-            TextField(placeholder, text: $text)
+            TextField(placeholder, text: $text, onCommit: {
+                onSearch() // ⌨️ 엔터 시 검색 실행
+            })
                 .autocorrectionDisabled(true)
                 .textInputAutocapitalization(.never)
                 .regular14()
-            Image(systemName: "magnifyingglass")
-                .foregroundColor(.buttonAuth)
+            Button(action: {
+                onSearch() // 🔍 버튼 클릭 시도 동일하게
+            }) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(.buttonAuth)
+            }
         }
         .padding(.vertical, 12)
         .padding(.horizontal)
