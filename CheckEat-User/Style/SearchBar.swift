@@ -8,20 +8,23 @@
 import SwiftUI
 
 struct SearchBar: View {
-    @Binding var text: String
+    
+    @Binding var searchText: String
     var placeholder: String = ""
     var onSearch: () -> Void
-
+    
     var body: some View {
         HStack {
-            TextField(placeholder, text: $text, onCommit: {
-                onSearch() // ⌨️ 엔터 시 검색 실행
+            TextField(placeholder, text: $searchText,
+                      onCommit: {
+                onSearch()
             })
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
-                .regular14()
+            .autocorrectionDisabled(true)
+            .textInputAutocapitalization(.never)
+            .regular14()
+            
             Button(action: {
-                onSearch() // 🔍 버튼 클릭 시도 동일하게
+                onSearch()
             }) {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.buttonAuth)
@@ -31,9 +34,9 @@ struct SearchBar: View {
         .padding(.horizontal)
         .background(.buttonOP)
         .clipShape(RoundedRectangle(cornerRadius: 20))
-        .overlay {
+        .overlay(
             RoundedRectangle(cornerRadius: 20)
                 .stroke(.buttonOP20, lineWidth: 1)
-        }
+        )
     }
 }

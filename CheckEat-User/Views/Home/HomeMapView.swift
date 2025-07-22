@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeMapView: View {
+    
     @StateObject private var locationManager = LocationManager()
     @StateObject private var viewModel = StoreMapViewModel()
     
@@ -34,9 +35,8 @@ struct HomeMapView: View {
         }
         .overlay(
             VStack(spacing: 16) {
-                
                 SearchBar(
-                    text: $viewModel.searchText,
+                    searchText: $viewModel.searchText,
                     placeholder: "찾으시려는 장소를 검색해보세요",
                     onSearch: {
                         viewModel.applyFilters()

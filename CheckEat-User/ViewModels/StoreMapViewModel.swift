@@ -9,21 +9,23 @@ import Foundation
 import Combine
 
 class StoreMapViewModel: ObservableObject {
+    
     @Published var allStores: [Store] = []
     @Published var allFoods: [Food] = []
     @Published var filteredStores: [Store] = []
     
     @Published var searchText: String = "" {
-        didSet {
-            applyFilters()
-        }
+        didSet { applyFilters() }
     }
     
     @Published var selectedFilter: String = "" {
-        didSet {
-            applyFilters()
-        }
+        didSet { applyFilters() }
     }
+    
+    private let filterToVeganLevel: [String: Int] = [
+        "비건": 1, "락토": 2, "오보": 3,
+        "락토오보": 4, "페스코": 5, "폴로": 6
+    ]
     
     init() {
         loadStores()
@@ -52,123 +54,79 @@ class StoreMapViewModel: ObservableObject {
     }
     
     func applyFilters() {
-        // Early exit: If both searchText and selectedFilter are empty, show all stores
-        if searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && selectedFilter.isEmpty {
+        let trimmedKeyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        
+        guard !trimmedKeyword.isEmpty || !selectedFilter.isEmpty else {
             filteredStores = allStores
             return
         }
         
-        let keyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let keywordLevel = veganLevel(from: selectedFilter) ?? veganLevel(from: trimmedKeyword)
+        let halalSearch = selectedFilter == "할랄" || trimmedKeyword.contains("할랄")
         
-        // 1. 가게명 매칭
-        let nameMatches = allStores.filter {
-            $0.sto_name.lowercased().contains(keyword)
+        // Store name matches
+        let storeMatches = allStores.filter {
+            $0.sto_name.lowercased().contains(trimmedKeyword)
         }
         
-        // 2. 메뉴명 매칭
-        let foodMatches = allFoods.filter {
-            $0.foo_name.lowercased().contains(keyword)
-        }
-        let foodStoreIds = Set(foodMatches.map { $0.sto_id })
-        let menuMatches = allStores.filter { foodStoreIds.contains($0.storeId) }
+        // Menu name matches
+        let menuStoreIds = Set(
+            allFoods
+                .filter { $0.foo_name.lowercased().contains(trimmedKeyword) }
+                .map { $0.sto_id }
+        )
+        let menuMatches = allStores.filter { menuStoreIds.contains($0.storeId) }
         
-        // 3. 카테고리 키워드 기반 비건 매칭
-        var categoryStoreMatches: [Store] = []
-        if let veganLevel = veganLevelFromFilter(filter: selectedFilter) ?? veganLevelFromKeyword(keyword: keyword) {
-            categoryStoreMatches = allStores.filter {
-                storeHasVeganLevel(veganLevel, for: $0)
+        // Vegan category matches
+        let categoryMatches: [Store] = {
+            guard let level = keywordLevel else { return [] }
+            let matchedIds = Set(
+                allFoods
+                    .filter { $0.foo_vegan == level }
+                    .map { $0.sto_id }
+            )
+            return allStores.filter { matchedIds.contains($0.storeId) }
+        }()
+        
+        // Halal matches
+        let halalMatches = halalSearch ? allStores.filter { $0.sto_halal == 1 } : []
+        
+        // Combine all matches
+        filteredStores = Array(Set(storeMatches + menuMatches + categoryMatches + halalMatches))
+    }
+    
+    private func veganLevel(from keyword: String) -> Int? {
+        for (filter, level) in filterToVeganLevel.sorted(by: { $0.value < $1.value }) {
+            if keyword.contains(filter.lowercased()) {
+                return level
             }
         }
-        
-        // 4. 할랄 매칭
-        var halalMatches: [Store] = []
-        if selectedFilter == "할랄" || keyword.contains("할랄") {
-            halalMatches = allStores.filter { $0.sto_halal == 1 }
-        }
-        
-        // 5. 최종 결과: 중복 제거된 합집합
-        let combined = Set(nameMatches + menuMatches + categoryStoreMatches + halalMatches)
-        filteredStores = Array(combined)
-    }
-    
-    // Returns the lowest (most strict) vegan level for a store, or nil if none.
-    private func storeHighestVeganLevel(for store: Store) -> Int? {
-        allFoods
-            .filter { $0.sto_id == store.storeId && $0.foo_vegan != nil }
-            .compactMap { $0.foo_vegan }
-            .min()
-    }
-    
-    private func veganLevelFromKeyword(keyword: String) -> Int? {
-        if keyword.contains("락토오보") { return 4 }
-        if keyword.contains("비건") { return 1 }
-        if keyword.contains("락토") { return 2 }
-        if keyword.contains("오보") { return 3 }
-        if keyword.contains("페스코") { return 5 }
-        if keyword.contains("폴로") { return 6 }
         return nil
     }
     
     func veganLevelFromFilter(filter: String) -> Int? {
-        switch filter {
-        case "락토오보": return 4
-        case "비건": return 1
-        case "락토": return 2
-        case "오보": return 3
-        case "페스코": return 5
-        case "폴로": return 6
-        default: return nil
-        }
+        return filterToVeganLevel[filter]
     }
     
-    private func filterByVegan(_ levels: [Int], from stores: [Store]) -> [Store] {
-        let matchedStoreIds = Set(
-            allFoods
-                .filter { $0.foo_vegan != nil && levels.contains($0.foo_vegan!) }
-                .map { $0.sto_id }
-        )
-        return stores.filter { matchedStoreIds.contains($0.storeId) }
+    private func storeHasVeganLevel(_ level: Int, for store: Store) -> Bool {
+        allFoods.contains { $0.sto_id == store.storeId && $0.foo_vegan == level }
     }
     
     func highestVeganLevel(for store: Store, filter: String) -> Int? {
-        let filterLevel: [Int]? = {
-            switch filter {
-            case "비건": return [1]
-            case "락토": return [2]
-            case "오보": return [3]
-            case "락토오보": return [4]
-            case "페스코": return [5]
-            case "폴로": return [6]
-            default: return nil
-            }
-        }()
-        
+        let relevantLevels = filterToVeganLevel[filter].map { [$0] }
         let levels = allFoods
             .filter { $0.sto_id == store.storeId && $0.foo_vegan != nil }
             .compactMap { $0.foo_vegan }
-        
-        if let filterLevel = filterLevel {
-            return levels.filter { filterLevel.contains($0) }.max()
-        } else {
-            return levels.max()
-        }
+        return relevantLevels != nil ? levels.filter { relevantLevels!.contains($0) }.max() : levels.max()
     }
     
     func activeCategoryFromSearch() -> String {
         let keyword = searchText.lowercased()
-        if keyword.contains("비건") { return "비건" }
-        if keyword.contains("락토오보") { return "락토오보" }
-        if keyword.contains("락토") { return "락토" }
-        if keyword.contains("오보") { return "오보" }
-        if keyword.contains("페스코") { return "페스코" }
-        if keyword.contains("폴로") { return "폴로" }
-        if keyword.contains("할랄") { return "할랄" }
-        return selectedFilter
-    }
-    
-    private func storeHasVeganLevel(_ level: Int, for store: Store) -> Bool {
-        return allFoods.contains {
-            $0.sto_id == store.storeId && $0.foo_vegan == level
+        for (filter, _) in filterToVeganLevel {
+            if keyword.contains(filter.lowercased()) {
+                return filter
+            }
         }
+        return keyword.contains("할랄") ? "할랄" : selectedFilter
     }
 }
