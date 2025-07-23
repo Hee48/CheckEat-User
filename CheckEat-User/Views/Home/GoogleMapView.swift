@@ -34,10 +34,6 @@ struct GoogleMapView: UIViewRepresentable {
     func updateUIView(_ mapView: GMSMapView, context: Context) {
         mapView.clear()
         
-        let ids = markers.map { $0.storeId }
-        let dupIds = Dictionary(grouping: ids, by: { $0 }).filter { $1.count > 1 }
-        print("🔁 중복된 storeId 목록: \(dupIds.keys)")
-        
         // 좌표 기준 중복 카운트 사전
         let coordinateCounts = Dictionary(grouping: markers, by: { "\($0.sto_latitude),\($0.sto_longitude)" }).mapValues { $0.count }
 

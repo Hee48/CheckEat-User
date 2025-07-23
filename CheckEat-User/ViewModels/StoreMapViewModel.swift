@@ -14,7 +14,6 @@ class StoreMapViewModel: ObservableObject {
     @Published var allStores: [Store] = []
     @Published var allFoods: [Food] = []
     @Published var filteredStores: [Store] = []
-    
     @Published var nearbyStores: [Store] = []
     
     @Published var searchText: String = "" {
@@ -60,45 +59,7 @@ class StoreMapViewModel: ObservableObject {
     }
     
     func applyFilters() {
-        let trimmedKeyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        
-        guard !trimmedKeyword.isEmpty || !selectedFilter.isEmpty else {
-            filteredStores = allStores
-            return
-        }
-        
-        let keywordLevel = veganLevel(from: selectedFilter) ?? veganLevel(from: trimmedKeyword)
-        let halalSearch = selectedFilter == "할랄" || trimmedKeyword.contains("할랄")
-        
-        // Store name matches
-        let storeMatches = allStores.filter {
-            $0.sto_name.lowercased().contains(trimmedKeyword)
-        }
-        
-        // Menu name matches
-        let menuStoreIds = Set(
-            allFoods
-                .filter { $0.foo_name.lowercased().contains(trimmedKeyword) }
-                .map { $0.sto_id }
-        )
-        let menuMatches = allStores.filter { menuStoreIds.contains($0.storeId) }
-        
-        // Vegan category matches
-        let categoryMatches: [Store] = {
-            guard let level = keywordLevel else { return [] }
-            let matchedIds = Set(
-                allFoods
-                    .filter { $0.foo_vegan == level }
-                    .map { $0.sto_id }
-            )
-            return allStores.filter { matchedIds.contains($0.storeId) }
-        }()
-        
-        // Halal matches
-        let halalMatches = halalSearch ? allStores.filter { $0.sto_halal == 1 } : []
-        
-        // Combine all matches
-        filteredStores = Array(Set(storeMatches + menuMatches + categoryMatches + halalMatches))
+        filteredStores = storesForModalList(center: nil)
     }
     
     private func veganLevel(from keyword: String) -> Int? {
@@ -161,39 +122,43 @@ class StoreMapViewModel: ObservableObject {
     }
     
     func storesForModalList(center: CLLocationCoordinate2D?, radius: Double = 2000) -> [Store] {
-        let hasFilter = !selectedFilter.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        let hasSearch = !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        let trimmedKeyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let filterKeyword = selectedFilter.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         
-        if hasFilter || hasSearch {
-            let keyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-            let keywordLevel = veganLevel(from: selectedFilter) ?? veganLevel(from: keyword)
-            let halalSearch = selectedFilter == "할랄" || keyword.contains("할랄")
-
-            let matchedByVegan = Set(
-                allFoods.filter {
-                    guard let level = keywordLevel else { return false }
-                    return $0.foo_vegan == level
-                }.map { $0.sto_id }
-            )
-
-            let matchedByMenuName = Set(
-                allFoods.filter {
-                    $0.foo_name.lowercased().contains(keyword)
-                }.map { $0.sto_id }
-            )
-
-            let result = allStores.filter { store in
-                (store.sto_name.lowercased().contains(keyword) ||
-                 matchedByVegan.contains(store.storeId) ||
-                 matchedByMenuName.contains(store.storeId) ||
-                 (halalSearch && store.sto_halal == 1)) &&
-                (center == nil || CLLocation(latitude: store.sto_latitude, longitude: store.sto_longitude).distance(from: CLLocation(latitude: center!.latitude, longitude: center!.longitude)) <= radius)
-            }
-
-            return result
-        } else {
+        let keywordLevel = veganLevel(from: trimmedKeyword)
+        let filterLevel = veganLevel(from: filterKeyword)
+        let halalSearch = filterKeyword == "할랄" || trimmedKeyword.contains("할랄")
+        
+        let noFilterOrSearch = trimmedKeyword.isEmpty && filterKeyword.isEmpty
+        if noFilterOrSearch {
             return nearbyStores
         }
+        
+        let matchedByVegan = Set(
+            allFoods.filter {
+                if let keywordLevel = keywordLevel {
+                    return $0.foo_vegan == keywordLevel
+                } else if let filterLevel = filterLevel {
+                    return $0.foo_vegan == filterLevel
+                }
+                return false
+            }.map { $0.sto_id }
+        )
+
+        let matchedByMenuName = Set(
+            allFoods.filter {
+                $0.foo_name.lowercased().contains(trimmedKeyword)
+            }.map { $0.sto_id }
+        )
+
+        let result = allStores.filter { store in
+            (store.sto_name.lowercased().contains(trimmedKeyword) ||
+             matchedByVegan.contains(store.storeId) ||
+             matchedByMenuName.contains(store.storeId) ||
+             (halalSearch && store.sto_halal == 1)) &&
+            (center == nil || CLLocation(latitude: store.sto_latitude, longitude: store.sto_longitude).distance(from: CLLocation(latitude: center!.latitude, longitude: center!.longitude)) <= radius)
+        }
+
+        return result
     }
 }
-
