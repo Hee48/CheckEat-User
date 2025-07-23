@@ -30,13 +30,16 @@ class StoreMapViewModel: ObservableObject {
         "락토오보": 4, "페스코": 5, "폴로": 6
     ]
     
+    private var veganLevelCache: [Int: Int] = [:]
+    
     init() {
         loadStores()
         loadFoods()
+        // precomputeAllVeganLevels()
     }
     
     private func loadStores() {
-        guard let url = Bundle.main.url(forResource: "store_dummy_data_200", withExtension: "json"),
+        guard let url = Bundle.main.url(forResource: "store_dummy_data", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let decoded = try? JSONDecoder().decode([Store].self, from: data) else {
             print("❌ Store JSON 로드 실패")
@@ -47,7 +50,7 @@ class StoreMapViewModel: ObservableObject {
     }
     
     private func loadFoods() {
-        guard let url = Bundle.main.url(forResource: "food_dummy_data_650", withExtension: "json"),
+        guard let url = Bundle.main.url(forResource: "food_dummy_data", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let decoded = try? JSONDecoder().decode([Food].self, from: data) else {
             print("❌ Food JSON 로드 실패")
@@ -115,13 +118,25 @@ class StoreMapViewModel: ObservableObject {
         allFoods.contains { $0.sto_id == store.storeId && $0.foo_vegan == level }
     }
     
-    func highestVeganLevel(for store: Store, filter: String) -> Int? {
-        let relevantLevels = filterToVeganLevel[filter].map { [$0] }
-        let levels = allFoods
-            .filter { $0.sto_id == store.storeId && $0.foo_vegan != nil }
-            .compactMap { $0.foo_vegan }
-        return relevantLevels != nil ? levels.filter { relevantLevels!.contains($0) }.max() : levels.max()
-    }
+    
+    /*
+     func precomputeAllVeganLevels() {
+     veganLevelCache = [:]
+     for store in allStores {
+     let levels = allFoods
+     .filter { $0.sto_id == store.storeId && (1...6).contains($0.foo_vegan ?? 0) }
+     .compactMap { $0.foo_vegan }
+     let mostStrict = levels.min() ?? 0
+     veganLevelCache[store.storeId] = mostStrict
+     }
+     }
+     */
+    
+    /*
+     func cachedVeganLevel(for store: Store) -> Int? {
+     return veganLevelCache[store.storeId]
+     }
+     */
     
     func activeCategoryFromSearch() -> String {
         let keyword = searchText.lowercased()
@@ -133,7 +148,7 @@ class StoreMapViewModel: ObservableObject {
         return keyword.contains("할랄") ? "할랄" : selectedFilter
     }
     
-    func updateNearbyStores(center: CLLocationCoordinate2D, radius: Double = 1000) {
+    func updateNearbyStores(center: CLLocationCoordinate2D, radius: Double = 2000) {
         print("🎯 중심 좌표(백엔드로 넘길 현재 좌표): \(center.latitude), \(center.longitude)")
         let filtered = allStores.filter { store in
             let storeLocation = CLLocation(latitude: store.sto_latitude, longitude: store.sto_longitude)
@@ -144,4 +159,41 @@ class StoreMapViewModel: ObservableObject {
         print("🔎 반경 내 가게 수: \(filtered.count)")
         nearbyStores = filtered
     }
+    
+    func storesForModalList(center: CLLocationCoordinate2D?, radius: Double = 2000) -> [Store] {
+        let hasFilter = !selectedFilter.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        let hasSearch = !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        
+        if hasFilter || hasSearch {
+            let keyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            let keywordLevel = veganLevel(from: selectedFilter) ?? veganLevel(from: keyword)
+            let halalSearch = selectedFilter == "할랄" || keyword.contains("할랄")
+
+            let matchedByVegan = Set(
+                allFoods.filter {
+                    guard let level = keywordLevel else { return false }
+                    return $0.foo_vegan == level
+                }.map { $0.sto_id }
+            )
+
+            let matchedByMenuName = Set(
+                allFoods.filter {
+                    $0.foo_name.lowercased().contains(keyword)
+                }.map { $0.sto_id }
+            )
+
+            let result = allStores.filter { store in
+                (store.sto_name.lowercased().contains(keyword) ||
+                 matchedByVegan.contains(store.storeId) ||
+                 matchedByMenuName.contains(store.storeId) ||
+                 (halalSearch && store.sto_halal == 1)) &&
+                (center == nil || CLLocation(latitude: store.sto_latitude, longitude: store.sto_longitude).distance(from: CLLocation(latitude: center!.latitude, longitude: center!.longitude)) <= radius)
+            }
+
+            return result
+        } else {
+            return nearbyStores
+        }
+    }
 }
+
