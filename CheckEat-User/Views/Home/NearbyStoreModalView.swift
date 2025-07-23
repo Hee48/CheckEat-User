@@ -9,14 +9,16 @@ import SwiftUI
 import CoreLocation
 
 struct NearbyStoreModalView: View {
+    
     @Binding var isPresented: Bool
     var currentLocation: CLLocationCoordinate2D
-    var stores: [Store]
+    var viewModel: StoreMapViewModel
 
     var body: some View {
+        let modalStores = viewModel.storesForModalList(center: currentLocation, radius: 2000)
         VStack(alignment: .leading) {
             HStack {
-                Text("🔍 1Km 반경 가게 (\(stores.count)곳 조회)")
+                Text("🔍 2Km 반경 가게 (\(modalStores.count)곳 조회)")
                     .regular16()
                 Spacer()
                 Button("닫기") {
@@ -26,7 +28,7 @@ struct NearbyStoreModalView: View {
             }
             .padding()
 
-            List(stores, id: \.storeId) { store in
+            List(modalStores, id: \.storeId) { store in
                 HStack(spacing: 8) {
                     AsyncImage(url: URL(string: store.sto_img!)) { image in
                         image

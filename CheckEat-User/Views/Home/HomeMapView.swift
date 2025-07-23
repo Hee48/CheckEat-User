@@ -16,52 +16,62 @@ struct HomeMapView: View {
     @State private var isNearbyPresented = false
     @State private var lastPresentedCenter: CLLocationCoordinate2D?
     @State private var didInitialLocationUpdate = false
+    @State private var mapZoomLevel: Float = 15.0
     
     var body: some View {
-        ZStack {
-            GoogleMapView(
-                coordinate: $locationManager.userLocation,
-                centerCoordinate: $locationManager.centerMapOnLocation,
-                markers: viewModel.filteredStores,
-                currentFilter: viewModel.activeCategoryFromSearch(),
-                viewModel: viewModel
-            )
-            
-            VStack {
-                Spacer()
-                if locationManager.userLocation == nil {
-                    HStack(spacing: 8) {
-                        ProgressView()
-                        Text("위치 가져오는 중...")
+        GeometryReader { geo in
+            ZStack {
+                GoogleMapView(
+                    coordinate: $locationManager.userLocation,
+                    centerCoordinate: $locationManager.centerMapOnLocation,
+                    isNearbyPresented: $isNearbyPresented,
+                    mapZoomLevel: $mapZoomLevel,
+                    markers: viewModel.filteredStores,
+                    currentFilter: viewModel.activeCategoryFromSearch(),
+                    viewModel: viewModel,
+                )
+                VStack {
+                    Spacer()
+                    if locationManager.userLocation == nil {
+                        HStack(spacing: 8) {
+                            ProgressView()
+                            Text("위치 가져오는 중...")
+                        }
+                        .padding(.bottom, 40)
                     }
-                    .padding(.bottom, 40)
                 }
             }
-        }
-        .sheet(isPresented: $isNearbyPresented) {
-            NearbyStoreModalView(
-                isPresented: $isNearbyPresented,
-                currentLocation: locationManager.centerMapOnLocation ?? locationManager.userLocation ?? CLLocationCoordinate2D(),
-                stores: viewModel.nearbyStores
-            )
-            .presentationDetents([.height(400)])
+            .sheet(isPresented: $isNearbyPresented) {
+                NearbyStoreModalView(
+                    isPresented: $isNearbyPresented,
+                    currentLocation: locationManager.centerMapOnLocation ?? locationManager.userLocation ?? CLLocationCoordinate2D(),
+                    viewModel: viewModel
+                )
+                .presentationDetents([.height(geo.size.height*0.5), .large])
+            }
         }
         .onChange(of: locationManager.centerMapOnLocation) { newCenter in
             guard let center = newCenter else { return }
 
+            let defaultLat = 37.5665
+            let defaultLng = 126.9780
+
             if !didInitialLocationUpdate {
-                viewModel.updateNearbyStores(center: center)
-                locationManager.centerMapOnLocation = center
-                lastPresentedCenter = center
-                isNearbyPresented = true
-                didInitialLocationUpdate = true
+                // 서울시청 초기값이 아닌 경우에만 모달 띄우기
+                if abs(center.latitude - defaultLat) > 0.0005 || abs(center.longitude - defaultLng) > 0.0005 {
+                    viewModel.updateNearbyStores(center: center)
+                    locationManager.centerMapOnLocation = center
+                    lastPresentedCenter = center
+                    isNearbyPresented = true
+                    didInitialLocationUpdate = true
+                }
                 return
             }
 
             if let last = lastPresentedCenter {
                 let distance = CLLocation(latitude: center.latitude, longitude: center.longitude)
                     .distance(from: CLLocation(latitude: last.latitude, longitude: last.longitude))
-                if distance > 20 {
+                if distance > 100 {
                     viewModel.updateNearbyStores(center: center)
                     lastPresentedCenter = center
                     isNearbyPresented = false
@@ -70,6 +80,11 @@ struct HomeMapView: View {
                 viewModel.updateNearbyStores(center: center)
                 lastPresentedCenter = center
                 isNearbyPresented = false
+            }
+        }
+        .onChange(of: mapZoomLevel) { _ in
+            if let center = locationManager.centerMapOnLocation {
+                updateNearbyIfNeeded(center)
             }
         }
         
@@ -109,6 +124,34 @@ struct HomeMapView: View {
                 }
             }
         )
+    }
+    
+    private func updateNearbyIfNeeded(_ center: CLLocationCoordinate2D) {
+        let defaultLat = 37.5665
+        let defaultLng = 126.9780
+
+        if !didInitialLocationUpdate {
+            if abs(center.latitude - defaultLat) > 0.0005 || abs(center.longitude - defaultLng) > 0.0005 {
+                viewModel.updateNearbyStores(center: center)
+                locationManager.centerMapOnLocation = center
+                lastPresentedCenter = center
+                isNearbyPresented = true
+                didInitialLocationUpdate = true
+            }
+            return
+        }
+
+        if let last = lastPresentedCenter {
+            let distance = CLLocation(latitude: center.latitude, longitude: center.longitude)
+                .distance(from: CLLocation(latitude: last.latitude, longitude: last.longitude))
+            if distance > 100 {
+                viewModel.updateNearbyStores(center: center)
+                lastPresentedCenter = center
+            }
+        } else {
+            viewModel.updateNearbyStores(center: center)
+            lastPresentedCenter = center
+        }
     }
 }
 
