@@ -42,7 +42,7 @@ class StoreMapViewModel: ObservableObject {
     }
     
     private func loadStores() {
-        guard let url = Bundle.main.url(forResource: "store_dummy_data", withExtension: "json"),
+        guard let url = Bundle.main.url(forResource: "store_dummy_data_new", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let decoded = try? JSONDecoder().decode([Store].self, from: data) else {
             print("❌ Store JSON 로드 실패")
@@ -70,6 +70,21 @@ class StoreMapViewModel: ObservableObject {
             filteredStores = allStores
         } else {
             filteredStores = storesForModalList(center: nil)
+        }
+    }
+
+    func filteredMenus(for tab: String, storeId: Int) -> [Food] {
+        
+        let storeMenus = allFoods.filter { $0.sto_id == storeId }
+        
+        switch tab {
+        case "전체메뉴":
+            return storeMenus
+        case "채식메뉴":
+            return storeMenus.filter { $0.foo_vegan != 0 }
+        default:
+            print("XXX 메뉴 카테고리별 필터링 조회 오류 발생")
+            return []
         }
     }
     
