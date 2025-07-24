@@ -45,6 +45,6 @@ struct UserRegistrationComplete: View {
     }
 }
 
-#Preview {
-    UserRegistrationComplete()
-}
+//#Preview {
+//    UserRegistrationComplete()
+//}

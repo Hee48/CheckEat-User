@@ -64,6 +64,6 @@ struct FindIDComplete: View {
     
 }
 
-#Preview {
-    FindIDComplete(userID: "test1234")
-}
+//#Preview {
+//    FindIDComplete(userID: "test1234")
+//}

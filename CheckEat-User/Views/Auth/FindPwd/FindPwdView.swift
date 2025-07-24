@@ -247,6 +247,6 @@ struct FindPwdView: View {
     }
 }
 
-#Preview {
-    FindPwdView()
-}
+//#Preview {
+//    FindPwdView()
+//}
