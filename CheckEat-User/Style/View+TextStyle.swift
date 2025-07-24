@@ -29,6 +29,11 @@ extension View {
             .font(.system(size: 16, weight: .semibold))
     }
     
+    func semibold18() -> some View {
+        return self
+            .font(.system(size: 18, weight: .semibold))
+    }
+    
     func bold14() -> some View {
         return self
             .font(.system(size: 14, weight: .semibold))
