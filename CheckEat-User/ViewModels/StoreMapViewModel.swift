@@ -24,6 +24,10 @@ class StoreMapViewModel: ObservableObject {
         didSet { applyFilters() }
     }
     
+    @Published var selectedStoreType: String = "전체" {
+        didSet { applyFilters() }
+    }
+    
     private let filterToVeganLevel: [String: Int] = [
         "비건": 1, "락토": 2, "오보": 3,
         "락토오보": 4, "페스코": 5, "폴로": 6
@@ -59,7 +63,14 @@ class StoreMapViewModel: ObservableObject {
     }
     
     func applyFilters() {
-        filteredStores = storesForModalList(center: nil)
+        let trimmedKeyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedFilter = selectedFilter.trimmingCharacters(in: .whitespacesAndNewlines)
+        let isDefault = trimmedKeyword.isEmpty && trimmedFilter.isEmpty && selectedStoreType == "전체"
+        if isDefault {
+            filteredStores = allStores
+        } else {
+            filteredStores = storesForModalList(center: nil)
+        }
     }
     
     private func veganLevel(from keyword: String) -> Int? {
@@ -125,40 +136,59 @@ class StoreMapViewModel: ObservableObject {
         let trimmedKeyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let filterKeyword = selectedFilter.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         
-        let keywordLevel = veganLevel(from: trimmedKeyword)
-        let filterLevel = veganLevel(from: filterKeyword)
+        let effectiveStoreType: String = {
+            if trimmedKeyword.contains("음식점") {
+                return "음식점"
+            } else if trimmedKeyword.contains("카페") {
+                return "카페"
+            }
+            return selectedStoreType.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        }()
+        
+        let effectiveVeganLevel: Int? = {
+            if let level = veganLevel(from: filterKeyword) {
+                return level
+            }
+            return veganLevel(from: trimmedKeyword)
+        }()
+        
         let halalSearch = filterKeyword == "할랄" || trimmedKeyword.contains("할랄")
         
-        let noFilterOrSearch = trimmedKeyword.isEmpty && filterKeyword.isEmpty
+        let noFilterOrSearch = trimmedKeyword.isEmpty && filterKeyword.isEmpty && effectiveStoreType == "전체"
         if noFilterOrSearch {
             return nearbyStores
         }
         
         let matchedByVegan = Set(
             allFoods.filter {
-                if let keywordLevel = keywordLevel {
-                    return $0.foo_vegan == keywordLevel
-                } else if let filterLevel = filterLevel {
-                    return $0.foo_vegan == filterLevel
+                if let level = effectiveVeganLevel {
+                    return $0.foo_vegan == level
                 }
                 return false
             }.map { $0.sto_id }
         )
-
+        
         let matchedByMenuName = Set(
             allFoods.filter {
                 $0.foo_name.lowercased().contains(trimmedKeyword)
             }.map { $0.sto_id }
         )
-
+        
         let result = allStores.filter { store in
-            (store.sto_name.lowercased().contains(trimmedKeyword) ||
-             matchedByVegan.contains(store.storeId) ||
-             matchedByMenuName.contains(store.storeId) ||
-             (halalSearch && store.sto_halal == 1)) &&
-            (center == nil || CLLocation(latitude: store.sto_latitude, longitude: store.sto_longitude).distance(from: CLLocation(latitude: center!.latitude, longitude: center!.longitude)) <= radius)
+            
+            let matchesLocation = (center == nil || CLLocation(latitude: store.sto_latitude, longitude: store.sto_longitude).distance(from: CLLocation(latitude: center!.latitude, longitude: center!.longitude)) <= radius)
+            
+            let storeType = store.sto_type.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            let matchesType = effectiveStoreType == "전체" || storeType == effectiveStoreType
+            
+            let matchesKeyword = store.sto_name.lowercased().contains(trimmedKeyword)
+                || matchedByVegan.contains(store.storeId)
+                || matchedByMenuName.contains(store.storeId)
+                || (halalSearch && store.sto_halal == 1)
+            
+            return matchesKeyword && matchesLocation && matchesType
+            
         }
-
         return result
     }
 }

@@ -23,7 +23,7 @@ struct GoogleMapView: UIViewRepresentable {
     @State static var didShowModal = false
     
     func makeUIView(context: Context) -> GMSMapView {
-        let camera = GMSCameraPosition.camera(withLatitude: 37.5665, longitude: 126.9780, zoom: 13)
+        let camera = GMSCameraPosition.camera(withLatitude: 37.5665, longitude: 126.9780, zoom: 15)
         let mapView = GMSMapView(frame: .zero, camera: camera)
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true

@@ -97,7 +97,7 @@ struct HomeMapView: View {
                         viewModel.applyFilters()
                     }
                 )
-                FilterButton(selectedFilter: $viewModel.selectedFilter)
+                FilterButton(selectedFilter: $viewModel.selectedFilter, selectedStoreType: $viewModel.selectedStoreType, searchText: $viewModel.searchText)
             }
                 .padding(.horizontal)
                 .padding(.top, 35),
