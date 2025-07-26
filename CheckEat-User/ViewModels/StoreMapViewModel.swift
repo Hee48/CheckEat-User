@@ -57,7 +57,7 @@ class StoreMapViewModel: ObservableObject {
     }
     
     private func loadStores() {
-        guard let url = Bundle.main.url(forResource: "store_dummy_data_new", withExtension: "json"),
+        guard let url = Bundle.main.url(forResource: "store_dummy_data", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let decoded = try? JSONDecoder().decode([Store].self, from: data) else {
             print("❌ Store JSON 로드 실패")

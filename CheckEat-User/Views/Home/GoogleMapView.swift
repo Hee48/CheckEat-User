@@ -188,7 +188,7 @@ struct GoogleMapView: UIViewRepresentable {
                     self.parent.selectedStore = store
                 }
             }
-            return false // Let the map handle the default tap behavior too
+            return false
         }
     }
 }

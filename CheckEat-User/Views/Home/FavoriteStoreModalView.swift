@@ -11,6 +11,8 @@ struct FavoriteStoreModalView: View {
     @Binding var isPresented: Bool
     @EnvironmentObject var viewModel: StoreMapViewModel
     @State private var selectedStore: Store? = nil
+    
+    @State var runTime: String = "09:00 ~ 18:00"
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -34,21 +36,29 @@ struct FavoriteStoreModalView: View {
                         AsyncImage(url: URL(string: store.sto_img ?? "")) { image in
                             image
                                 .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 60, height: 60)
-                                .clipped()
+                                .aspectRatio(1, contentMode: .fit)
+                                .frame(maxWidth: 70)
                                 .cornerRadius(8)
                         } placeholder: {
                             ProgressView()
-                                .frame(width: 60, height: 60)
+                                .frame(width: 70, height: 70)
                         }
 
                         VStack(alignment: .leading, spacing: 4) {
                             Text(store.sto_name)
                                 .bold20()
-                            Text("주소 | \(store.sto_address)")
-                                .regular14()
-                                .foregroundColor(.secondary)
+                            Group {
+                                HStack {
+                                    Image("Location")
+                                    Text(store.sto_address)
+                                }
+                                HStack {
+                                    Image("Time")
+                                    Text("영업시간 \(runTime)")
+                                }
+                            }
+                            .regular14()
+                            .foregroundColor(.secondary)
                         }
                     }
                 }
