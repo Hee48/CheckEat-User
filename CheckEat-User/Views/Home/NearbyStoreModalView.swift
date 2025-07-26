@@ -14,6 +14,8 @@ struct NearbyStoreModalView: View {
     var currentLocation: CLLocationCoordinate2D
     var viewModel: StoreMapViewModel
 
+    @State private var selectedStore: Store? = nil
+
     var body: some View {
         let modalStores = viewModel.storesForModalList(center: currentLocation, radius: 2000)
         VStack(alignment: .leading) {
@@ -29,33 +31,40 @@ struct NearbyStoreModalView: View {
             .padding()
 
             List(modalStores, id: \.storeId) { store in
-                HStack(spacing: 8) {
-                    AsyncImage(url: URL(string: store.sto_img!)) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 60, height: 60)
-                            .clipped()
-                            .cornerRadius(8)
-                    } placeholder: {
-                        ProgressView()
-                            .frame(width: 60, height: 60)
-                    }
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(store.sto_name)
-                            .bold20()
-                        Group {
-                            Text("주소 | \(store.sto_address)")
-                            Text("위치 | 위도 \(store.sto_latitude), 경도 \(store.sto_longitude)")
+                Button {
+                    selectedStore = store
+                } label: {
+                    HStack(spacing: 8) {
+                        AsyncImage(url: URL(string: store.sto_img ?? "")) { image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 60, height: 60)
+                                .clipped()
+                                .cornerRadius(8)
+                        } placeholder: {
+                            ProgressView()
+                                .frame(width: 60, height: 60)
                         }
-                        .regular14()
-                        .foregroundColor(.secondary)
-                            
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(store.sto_name)
+                                .bold20()
+                            Group {
+                                Text("주소 | \(store.sto_address)")
+                                Text("위치 | 위도 \(store.sto_latitude), 경도 \(store.sto_longitude)")
+                            }
+                            .regular14()
+                            .foregroundColor(.secondary)
+                        }
                     }
                 }
             }
             .listStyle(.plain)
+            .fullScreenCover(item: $selectedStore) { store in
+                StoreDetailView(store: store)
+                    .environmentObject(viewModel)
+            }
         }
         .frame(maxHeight: .infinity)
     }

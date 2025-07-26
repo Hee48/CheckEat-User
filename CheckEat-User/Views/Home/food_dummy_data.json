@@ -1402,5 +1402,31 @@
     "foo_vegan": 4,
     "ft_id": 1,
     "sto_id": 967103
-  }
+  },
+  {
+    "foo_id": 109,
+    "foo_name": "라구 파스타",
+    "foo_material": "토마토, 밀, 돼지고기",
+    "foo_price": 15000,
+    "foo_img": "https://dummyimage.com/400x300/ccc/fff&text=Food",
+    "foo_status": 0,
+    "foo_allergy_common": 1,
+    "foo_sa_id": 1,
+    "foo_vegan": 0,
+    "ft_id": 1,
+    "sto_id": 926725
+  },
+  {
+    "foo_id": 110,
+    "foo_name": "히레카츠 정식",
+    "foo_material": "해조류, 밀, 감자, 돼지고기",
+    "foo_price": 12000,
+    "foo_img": "https://dummyimage.com/400x300/ccc/fff&text=Food",
+    "foo_status": 0,
+    "foo_allergy_common": 1,
+    "foo_sa_id": 1,
+    "foo_vegan": 0,
+    "ft_id": 1,
+    "sto_id": 926725
+  },
 ]

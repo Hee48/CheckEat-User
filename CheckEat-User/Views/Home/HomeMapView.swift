@@ -26,10 +26,12 @@ struct HomeMapView: View {
                     centerCoordinate: $locationManager.centerMapOnLocation,
                     isNearbyPresented: $isNearbyPresented,
                     mapZoomLevel: $mapZoomLevel,
+                    selectedStore: $selectedStore,
                     markers: viewModel.filteredStores,
                     currentFilter: viewModel.activeCategoryFromSearch(),
-                    viewModel: viewModel,
+                    viewModel: viewModel
                 )
+                .ignoresSafeArea(.all)
                 VStack {
                     Spacer()
                     if locationManager.userLocation == nil {
