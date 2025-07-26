@@ -11,10 +11,24 @@ import CoreLocation
 
 class StoreMapViewModel: ObservableObject {
     
+    enum MarkerDisplayMode {
+        case all
+        case favorite
+    }
+
     @Published var allStores: [Store] = []
     @Published var allFoods: [Food] = []
     @Published var filteredStores: [Store] = []
     @Published var nearbyStores: [Store] = []
+    @Published var favoriteStores: [Store] = []
+    @Published var favoriteStoreIds: Set<Int> = [] {
+        didSet {
+            saveFavorites()
+            updateFavoriteStores()
+        }
+    }
+
+    @Published var markerMode: MarkerDisplayMode = .all
     
     @Published var searchText: String = "" {
         didSet { applyFilters() }
@@ -34,11 +48,12 @@ class StoreMapViewModel: ObservableObject {
     ]
     
     private var veganLevelCache: [Int: Int] = [:]
+    private let favoritesKey = "favorite_store_ids"
     
     init() {
         loadStores()
         loadFoods()
-        // precomputeAllVeganLevels()
+        loadFavorites()
     }
     
     private func loadStores() {
@@ -105,26 +120,6 @@ class StoreMapViewModel: ObservableObject {
         allFoods.contains { $0.sto_id == store.storeId && $0.foo_vegan == level }
     }
     
-    
-    /*
-     func precomputeAllVeganLevels() {
-     veganLevelCache = [:]
-     for store in allStores {
-     let levels = allFoods
-     .filter { $0.sto_id == store.storeId && (1...6).contains($0.foo_vegan ?? 0) }
-     .compactMap { $0.foo_vegan }
-     let mostStrict = levels.min() ?? 0
-     veganLevelCache[store.storeId] = mostStrict
-     }
-     }
-     */
-    
-    /*
-     func cachedVeganLevel(for store: Store) -> Int? {
-     return veganLevelCache[store.storeId]
-     }
-     */
-    
     func activeCategoryFromSearch() -> String {
         let keyword = searchText.lowercased()
         for (filter, _) in filterToVeganLevel {
@@ -146,6 +141,53 @@ class StoreMapViewModel: ObservableObject {
         print("🔎 반경 내 가게 수: \(filtered.count)")
         nearbyStores = filtered
     }
+    
+    // MARK: - FavoriteMode
+    
+    var isFavoriteMode: Bool {
+        markerMode == .favorite
+    }
+
+    // MARK: - Favorites Management
+
+    func toggleFavorite(for store: Store) {
+        if favoriteStoreIds.contains(store.storeId) {
+            favoriteStoreIds.remove(store.storeId)
+        } else {
+            favoriteStoreIds.insert(store.storeId)
+        }
+    }
+
+    func isFavorite(store: Store) -> Bool {
+        return favoriteStoreIds.contains(store.storeId)
+    }
+
+    // favoriteStores is now a stored property, updated via updateFavoriteStores()
+
+    func updateFavoriteStores() {
+        favoriteStores = allStores.filter { favoriteStoreIds.contains($0.storeId) }
+        print("📌 즐겨찾기 목록 새로 고침: \(favoriteStores.count)개")
+    }
+    
+    var storesToDisplayOnMap: [Store] {
+        switch markerMode {
+        case .all:
+            return nearbyStores
+        case .favorite:
+            return nearbyStores.filter { favoriteStoreIds.contains($0.storeId) }
+        }
+    }
+    
+    func saveFavorites() {
+       let idsArray = Array(favoriteStoreIds)
+       UserDefaults.standard.set(idsArray, forKey: favoritesKey)
+   }
+
+    func loadFavorites() {
+       if let ids = UserDefaults.standard.array(forKey: favoritesKey) as? [Int] {
+           favoriteStoreIds = Set(ids)
+       }
+   }
     
     func storesForModalList(center: CLLocationCoordinate2D?, radius: Double = 2000) -> [Store] {
         let trimmedKeyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()

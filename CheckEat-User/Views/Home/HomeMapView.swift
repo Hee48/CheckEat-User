@@ -17,6 +17,8 @@ struct HomeMapView: View {
     @State private var lastPresentedCenter: CLLocationCoordinate2D?
     @State private var didInitialLocationUpdate = false
     @State private var mapZoomLevel: Float = 15.0
+    @State private var selectedStore: Store? = nil
+    @State private var isFavoritesPresented = false
     
     var body: some View {
         GeometryReader { geo in
@@ -43,6 +45,10 @@ struct HomeMapView: View {
                     }
                 }
             }
+            .sheet(item: $selectedStore) { store in
+                StoreDetailView(store: store)
+                    .environmentObject(viewModel)
+            }
             .sheet(isPresented: $isNearbyPresented) {
                 NearbyStoreModalView(
                     isPresented: $isNearbyPresented,
@@ -50,6 +56,11 @@ struct HomeMapView: View {
                     viewModel: viewModel
                 )
                 .presentationDetents([.height(geo.size.height*0.5), .large])
+            }
+            .sheet(isPresented: $isFavoritesPresented) {
+                FavoriteStoreModalView(isPresented: $isFavoritesPresented)
+                    .environmentObject(viewModel)
+                    .presentationDetents([.height(geo.size.height*0.5), .large])
             }
         }
         .onChange(of: locationManager.centerMapOnLocation) { newCenter in
@@ -89,7 +100,6 @@ struct HomeMapView: View {
                 updateNearbyIfNeeded(center)
             }
         }
-        
         .overlay(
             VStack(spacing: 16) {
                 SearchBar(
@@ -123,6 +133,27 @@ struct HomeMapView: View {
                     }
                     .padding(.trailing, 8)
                     .padding(.bottom, 80)
+                }
+            }
+        )
+        .overlay(
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isFavoritesPresented = true
+                    }) {
+                        Image(systemName: "star.fill")
+                            .font(.system(size: 18))
+                            .foregroundStyle(.buttonOP70)
+                            .padding(17)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .shadow(radius: 2)
+                    }
+                    .padding(.trailing, 10)
+                    .padding(.bottom, 150)
                 }
             }
         )

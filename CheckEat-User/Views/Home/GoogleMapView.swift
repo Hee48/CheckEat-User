@@ -15,6 +15,7 @@ struct GoogleMapView: UIViewRepresentable {
     @Binding var centerCoordinate: CLLocationCoordinate2D?
     @Binding var isNearbyPresented: Bool
     @Binding var mapZoomLevel: Float
+    @Binding var selectedStore: Store?
     
     var markers: [Store]
     var currentFilter: String
@@ -34,10 +35,10 @@ struct GoogleMapView: UIViewRepresentable {
     func updateUIView(_ mapView: GMSMapView, context: Context) {
         mapView.clear()
         
-        // 좌표 기준 중복 카운트 사전
-        let coordinateCounts = Dictionary(grouping: markers, by: { "\($0.sto_latitude),\($0.sto_longitude)" }).mapValues { $0.count }
-
-        for store in markers {
+        let storesToRender = viewModel.isFavoriteMode ? viewModel.favoriteStores : markers
+        let coordinateCounts = Dictionary(grouping: storesToRender, by: { "\($0.sto_latitude),\($0.sto_longitude)" }).mapValues { $0.count }
+        
+        for store in storesToRender {
             let coordKey = "\(store.sto_latitude),\(store.sto_longitude)"
             let duplicateCount = coordinateCounts[coordKey] ?? 1
             let positionIndex = markers.prefix(while: { $0.storeId != store.storeId }).filter { $0.sto_latitude == store.sto_latitude && $0.sto_longitude == store.sto_longitude }.count
@@ -49,50 +50,28 @@ struct GoogleMapView: UIViewRepresentable {
             let veganLevel: Int? = viewModel.veganLevelFromFilter(filter: currentFilter)
             let color = markerColor(for: store, foodVeganLevel: veganLevel, filter: currentFilter)
             
-            // 이전 로직: 전체보기일 때 비건 캐시에서 가장 엄격한 단계 사용
-            // let veganLevel: Int?
-            // if currentFilter.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || currentFilter == "" {
-            //     veganLevel = viewModel.cachedVeganLevel(for: store)
-            // } else {
-            //     veganLevel = viewModel.highestVeganLevel(for: store, filter: currentFilter)
-            // }
-
-//            let veganLevel: Int? = nil
-            
-//            let veganLevel: Int?
-//            if currentFilter.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || currentFilter == "" {
-//                veganLevel = viewModel.cachedVeganLevel(for: store)
-//            } else {
-//                veganLevel = viewModel.highestVeganLevel(for: store, filter: currentFilter)
-//            }
-            
-//            if let cached = viewModel.cachedVeganLevel(for: store) {
-//                print("✅ \(store.sto_name) → storeId: \(store.storeId) → veganLevel: \(cached)")
-//            } else {
-//                print("❌ \(store.sto_name) → storeId: \(store.storeId) → 캐시 없음")
-//            }
-            
-//            let color = markerColor(for: store, foodVeganLevel: veganLevel, filter: currentFilter)
-            
             //MARK: 이미지 깜빡임 (좌표 동일)
-            let iconView = UIImageView(image: UIImage(systemName: markerIcon(for: store)))
-            iconView.tintColor = color
-            iconView.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
-            marker.iconView = iconView
-            marker.map = mapView
+            let container = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 44))
             
-//            let iconName = markerIcon(for: store)
-//            if let baseImage = UIImage(systemName: iconName)?.withRenderingMode(.alwaysTemplate) {
-//                let renderer = UIGraphicsImageRenderer(size: CGSize(width: 32, height: 32))
-//                let image = renderer.image { _ in
-//                    color.set()
-//                    baseImage.draw(in: CGRect(origin: .zero, size: CGSize(width: 32, height: 32)))
-//                }
-//                marker.icon = image
-//                marker.map = mapView
-//            } else {
-//                print("⚠️ 마커 아이콘 로드 실패: \(iconName) for store \(store.sto_name)")
-//            }
+            let imageView = UIImageView(image: UIImage(systemName: markerIcon(for: store)))
+            imageView.tintColor = color
+            imageView.frame = CGRect(x: 34, y: 0, width: 32, height: 32)
+            container.addSubview(imageView)
+            
+            let label = UILabel(frame: CGRect(x: 0, y: 32, width: 100, height: 12))
+            label.text = store.sto_name
+            label.font = UIFont.systemFont(ofSize: 10)
+            label.textAlignment = .center
+            label.textColor = .black
+            label.backgroundColor = UIColor(white: 1.0, alpha: 0.8)
+            label.layer.cornerRadius = 4
+            label.layer.masksToBounds = true
+            label.adjustsFontSizeToFitWidth = true
+            container.addSubview(label)
+            
+            marker.iconView = container
+            marker.map = mapView
+            marker.userData = store
         }
         
         if let center = centerCoordinate {
@@ -101,7 +80,7 @@ struct GoogleMapView: UIViewRepresentable {
             mapView.animate(toLocation: defaultCoord)
         }
     }
-
+    
     private func offsetCoordinate(_ coord: CLLocationCoordinate2D, index: Int) -> CLLocationCoordinate2D {
         let offset = 0.001 * Double(index)
         return CLLocationCoordinate2D(latitude: coord.latitude + offset, longitude: coord.longitude + offset)
@@ -111,10 +90,18 @@ struct GoogleMapView: UIViewRepresentable {
         if currentFilter == "할랄" {
             return store.sto_halal == 1 ? "figure.mind.and.body.circle.fill" : "xmark.circle.fill"
         }
+        if viewModel.isFavoriteMode {
+            return "star.circle.fill"
+        }
         return "leaf.circle.fill"
     }
     
     func markerColor(for store: Store, foodVeganLevel: Int?, filter: String) -> UIColor {
+        
+        if viewModel.isFavoriteMode {
+                return .systemPink
+            }
+        
         let veganColors: [Int: (halal: UIColor, nonHalal: UIColor)] = [
             1: (.green, UIColor(red: 0.6, green: 1.0, blue: 0.6, alpha: 1)),
             2: (.black, .gray),
@@ -123,10 +110,10 @@ struct GoogleMapView: UIViewRepresentable {
             5: (.blue, UIColor(red: 0.6, green: 0.8, blue: 1.0, alpha: 1)),
             6: (.brown, UIColor(red: 0.6, green: 0.4, blue: 0.2, alpha: 1))
         ]
-
+        
         switch filter {
         case "할랄":
-            return store.sto_halal == 1 ? .purple : .red
+            return store.sto_halal == 1 ? .purple : .darkGray
         case "비건", "락토", "오보", "락토오보", "페스코", "폴로":
             if let level = foodVeganLevel, let colorPair = veganColors[level] {
                 return store.sto_halal == 1 ? colorPair.halal : colorPair.nonHalal
@@ -137,7 +124,7 @@ struct GoogleMapView: UIViewRepresentable {
             if let level = foodVeganLevel, let colorPair = veganColors[level] {
                 return store.sto_halal == 1 ? colorPair.halal : colorPair.nonHalal
             } else {
-                return store.sto_halal == 1 ? .purple : .red
+                return store.sto_halal == 1 ? .purple : .darkGray
             }
         }
     }
@@ -150,7 +137,7 @@ struct GoogleMapView: UIViewRepresentable {
         var parent: GoogleMapView
         private var didInitialLocationUpdate = false
         private let locationManager = CLLocationManager()
-
+        
         init(_ parent: GoogleMapView) {
             self.parent = parent
             super.init()
@@ -158,7 +145,7 @@ struct GoogleMapView: UIViewRepresentable {
             locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
         }
-
+        
         func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
             DispatchQueue.main.async {
                 self.parent.centerCoordinate = position.target
@@ -173,17 +160,17 @@ struct GoogleMapView: UIViewRepresentable {
         
         func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
             guard let location = locations.first?.coordinate else { return }
-
+            
             // 위치 권한 상태 확인
             let status = CLLocationManager.authorizationStatus()
             let isAuthorized = status == .authorizedWhenInUse || status == .authorizedAlways
-
+            
             if !didInitialLocationUpdate && isAuthorized {
                 let latitude = location.latitude
                 let longitude = location.longitude
-
+                
                 let isDifferentFromDefault = abs(latitude - 37.5665) > 0.0001 || abs(longitude - 126.9780) > 0.0001
-
+                
                 if isDifferentFromDefault {
                     DispatchQueue.main.async {
                         self.parent.centerCoordinate = location
@@ -194,6 +181,15 @@ struct GoogleMapView: UIViewRepresentable {
                 }
             }
         }
+        
+        func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+            if let store = marker.userData as? Store {
+                DispatchQueue.main.async {
+                    self.parent.selectedStore = store
+                }
+            }
+            return false // Let the map handle the default tap behavior too
+        }
     }
 }
 
@@ -202,3 +198,5 @@ extension CLLocationCoordinate2D: Equatable {
         lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
 }
+
+
