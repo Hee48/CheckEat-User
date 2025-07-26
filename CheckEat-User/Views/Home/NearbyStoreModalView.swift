@@ -15,9 +15,14 @@ struct NearbyStoreModalView: View {
     var viewModel: StoreMapViewModel
 
     @State private var selectedStore: Store? = nil
+    
+    @State var runTime: String = "09:00 ~ 18:00"
+
+    private var modalStores: [Store] {
+        viewModel.storesForModalList(center: currentLocation, radius: 2000)
+    }
 
     var body: some View {
-        let modalStores = viewModel.storesForModalList(center: currentLocation, radius: 2000)
         VStack(alignment: .leading) {
             HStack {
                 Text("🔍 2Km 반경 가게 (\(modalStores.count)곳 조회)")
@@ -34,38 +39,56 @@ struct NearbyStoreModalView: View {
                 Button {
                     selectedStore = store
                 } label: {
-                    HStack(spacing: 8) {
-                        AsyncImage(url: URL(string: store.sto_img ?? "")) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 60, height: 60)
-                                .clipped()
-                                .cornerRadius(8)
-                        } placeholder: {
-                            ProgressView()
-                                .frame(width: 60, height: 60)
-                        }
-
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(store.sto_name)
-                                .bold20()
-                            Group {
-                                Text("주소 | \(store.sto_address)")
-                                Text("위치 | 위도 \(store.sto_latitude), 경도 \(store.sto_longitude)")
-                            }
-                            .regular14()
-                            .foregroundColor(.secondary)
-                        }
-                    }
+                    storeCell(for: store)
                 }
+                .buttonStyle(PlainButtonStyle())
             }
             .listStyle(.plain)
+            .background(Color.clear)
             .fullScreenCover(item: $selectedStore) { store in
                 StoreDetailView(store: store)
                     .environmentObject(viewModel)
             }
         }
         .frame(maxHeight: .infinity)
+    }
+}
+
+extension NearbyStoreModalView {
+    @ViewBuilder
+    private func storeCell(for store: Store) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            AsyncImage(url: URL(string: store.sto_img ?? "")) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 100)
+                    .cornerRadius(8)
+            } placeholder: {
+                ProgressView()
+                    .frame(height: 100)
+                    .frame(maxWidth: .infinity)
+            }
+
+            Text(store.sto_name)
+                .bold20()
+
+            Group {
+                HStack {
+                    Image("Location")
+                    Text(store.sto_address)
+                }
+                HStack {
+                    Image("Time")
+                    Text("영업시간 \(runTime)")
+                }
+            }
+            .regular14()
+            .foregroundColor(.secondary)
+        }
+        .padding()
+        .background(Color(.white))
+        .cornerRadius(12)
+        .shadow(radius: 2)
     }
 }
