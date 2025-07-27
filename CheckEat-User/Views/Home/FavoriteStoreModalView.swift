@@ -10,6 +10,7 @@ import SwiftUI
 struct FavoriteStoreModalView: View {
     @Binding var isPresented: Bool
     @EnvironmentObject var viewModel: StoreMapViewModel
+    @EnvironmentObject var foodReviewViewModel: FoodReviewViewModel
     @State private var selectedStore: Store? = nil
     
     @State var runTime: String = "09:00 ~ 18:00"
@@ -62,12 +63,14 @@ struct FavoriteStoreModalView: View {
                         }
                     }
                 }
+                .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
         }
         .fullScreenCover(item: $selectedStore) { store in
             StoreDetailView(store: store)
                 .environmentObject(viewModel)
+                .environmentObject(foodReviewViewModel)
                 .onDisappear {
                     viewModel.updateFavoriteStores()
                 }

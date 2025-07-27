@@ -13,6 +13,7 @@ struct NearbyStoreModalView: View {
     @Binding var isPresented: Bool
     var currentLocation: CLLocationCoordinate2D
     var viewModel: StoreMapViewModel
+    var foodReviewViewModel: FoodReviewViewModel
 
     @State private var selectedStore: Store? = nil
     
@@ -42,12 +43,14 @@ struct NearbyStoreModalView: View {
                     storeCell(for: store)
                 }
                 .buttonStyle(PlainButtonStyle())
+                .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
             .background(Color.clear)
             .fullScreenCover(item: $selectedStore) { store in
                 StoreDetailView(store: store)
                     .environmentObject(viewModel)
+                    .environmentObject(foodReviewViewModel)
             }
         }
         .frame(maxHeight: .infinity)

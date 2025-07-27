@@ -12,6 +12,7 @@ struct HomeMapView: View {
     
     @StateObject private var locationManager = LocationManager()
     @StateObject private var viewModel = StoreMapViewModel()
+    @StateObject private var foodReviewViewModel = FoodReviewViewModel(foodList: [])
     
     @State private var isNearbyPresented = false
     @State private var lastPresentedCenter: CLLocationCoordinate2D?
@@ -48,18 +49,21 @@ struct HomeMapView: View {
             .sheet(item: $selectedStore) { store in
                 StoreDetailView(store: store)
                     .environmentObject(viewModel)
+                    .environmentObject(foodReviewViewModel)
             }
             .sheet(isPresented: $isNearbyPresented) {
                 NearbyStoreModalView(
                     isPresented: $isNearbyPresented,
                     currentLocation: locationManager.centerMapOnLocation ?? locationManager.userLocation ?? CLLocationCoordinate2D(),
-                    viewModel: viewModel
+                    viewModel: viewModel,
+                    foodReviewViewModel: foodReviewViewModel
                 )
                 .presentationDetents([.height(geo.size.height*0.5), .large])
             }
             .sheet(isPresented: $isFavoritesPresented) {
                 FavoriteStoreModalView(isPresented: $isFavoritesPresented)
                     .environmentObject(viewModel)
+                    .environmentObject(foodReviewViewModel)
                     .presentationDetents([.height(geo.size.height*0.5), .large])
             }
         }

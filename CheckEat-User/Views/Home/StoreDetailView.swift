@@ -13,6 +13,7 @@ struct StoreDetailView: View {
     
     let store: Store
     @EnvironmentObject var viewModel: StoreMapViewModel
+    @EnvironmentObject var foodReviewViewModel: FoodReviewViewModel
     
     // store
     @State var stoDesc: String = "9호선 개포역 5번 출구 100m 직진 후 좌측 코너에 위치하고 있습니다.(해당 자리는 상호명으로 대체됩니다)"
@@ -73,12 +74,6 @@ struct StoreDetailView: View {
                                     Text("\(regularHolidayType) \(regularHoilday) 정기 휴무 | \(publicHoilday) 휴무")
                                         .foregroundStyle(.red)
                                 }
-//                                HStack {
-//                                    Image("Calendar")
-//                                    Text("공휴일")
-//                                        .semibold16()
-//                                    Text("")
-//                                }
                                 HStack {
                                     Image("Phone")
                                     Text(store.sto_phone)
@@ -101,7 +96,8 @@ struct StoreDetailView: View {
                         StoreMenuSectionView(
                             storeId: store.storeId,
                             selectedTab: $selectedTab,
-                            viewModel: viewModel
+                            viewModel: viewModel,
+                            foodReviewViewModel: foodReviewViewModel
                         )
                     }
                     .regular16()
@@ -184,6 +180,10 @@ struct StoreMenuSectionView: View {
     let storeId: Int
     @Binding var selectedTab: String
     @ObservedObject var viewModel: StoreMapViewModel
+    @ObservedObject var foodReviewViewModel: FoodReviewViewModel
+    
+    @State private var selectedFoodId: Int? = nil
+    @State private var isReviewSheetPresented: Bool = false
     
     var body: some View {
         VStack(alignment: .center) {
@@ -216,67 +216,95 @@ struct StoreMenuSectionView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(filteredMenus, id: \.foo_id) { menu in
-                        VStack(alignment: .leading, spacing: 4) {
-                            HStack(spacing: 12) {
-                                AsyncImage(url: URL(string: menu.foo_img ?? "")) { image in
-                                    image
-                                        .resizable()
-                                        .aspectRatio(1, contentMode: .fit)
-                                        .frame(maxWidth: 70)
-                                        .cornerRadius(8)
-                                } placeholder: {
-                                    ProgressView()
-                                        .frame(width: 70, height: 70)
+                        StoreMenuCellView(
+                            menu: menu,
+                            onReviewTap: {
+                                selectedFoodId = menu.foo_id
+                                print("🍱 선택된 foodId (즉시): \(menu.foo_id)")
+                                DispatchQueue.main.async {
+                                    print("📤 시트 오픈됨 with foodId: \(selectedFoodId ?? -1)")
+                                    isReviewSheetPresented = true
                                 }
-                                VStack(alignment: .leading, spacing: 4) {
-                                    HStack {
-                                        Text(menu.foo_name)
-                                            .semibold18()
-                                        Spacer()
-                                        Text("비건 단계 표시")
-                                    }
-                                    
-                                    Text("\(menu.foo_price)원")
-                                        .semibold16()
-                                        .padding(.bottom, 4)
-                                    
-                                    HStack(spacing: 2) {
-                                        Image(systemName: "info.circle")
-                                            .frame(width: 16, height: 16)
-                                            .foregroundStyle(.buttonOP50)
-                                        Text("알레르기")
-                                            .foregroundStyle(.buttonOP50)
-                                            .padding(.trailing, 6)
-                                        Text(menu.foo_material ?? "위험한 유발 요인 없읍")
-                                            .foregroundStyle(.red)
-                                    }
-                                    
-//                                    HStack {
-//                                        Spacer()
-//                                        Button {
-//                                            // 리뷰 화면으로 이동하거나 기능 추가 예정
-//                                        } label: {
-//                                            Text("리뷰")
-//                                                .foregroundStyle(.black)
-//                                            Image(systemName: "chevron.forward")
-//                                                .resizable()
-//                                                .frame(width: 6, height: 9)
-//                                                .foregroundStyle(.buttonOP50)
-//                                        }
-//
-//                                    }
                             }
-                            .regular14()
-                        }
+                        )
                     }
-                    .padding(.vertical, 2)
-                    .padding(.vertical, 8)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    Divider()
+                }
+                .sheet(item: $selectedFoodId) { foodId in
+                    FoodReviewView(
+                        viewModel: FoodReviewViewModel(foodList: viewModel.allFoods),
+                        foodId: foodId,
+                        stores: viewModel.allStores
+                    )
                 }
             }
+            
         }
     }
 }
+
+private struct StoreMenuCellView: View {
+    let menu: Food
+    let onReviewTap: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 12) {
+                AsyncImage(url: URL(string: menu.foo_img ?? "")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(1, contentMode: .fit)
+                        .frame(maxWidth: 70)
+                        .cornerRadius(8)
+                } placeholder: {
+                    ProgressView()
+                        .frame(width: 70, height: 70)
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text(menu.foo_name)
+                            .semibold18()
+                        Spacer()
+                        Text("비건 단계 표시")
+                    }
+                    HStack {
+                        Text("\(menu.foo_price)원")
+                            .semibold16()
+                            .padding(.bottom, 4)
+                        Spacer()
+                        Button(action: onReviewTap) {
+                            HStack {
+                                Text("리뷰")
+                                    .foregroundStyle(.black)
+                                Image(systemName: "chevron.forward")
+                                    .resizable()
+                                    .frame(width: 6, height: 9)
+                                    .foregroundStyle(.buttonOP50)
+                            }
+                            .regular12()
+                        }
+                    }
+                    HStack(spacing: 2) {
+                        Image(systemName: "info.circle")
+                            .frame(width: 16, height: 16)
+                            .foregroundStyle(.buttonOP50)
+                        Text("알레르기")
+                            .foregroundStyle(.buttonOP50)
+                            .padding(.trailing, 6)
+                        Text(menu.foo_material ?? "위험한 유발 요인 없읍")
+                            .foregroundStyle(.red)
+                    }
+                }
+                .regular14()
+            }
+            .padding(.vertical, 2)
+            .padding(.vertical, 8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal)
+            Divider()
+        }
+    }
+}
+
+extension Int: Identifiable {
+    public var id: Int { self }
 }
