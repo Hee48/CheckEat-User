@@ -5,6 +5,10 @@
 //  Created by 최준영 on 7/24/25.
 //
 
+//
+//square.and.pencil
+//person.fill
+
 import SwiftUI
 
 struct StoreDetailView: View {
@@ -79,6 +83,7 @@ struct StoreDetailView: View {
                                     Text(store.sto_phone)
                                 }
                                 HStack {
+                                    //MARK: 상호명 필드로 교체 예정
                                     Text(stoDesc)
                                 }
                             }
@@ -122,7 +127,7 @@ struct StoreDetailView: View {
 struct StoreHeaderView: View {
     let store: Store
     @EnvironmentObject var viewModel: StoreMapViewModel
-
+    
     var body: some View {
         HStack {
             Text(store.sto_name)
@@ -162,7 +167,7 @@ struct StoreLocationView: View {
             
             if isFieldVisible {
                 HStack(spacing: 4) {
-                    Image(systemName: "location.fill")
+                    Image("Desc")
                         .frame(width: 16, height: 16)
                         .foregroundStyle(.buttonEnable)
                     Text("\(store.sto_latitude)(latitude), \(store.sto_longitude)(longtitude)")
@@ -245,7 +250,7 @@ struct StoreMenuSectionView: View {
 private struct StoreMenuCellView: View {
     let menu: Food
     let onReviewTap: () -> Void
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 12) {
@@ -289,8 +294,7 @@ private struct StoreMenuCellView: View {
                         }
                     }
                     HStack(spacing: 2) {
-                        Image(systemName: "exclamationmark.circle")
-                            .frame(width: 16, height: 16)
+                        Image("Warn")
                             .foregroundStyle(.buttonOP50)
                         Text("알레르기")
                             .foregroundStyle(.buttonOP50)
