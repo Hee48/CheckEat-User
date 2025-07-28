@@ -68,9 +68,14 @@ extension NearbyStoreModalView {
                     .frame(height: 100)
                     .cornerRadius(8)
             } placeholder: {
-                ProgressView()
-                    .frame(height: 100)
-                    .frame(maxWidth: .infinity)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 8)
+                        .frame(height: 100)
+                        .frame(maxWidth: .infinity)
+                        .foregroundStyle(.buttonSoft)
+                    Image(systemName: "storefront.fill")
+                        .foregroundStyle(.buttonEnable)
+                }   
             }
 
             Text(store.sto_name)

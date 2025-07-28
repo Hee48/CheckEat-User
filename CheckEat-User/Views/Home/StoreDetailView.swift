@@ -50,7 +50,7 @@ struct StoreDetailView: View {
                                 Image(systemName: "storefront.fill")
                                     .resizable()
                                     .frame(width: 60, height: 60)
-                                    .foregroundStyle(.buttonDisable)
+                                    .foregroundStyle(.buttonEnable)
                             }
                         }
                         
@@ -256,8 +256,13 @@ private struct StoreMenuCellView: View {
                         .frame(maxWidth: 70)
                         .cornerRadius(8)
                 } placeholder: {
-                    ProgressView()
-                        .frame(width: 70, height: 70)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .frame(width: 70, height: 70)
+                            .foregroundStyle(.buttonOP)
+                        Image(systemName: "fork.knife")
+                            .foregroundStyle(.buttonEnable)
+                    }
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
@@ -284,7 +289,7 @@ private struct StoreMenuCellView: View {
                         }
                     }
                     HStack(spacing: 2) {
-                        Image(systemName: "info.circle")
+                        Image(systemName: "exclamationmark.circle")
                             .frame(width: 16, height: 16)
                             .foregroundStyle(.buttonOP50)
                         Text("알레르기")
