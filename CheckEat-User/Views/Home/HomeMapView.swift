@@ -18,7 +18,9 @@ struct HomeMapView: View {
     @State private var lastPresentedCenter: CLLocationCoordinate2D?
     @State private var didInitialLocationUpdate = false
     @State private var mapZoomLevel: Float = 15.0
-    @State private var selectedStore: Store? = nil
+    @State private var selectedNearbyStore: Store? = nil
+    @State private var selectedFavoriteStore: Store? = nil
+    @State private var selectedFavoriteSheetStore: Store? = nil
     @State private var isFavoritesPresented = false
     
     var body: some View {
@@ -29,7 +31,7 @@ struct HomeMapView: View {
                     centerCoordinate: $locationManager.centerMapOnLocation,
                     isNearbyPresented: $isNearbyPresented,
                     mapZoomLevel: $mapZoomLevel,
-                    selectedStore: $selectedStore,
+                    selectedStore: $selectedNearbyStore,
                     markers: viewModel.filteredStores,
                     currentFilter: viewModel.activeCategoryFromSearch(),
                     viewModel: viewModel
@@ -46,7 +48,7 @@ struct HomeMapView: View {
                     }
                 }
             }
-            .sheet(item: $selectedStore) { store in
+            .sheet(item: $selectedNearbyStore) { store in
                 StoreDetailView(store: store)
                     .environmentObject(viewModel)
                     .environmentObject(foodReviewViewModel)
@@ -61,7 +63,7 @@ struct HomeMapView: View {
                 .presentationDetents([.height(geo.size.height*0.5), .large])
             }
             .sheet(isPresented: $isFavoritesPresented) {
-                FavoriteStoreModalView(isPresented: $isFavoritesPresented)
+                FavoriteStoreModalView(isPresented: $isFavoritesPresented, selectedStore: $selectedFavoriteSheetStore)
                     .environmentObject(viewModel)
                     .environmentObject(foodReviewViewModel)
                     .presentationDetents([.height(geo.size.height*0.5), .large])
