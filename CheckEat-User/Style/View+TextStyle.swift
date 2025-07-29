@@ -13,6 +13,14 @@ extension View {
         return self
             .font(.system(size: 16, weight: .medium))
     }
+    func medium14() -> some View {
+        return self
+            .font(.system(size: 14, weight: .medium))
+    }
+    func medium12() -> some View {
+        return self
+            .font(.system(size: 12, weight: .medium))
+    }
     
     func bold20() -> some View {
         return self
@@ -29,14 +37,29 @@ extension View {
             .font(.system(size: 16, weight: .semibold))
     }
     
+    func semibold18() -> some View {
+        return self
+            .font(.system(size: 18, weight: .semibold))
+    }
+    
     func bold14() -> some View {
         return self
             .font(.system(size: 14, weight: .semibold))
     }
     
+    func bold18() -> some View {
+        return self
+            .font(.system(size: 18, weight: .semibold))
+    }
+    
     func semibold14() -> some View {
         return self
             .font(.system(size: 14, weight: .semibold))
+    }
+    
+    func semibold12() -> some View {
+        return self
+            .font(.system(size: 12, weight: .semibold))
     }
     
     func regular14() -> some View {

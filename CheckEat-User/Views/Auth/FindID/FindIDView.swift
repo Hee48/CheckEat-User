@@ -9,7 +9,6 @@ import SwiftUI
 
 struct FindIDView: View {
     
-    @State private var userId: String = ""
     @State private var userEmail: String = ""
     @State private var authCode: String = ""
     @State private var infoMsg = "가입시 등록하신 이메일을 입력해주세요."
@@ -24,11 +23,11 @@ struct FindIDView: View {
     @State private var timerActive: Bool = false
     
     @FocusState private var fieldIsFocused: Bool
+    @StateObject private var viewModel = FindIDViewModel()
     
     @Environment(\.dismiss) private var dismiss
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    private let correctAuthCode = "1234"
     
     private var isUserEmailValid: Bool {
         !userEmail.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && isEmailValid
@@ -148,20 +147,25 @@ struct FindIDView: View {
                                 }
                                 HStack {
                                     Button {
-                                        if authCode == correctAuthCode {
-                                            authCodeIsValid = true
-                                            goFindIDComplete = true
-                                        } else {
-                                            authCodeIsValid = false
-                                        }
+                                        viewModel.checkFindId(email: userEmail, token: authCode)
                                     } label: {
                                         Text("완료")
                                             .primaryButtonStyle(isEnabled: canRequestAuthCode)
                                             .semibold16()
                                     }
                                     .disabled(authCode.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                                    .onChange(of: viewModel.findIdTokenSuccess) { newValue in
+                                        if newValue == true {
+                                            authCodeIsValid = true
+                                            goFindIDComplete = true
+                                        } else if newValue == false {
+                                            authCodeIsValid = false
+                                        }
+                                    }
                                     .fullScreenCover(isPresented: $goFindIDComplete) {
-                                        FindIDComplete(userID: "test1234")
+                                        if let userID = viewModel.foundUserId {
+                                            FindIDComplete(userID: userID)
+                                        }
                                     }
                                 }
                             }
@@ -219,8 +223,9 @@ struct FindIDView: View {
         timeRemaining = 30
         timerActive = true
     }
+    //아이디찾기 인증번호 발송
     func resendCode() {
-        //인증 재요청 로직
+        viewModel.findId(email: userEmail, language: "ko")
         startTimer()
     }
     func isValidEmailAddress(email: String) {
@@ -230,6 +235,6 @@ struct FindIDView: View {
     }
 }
 
-#Preview {
-    FindIDView()
-}
+//#Preview {
+//    FindIDView()
+//}
