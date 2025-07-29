@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C2AA3F92E38B29F00D0422D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2C2AA3F82E38B29F00D0422D /* Alamofire */; };
+		2C2AA4DA2E38B4EE00D0422D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2C2AA4D92E38B4EE00D0422D /* Alamofire */; };
 		2CB860DA2E2CF34500B2BF3A /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 2CB860D92E2CF34500B2BF3A /* GoogleMaps */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CB860DA2E2CF34500B2BF3A /* GoogleMaps in Frameworks */,
-				2C2AA3F92E38B29F00D0422D /* Alamofire in Frameworks */,
+				2C2AA4DA2E38B4EE00D0422D /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,7 +86,7 @@
 			name = "CheckEat-User";
 			packageProductDependencies = (
 				2CB860D92E2CF34500B2BF3A /* GoogleMaps */,
-				2C2AA3F82E38B29F00D0422D /* Alamofire */,
+				2C2AA4D92E38B4EE00D0422D /* Alamofire */,
 			);
 			productName = "CheckEat-User";
 			productReference = 39A0C0562E1678E00042F2F0 /* CheckEat-User.app */;
@@ -118,7 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				2CB860D82E2CF34500B2BF3A /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
-				2C2AA3F72E38B29F00D0422D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				2C2AA4D82E38B4EE00D0422D /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 39A0C0572E1678E00042F2F0 /* Products */;
@@ -368,7 +368,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2C2AA3F72E38B29F00D0422D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		2C2AA4D82E38B4EE00D0422D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -387,9 +387,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2C2AA3F82E38B29F00D0422D /* Alamofire */ = {
+		2C2AA4D92E38B4EE00D0422D /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2C2AA3F72E38B29F00D0422D /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = 2C2AA4D82E38B4EE00D0422D /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		2CB860D92E2CF34500B2BF3A /* GoogleMaps */ = {

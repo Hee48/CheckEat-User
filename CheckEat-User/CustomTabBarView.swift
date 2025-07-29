@@ -16,14 +16,14 @@ struct CustomTabBarView: View {
     var body: some View {
         HStack {
             tabItem(image: "Home", title: "홈", tab: .home)
-            Spacer()
+                .frame(maxWidth: .infinity)
             tabItem(image: "Edit", title: "리뷰작성", tab: .review)
-            Spacer()
+                .frame(maxWidth: .infinity)
             tabItem(image: "User", title: "마이페이지", tab: .myPage)
+                .frame(maxWidth: .infinity)
         }
-        .padding(.horizontal, 32)
-        .padding(.vertical, 8)
-        .padding(.top, 8)
+        .frame(height: 70)
+        .padding(.horizontal, 16)
         .background(Color.white)
         .shadow(color: Color.black.opacity(0.1), radius: 8, y: -2)
     }

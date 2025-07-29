@@ -16,25 +16,25 @@ struct Allergen: Identifiable {
 
 struct AllergenData {
     static let defaultList: [Allergen] = [
-        Allergen(imageName: "난류", displayName: "난류", id: 1),
-        Allergen(imageName: "우유", displayName: "우유", id: 2),
-        Allergen(imageName: "메밀", displayName: "메밀", id: 3),
-        Allergen(imageName: "땅콩", displayName: "땅콩", id: 4),
-        Allergen(imageName: "대두", displayName: "대두", id: 5),
-        Allergen(imageName: "밀", displayName: "밀", id: 6),
-        Allergen(imageName: "고등어", displayName: "고등어", id: 7),
-        Allergen(imageName: "게", displayName: "게", id: 8),
-        Allergen(imageName: "새우", displayName: "새우", id: 9),
-        Allergen(imageName: "돼지고기", displayName: "돼지고기", id: 10),
-        Allergen(imageName: "복숭아", displayName: "복숭아", id: 11),
-        Allergen(imageName: "토마토", displayName: "토마토", id: 12),
-        Allergen(imageName: "아황산류", displayName: "아황산류", id: 13),
-        Allergen(imageName: "호두", displayName: "호두", id: 14),
-        Allergen(imageName: "닭고기", displayName: "닭고기", id: 15),
-        Allergen(imageName: "쇠고기", displayName: "쇠고기", id: 16),
-        Allergen(imageName: "오징어", displayName: "오징어", id: 17),
-        Allergen(imageName: "조개류", displayName: "조개류", id: 18),
-        Allergen(imageName: "잣", displayName: "잣", id: 19)
+        Allergen(imageName: "Egg", displayName: "난류", id: 1),
+        Allergen(imageName: "Milk", displayName: "우유", id: 2),
+        Allergen(imageName: "Buckwheat", displayName: "메밀", id: 3),
+        Allergen(imageName: "Peanut", displayName: "땅콩", id: 4),
+        Allergen(imageName: "Soy", displayName: "대두", id: 5),
+        Allergen(imageName: "Wheat", displayName: "밀", id: 6),
+        Allergen(imageName: "Mackerel", displayName: "고등어", id: 7),
+        Allergen(imageName: "Crab", displayName: "게", id: 8),
+        Allergen(imageName: "Shrimp", displayName: "새우", id: 9),
+        Allergen(imageName: "Pork", displayName: "돼지고기", id: 10),
+        Allergen(imageName: "Peach", displayName: "복숭아", id: 11),
+        Allergen(imageName: "Tomato", displayName: "토마토", id: 12),
+        Allergen(imageName: "Sulfites", displayName: "아황산류", id: 13),
+        Allergen(imageName: "Walnut", displayName: "호두", id: 14),
+        Allergen(imageName: "Chicken", displayName: "닭고기", id: 15),
+        Allergen(imageName: "Beef", displayName: "쇠고기", id: 16),
+        Allergen(imageName: "Squid", displayName: "오징어", id: 17),
+        Allergen(imageName: "Shellfish", displayName: "조개류", id: 18),
+        Allergen(imageName: "PineNut", displayName: "잣", id: 19)
     ]
 }
 

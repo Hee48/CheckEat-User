@@ -22,9 +22,9 @@ struct CheckEat_UserApp: App {
                     case .home:
                         HomeMapView()
                     case .review:
-                        EmptyView()
+                        ReviewQuestionView()
                     case .myPage:
-                        EmptyView()
+                        MyPageView()
                     }
                 }
                 .frame(maxHeight: .infinity)
