@@ -1,0 +1,32 @@
+[
+  {
+    "food_id": 108,
+    "revi_img": null,
+    "revi_content": "현미밥 정식이 깔끔하고 든든해요.",
+    "revi_reco_step": 1
+  },
+  {
+    "food_id": 109,
+    "revi_img": "https://cdn.pixabay.com/photo/2023/06/20/16/07/pasta-8076626_1280.jpg",
+    "revi_content": "라구 파스타는 고기 풍미가 진해서 맛있어요!",
+    "revi_reco_step": 0
+  },
+  {
+    "food_id": 3,
+    "revi_img": null,
+    "revi_content": "라면치고 깔끔한 맛이에요. 채식 입문용으로 좋아요.",
+    "revi_reco_step": 0
+  },
+  {
+    "food_id": 21,
+    "revi_img": "https://cdn.pixabay.com/photo/2022/05/01/16/55/steak-7168126_1280.jpg",
+    "revi_content": "두부 스테이크가 촉촉하고 맛있어요. 기대 이상!",
+    "revi_reco_step": 0
+  },
+  {
+    "food_id": 70,
+    "revi_img": null,
+    "revi_content": "카레 향신료가 약해서 조금 아쉬웠어요.",
+    "revi_reco_step": 2
+  }
+]

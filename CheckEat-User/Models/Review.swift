@@ -2,8 +2,8 @@
 //  Review.swift
 //  CheckEat-User
 //
-//  Created by 최준영 on 7/27/25.
-//
+
+import Foundation
 
 struct Review: Decodable, Identifiable {
     let revi_id: Int

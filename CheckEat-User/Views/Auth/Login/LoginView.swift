@@ -9,12 +9,11 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @State var userId: String = ""
-    @State private var userPassword: String = ""
     @State private var isPasswordVisible: Bool = false
     @State private var showFindId: Bool = false
     @State private var showFindPwd: Bool = false
     @State private var showJoin: Bool = false
+    @StateObject private var viewModel = LoginViewModel()
     
     var body: some View {
         NavigationStack {
@@ -26,7 +25,7 @@ struct LoginView: View {
                     
                     Text("아이디")
                         .semibold16()
-                    UnderLinedTextField(placeholder: "아이디를 입력해주세요", text: $userId)
+                    UnderLinedTextField(placeholder: "아이디를 입력해주세요", text: $viewModel.loginId)
                         .regular14()
                         .autocorrectionDisabled(true)
                         .textInputAutocapitalization(.never)
@@ -37,12 +36,12 @@ struct LoginView: View {
                     HStack {
                         Group {
                             if isPasswordVisible {
-                                UnderLinedTextField(placeholder: "비밀번호를 입력해주세요", text: $userPassword)
+                                UnderLinedTextField(placeholder: "비밀번호를 입력해주세요", text: $viewModel.password)
                                     .textContentType(.password)
                                     .autocapitalization(.none)
                                     .disableAutocorrection(true)
                             } else {
-                                UnderLinedTextField(placeholder: "비밀번호를 입력해주세요", isSecure: true, text: $userPassword)
+                                UnderLinedTextField(placeholder: "비밀번호를 입력해주세요", isSecure: true, text: $viewModel.password)
                                     .textContentType(.password)
                                     .autocapitalization(.none)
                                     .disableAutocorrection(true)
@@ -61,14 +60,21 @@ struct LoginView: View {
                         }
                     }
                     .regular14()
-                    .padding(.bottom, 24)
+                    Text(viewModel.alertMessage)
+                        .regular12()
+                        .foregroundStyle(.red)
+                        .padding(.bottom, 24)
+                    
                     
                     Button {
-                        // 로그인 다음 단계로 이동
+                        viewModel.login()
                     } label: {
                         Text("로그인")
                             .primaryButtonStyle()
                             .semibold16()
+                    }
+                    .fullScreenCover(isPresented: $viewModel.loginSuccess) {
+                        FindIDView()
                     }
                     
                     HStack {

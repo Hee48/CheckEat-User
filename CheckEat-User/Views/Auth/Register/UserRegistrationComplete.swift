@@ -12,36 +12,40 @@ struct UserRegistrationComplete: View {
     @State private var goToLogin: Bool = false
     
     var body: some View {
-        
-        VStack(spacing: 8) {
+        VStack {
+            Spacer()
+
             Image("CheckMark")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50, height: 50)
                 .foregroundStyle(.green)
                 .padding(.bottom)
+
             Group {
                 Text("회원가입이")
                 Text("완료되었습니다.")
             }
             .bold20()
-            
+
+            Spacer()
+
             Button {
                 goToLogin = true
             } label: {
                 Text("로그인")
                     .primaryButtonStyle()
                     .semibold16()
-                    .padding(.vertical, 24)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 56)
             }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 30)
             .fullScreenCover(isPresented: $goToLogin) {
                 LoginView()
             }
-        
         }
-        .padding()
-        .padding(.bottom, 200)
-       
+        .ignoresSafeArea(.keyboard)
     }
 }
 

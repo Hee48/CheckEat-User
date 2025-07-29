@@ -18,6 +18,7 @@ struct JoinBasicInfoSection: View {
     @Binding var nickName: String
     @FocusState.Binding var isPasswordFocused: Bool
     @FocusState.Binding var isPasswordConfirmFocused: Bool
+    @ObservedObject var viewModel: RegisterViewModel
     var body: some View {
         VStack(alignment: .leading) {
             Text("아이디")
@@ -31,7 +32,7 @@ struct JoinBasicInfoSection: View {
                         .padding(.horizontal, 20)
                 }
                 Button {
-                    //아이디 중복확인 로직
+                    viewModel.checkIdUnique(id: id)
                 } label: {
                     Text("중복 확인")
                         .frame(width: 83, height: 34)
