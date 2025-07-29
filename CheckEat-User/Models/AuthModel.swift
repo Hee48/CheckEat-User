@@ -34,6 +34,25 @@ struct RegisterResponse: Decodable {
     let userId: String?
     let status: Int
 }
+//아이디찾기 토큰 요청
+struct FindIdTokenRequest: Codable {
+    let email: String
+    let language: String
+}
+//아이디찾기 토큰확인 요청
+struct CheckIdTokenRequest: Codable {
+    let email: String
+    let token: String
+}
+//아이디찾기 토큰확인 응답
+struct CheckIdTokenResponse: Decodable {
+    let message: String
+    let status: String
+    let log_id: LogID
+}
+struct LogID: Decodable {
+    let ld_log_id: String
+}
 //아이디중복 응답
 struct IDUniqueResponse: Decodable {
     let message: String
@@ -58,7 +77,7 @@ struct CheckEmailTokenRequest: Codable {
     let email: String
     let token: String
 }
-// 이메일 인증 토큰 확인 응답
+//이메일인증 토큰확인 응답
 struct CheckEmailTokenResponse: Decodable {
     let message: String
     let status: String

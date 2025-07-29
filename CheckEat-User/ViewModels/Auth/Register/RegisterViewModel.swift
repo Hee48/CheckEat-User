@@ -18,7 +18,7 @@ class RegisterViewModel: ObservableObject {
     @Published var allergy: String = ""
     @Published var selectedVeganLevel: VeganLevel = .none
     @Published var selectedHalalStatus: HalaStatus = .no
-    @Published var selectedCommonAllergies: Set<Int> = []
+    @Published var selectedCommonAllergies: [Int] = []
     
     //이메일 인증 관련
     @Published var emailVerificationToken = ""
@@ -129,7 +129,6 @@ class RegisterViewModel: ObservableObject {
       
       //회원가입
     func signUp(completion: @escaping (Bool) -> Void) {
-          print("📩 signUp 호출됨 - loginId: \(loginId), email: \(email), password: \(password), nickName: \(nickName)")
           let request = RegisterRequest(
               log_Id: loginId,
               log_pwd: password,
