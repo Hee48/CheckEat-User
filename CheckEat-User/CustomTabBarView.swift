@@ -22,7 +22,8 @@ struct CustomTabBarView: View {
             tabItem(image: "User", title: "마이페이지", tab: .myPage)
         }
         .padding(.horizontal, 32)
-        .padding(.vertical, 12)
+        .padding(.vertical, 8)
+        .padding(.top, 8)
         .background(Color.white)
         .shadow(color: Color.black.opacity(0.1), radius: 8, y: -2)
     }
