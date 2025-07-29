@@ -1,0 +1,401 @@
+[
+  {
+    "revi_id": 1,
+    "food_id": 108,
+    "revi_img": null,
+    "revi_content": "현미밥 정식이 깔끔하고 든든해요.",
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 2,
+    "food_id": 3,
+    "revi_img": null,
+    "revi_content": "라면치고 깔끔한 맛이에요. 채식 입문용으로 좋아요.",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 3,
+    "food_id": 21,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "두부 스테이크가 촉촉하고 맛있어요. 기대 이상!",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 4,
+    "food_id": 70,
+    "revi_img": null,
+    "revi_content": "카레 향신료가 약해서 조금 아쉬웠어요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 5,
+    "food_id": 33,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "정말 맛있었어요!",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 6,
+    "food_id": 33,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": null,
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 7,
+    "food_id": 33,
+    "revi_img": null,
+    "revi_content": "최고의 맛이었어요!",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 8,
+    "food_id": 33,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": null,
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 9,
+    "food_id": 25,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "그냥 무난한 편이에요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 10,
+    "food_id": 25,
+    "revi_img": null,
+    "revi_content": "그냥 무난한 편이에요.",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 11,
+    "food_id": 70,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "최고의 맛이었어요!",
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 12,
+    "food_id": 70,
+    "revi_img": null,
+    "revi_content": "정말 맛있었어요!",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 13,
+    "food_id": 12,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": null,
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 14,
+    "food_id": 12,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "그냥 무난한 편이에요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 15,
+    "food_id": 85,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "다시는 안 먹을 것 같아요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 16,
+    "food_id": 85,
+    "revi_img": null,
+    "revi_content": "최고의 맛이었어요!",
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 17,
+    "food_id": 6,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "정말 맛있었어요!",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 18,
+    "food_id": 6,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "정말 맛있었어요!",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 19,
+    "food_id": 6,
+    "revi_img": null,
+    "revi_content": "기억에 남지 않네요.",
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 20,
+    "food_id": 108,
+    "revi_img": null,
+    "revi_content": "최고의 맛이었어요!",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 21,
+    "food_id": 108,
+    "revi_img": null,
+    "revi_content": "정말 맛있었어요!",
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 22,
+    "food_id": 108,
+    "revi_img": null,
+    "revi_content": "최고의 맛이었어요!",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 23,
+    "food_id": 47,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "그냥 무난한 편이에요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 24,
+    "food_id": 47,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "그냥 무난한 편이에요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 25,
+    "food_id": 47,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "그냥 무난한 편이에요.",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 26,
+    "food_id": 47,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "기억에 남지 않네요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 27,
+    "food_id": 47,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "다시는 안 먹을 것 같아요.",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 28,
+    "food_id": 3,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": null,
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 29,
+    "food_id": 3,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "그냥 무난한 편이에요.",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 30,
+    "food_id": 3,
+    "revi_img": null,
+    "revi_content": null,
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 31,
+    "food_id": 40,
+    "revi_img": null,
+    "revi_content": "최고의 맛이었어요!",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 32,
+    "food_id": 40,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "기억에 남지 않네요.",
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 33,
+    "food_id": 40,
+    "revi_img": null,
+    "revi_content": "최고의 맛이었어요!",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 34,
+    "food_id": 109,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "담백하고 부드러웠어요.",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 35,
+    "food_id": 109,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": null,
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 36,
+    "food_id": 109,
+    "revi_img": null,
+    "revi_content": "재료 본연의 맛이 살아있어요.",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 37,
+    "food_id": 109,
+    "revi_img": null,
+    "revi_content": null,
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 38,
+    "food_id": 109,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "좀 더 특별했으면 좋았을 듯!",
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 39,
+    "food_id": 109,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": null,
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 40,
+    "food_id": 109,
+    "revi_img": null,
+    "revi_content": "기억에 오래 남지는 않아요.",
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 41,
+    "food_id": 109,
+    "revi_img": null,
+    "revi_content": null,
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 42,
+    "food_id": 109,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "먹다가 남겼어요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 43,
+    "food_id": 109,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": null,
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 44,
+    "food_id": 109,
+    "revi_img": null,
+    "revi_content": "너무 짜고 느끼했어요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 45,
+    "food_id": 109,
+    "revi_img": null,
+    "revi_content": null,
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 46,
+    "food_id": 110,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "이 조합은 진짜 최고!",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 47,
+    "food_id": 110,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": null,
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 48,
+    "food_id": 110,
+    "revi_img": null,
+    "revi_content": "담백하고 부드러웠어요.",
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 49,
+    "food_id": 110,
+    "revi_img": null,
+    "revi_content": null,
+    "revi_reco_step": 0
+  },
+  {
+    "revi_id": 50,
+    "food_id": 110,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "보통이에요.",
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 51,
+    "food_id": 110,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": null,
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 52,
+    "food_id": 110,
+    "revi_img": null,
+    "revi_content": "기억에 오래 남지는 않아요.",
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 53,
+    "food_id": 110,
+    "revi_img": null,
+    "revi_content": null,
+    "revi_reco_step": 1
+  },
+  {
+    "revi_id": 54,
+    "food_id": 110,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": "재료가 덜 익은 느낌이었어요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 55,
+    "food_id": 110,
+    "revi_img": "https://cdn.pixabay.com/photo/2016/06/01/02/56/ledger-1428230_1280.jpg",
+    "revi_content": null,
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 56,
+    "food_id": 110,
+    "revi_img": null,
+    "revi_content": "이건 다시 안 먹을 것 같아요.",
+    "revi_reco_step": 2
+  },
+  {
+    "revi_id": 57,
+    "food_id": 110,
+    "revi_img": null,
+    "revi_content": null,
+    "revi_reco_step": 2
+  }
+]

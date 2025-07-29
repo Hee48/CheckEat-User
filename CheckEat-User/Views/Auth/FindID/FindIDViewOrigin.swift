@@ -190,6 +190,6 @@ struct FindIDViewOrigin: View {
     
 }
 
-#Preview {
-    FindIDViewOrigin()
-}
+//#Preview {
+//    FindIDViewOrigin()
+//}
