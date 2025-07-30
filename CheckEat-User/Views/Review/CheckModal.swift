@@ -63,6 +63,6 @@ struct CheckModal: View {
         .frame(maxHeight: .infinity, alignment: .top)
     }
 }
-#Preview {
-    CheckModal(storeName: "슈의 초밥가게", storeAddress: "서울특별시 강남구 테헤란로 1~19")
-}
+//#Preview {
+//    CheckModal(storeName: "슈의 초밥가게", storeAddress: "서울특별시 강남구 테헤란로 1~19")
+//}

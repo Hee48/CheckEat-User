@@ -74,7 +74,7 @@ struct LoginView: View {
                             .semibold16()
                     }
                     .fullScreenCover(isPresented: $viewModel.loginSuccess) {
-                        FindIDView()
+                        MyPageView()
                     }
                     
                     HStack {
@@ -142,6 +142,6 @@ struct LoginView: View {
     
 }
 
-//#Preview {
-//    LoginView()
-//}
+#Preview {
+    LoginView()
+}

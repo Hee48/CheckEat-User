@@ -48,12 +48,10 @@ struct AddReivewView: View {
     @State private var imagePickerSource: UIImagePickerController.SourceType = .photoLibrary
     @State private var selectedImage: UIImage? = nil
     @State private var showPickerSheet = false
+    @State private var showMenuChoice = false
     
     @State private var selectedImages: [UIImage] = []
-
     
-    
-
     
     let menuOptions: [String] = ["연어초밥", "비건 김밥", "치킨버거", "토마토 파스타"]
     
@@ -66,7 +64,7 @@ struct AddReivewView: View {
                     HStack {
                         Spacer()
                         Button {
-                           showReviewStopModal = true
+                            showReviewStopModal = true
                         } label: {
                             Image("xmark")
                         }
@@ -97,17 +95,15 @@ struct AddReivewView: View {
                         .padding(.leading, 17)
                         .padding(.bottom, 2)
                     Button {
-                       
+                        showMenuChoice = true
                     } label: {
-                        HStack {
-                            Text("먹은 메뉴 고르기")
-                                .regular14()
-                                .foregroundColor(Color.gray.opacity(0.6))
-                        }
-                        .padding()
-                        .frame(width: 362, height: 56)
-                        .background(RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.black, lineWidth: 1))
+                        Text("메뉴 선택하기")
+                            .regular14()
+                            .foregroundColor(.black)
+                            .padding()
+                            .frame(width: 362, height: 56)
+                            .background(RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.black, lineWidth: 1))
                     }
                     .padding(.horizontal, 17)
                 }
@@ -117,14 +113,14 @@ struct AddReivewView: View {
                     HStack {
                         Text("어떤 사람에게 추천하시나요?")
                             .semibold14()
-                    
+                        
                         Button {
                             showVeganModal = true
                         } label: {
                             Image(systemName: "questionmark.circle")
                                 .font(.system(size: 16))
                                 .foregroundColor(.buttonOP20)
-    
+                            
                         }
                     }
                     .padding(.top, 10)
@@ -178,7 +174,7 @@ struct AddReivewView: View {
                                 .semibold14()
                                 .foregroundColor(.black)
                                 .padding(.leading, 4)
-
+                            
                             TextField("간단히 작성", text: $dislikeReasonText)
                                 .regular14()
                                 .padding()
@@ -187,7 +183,7 @@ struct AddReivewView: View {
                                         .stroke(Color.gray.opacity(0.4), lineWidth: 1)
                                 )
                         }
-    
+                        
                         .padding(.top, 20)
                     }
                     if selectedRecommendation == .like {
@@ -196,7 +192,7 @@ struct AddReivewView: View {
                                 .semibold14()
                                 .foregroundColor(.black)
                                 .padding(.leading, 4)
-
+                            
                             TextField("간단히 작성", text: $dislikeReasonText)
                                 .regular14()
                                 .padding()
@@ -205,7 +201,7 @@ struct AddReivewView: View {
                                         .stroke(Color.gray.opacity(0.4), lineWidth: 1)
                                 )
                         }
-    
+                        
                         .padding(.top, 20)
                     }
                 }
@@ -260,7 +256,7 @@ struct AddReivewView: View {
                     Color.black.opacity(0.3)
                         .edgesIgnoringSafeArea(.all)
                         .zIndex(2)
-
+                    
                     ReviewStopModal {
                         showReviewStopModal = false
                     }
@@ -300,6 +296,9 @@ struct AddReivewView: View {
         .sheet(isPresented: $showVeganModal) {
             VeganModal()
                 .presentationDetents([.height(450)])
+        }
+        .fullScreenCover(isPresented: $showMenuChoice) {
+            MenuChoicePage()
         }
     }
 }

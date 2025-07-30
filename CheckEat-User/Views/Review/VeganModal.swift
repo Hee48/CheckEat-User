@@ -79,6 +79,6 @@ struct VeganModal: View {
         .padding(.leading, 10)
     }
 }
-#Preview {
-    VeganModal()
-}
+//#Preview {
+//    VeganModal()
+//}

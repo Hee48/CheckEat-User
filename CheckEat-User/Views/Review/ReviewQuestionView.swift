@@ -77,6 +77,6 @@ struct ReviewQuestionView:View {
         .ignoresSafeArea(.keyboard)
     }
 }
-#Preview {
-    ReviewQuestionView()
-}
+//#Preview {
+//    ReviewQuestionView()
+//}

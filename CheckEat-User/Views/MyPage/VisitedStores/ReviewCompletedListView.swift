@@ -39,9 +39,13 @@ struct ReviewCompletedListView: View {
                                 .bold20()
                             Text(review.menuName)
                                 .bold18()
-                            Text(review.storeAddress)
-                                .regular14()
-                                .padding(.top, 20)
+                            HStack {
+                                Image("Location")
+                                    .padding(.top, 20)
+                                Text(review.storeAddress)
+                                    .regular14()
+                                    .padding(.top, 20)
+                            }
                         }
 
                         Spacer()
