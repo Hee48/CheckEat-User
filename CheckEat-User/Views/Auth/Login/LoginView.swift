@@ -9,12 +9,15 @@ import SwiftUI
 
 struct LoginView: View {
     
+ 
+    var onLoginSuccess: () -> Void = {}
     @State private var isPasswordVisible: Bool = false
     @State private var showFindId: Bool = false
     @State private var showFindPwd: Bool = false
     @State private var showJoin: Bool = false
     @StateObject private var viewModel = LoginViewModel()
-    
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -73,8 +76,12 @@ struct LoginView: View {
                             .primaryButtonStyle()
                             .semibold16()
                     }
-                    .fullScreenCover(isPresented: $viewModel.loginSuccess) {
-                        MyPageView()
+                    .onChange(of: viewModel.loginSuccess) { success in
+                        guard success else { return }
+                        onLoginSuccess() // 외부에서 dismiss 처리
+                    }
+                    .onAppear {
+                        viewModel.reset()
                     }
                     
                     HStack {
@@ -86,7 +93,7 @@ struct LoginView: View {
                                 .foregroundStyle(.buttonOP50)
                         }
                         .fullScreenCover(isPresented: $showFindId) {
-                            FindIDView()
+                            FindIDView(showFindId: $showFindId)
                         }
                         Text(" | ")
                             .foregroundStyle(.buttonOP50)
@@ -97,7 +104,7 @@ struct LoginView: View {
                                 .foregroundStyle(.buttonOP50)
                         }
                         .fullScreenCover(isPresented: $showFindPwd) {
-                            FindPwdView()
+                            FindPwdView(showFindPw: $showFindPwd)
                         }
                         Spacer()
                     }
@@ -108,9 +115,6 @@ struct LoginView: View {
                     Spacer()
                 }
                 .padding()
-                .navigationTitle("")
-                .navigationBarHidden(true)
-                
             }
             .tapToDismissKeyboard()
             .safeAreaInset(edge: .bottom) {
@@ -127,7 +131,7 @@ struct LoginView: View {
                                 .foregroundStyle(.buttonAuth)
                         }
                         .fullScreenCover(isPresented: $showJoin) {
-                            JoinView()
+                            JoinView(showJoin: $showJoin)
                         }
                         Spacer()
                     }
@@ -136,12 +140,18 @@ struct LoginView: View {
                 .padding(.horizontal)
             }
             .ignoresSafeArea(.keyboard)
+            .navigationTitle("로그인")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.black)
+                    }
+                }
+            }
         }
     }
-    
-    
-}
-
-#Preview {
-    LoginView()
 }

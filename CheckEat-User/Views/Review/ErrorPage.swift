@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ErrorPage:View {
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
         VStack {
             ZStack {

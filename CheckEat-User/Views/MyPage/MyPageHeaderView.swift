@@ -13,6 +13,7 @@ struct MyPageHeaderView: View {
     let userEmail: String
     @Binding var showMoreMenu: Bool
     @Binding var showManageCompanyModal: Bool
+    @Binding var showNickNameChangeModal: Bool
     
     var body: some View {
         HStack(alignment: .top) {
@@ -25,16 +26,16 @@ struct MyPageHeaderView: View {
                     .padding(.trailing, 10)
             }
             .foregroundStyle(.primary)
-//            .sheet(isPresented: $showManageCompanyModal) {
-//                ManageCompanyModalView()
-//                    .presentationDragIndicator(.visible)
-//                    .presentationDetents([.height(350)])
-//            }
 
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 10) {
-                    Text(nickName).bold20()
-                    
+                    Button {
+                        showNickNameChangeModal = true
+                    } label: {
+                        Text(nickName)
+                            .bold20()
+                            .foregroundColor(.black)
+                    }
                     Spacer()
                     Button {
                         withAnimation { showMoreMenu.toggle() }

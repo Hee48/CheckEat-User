@@ -12,26 +12,29 @@ import GoogleMaps
 struct CheckEat_UserApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @State private var selectedTab: CustomTabBarView.Tab = .home
-    
+    @State private var selectedTab: Tab = .home
+    @StateObject private var authViewModel = AuthViewModel.shared
     var body: some Scene {
         WindowGroup {
-            VStack {
-                ZStack {
-                    switch selectedTab {
-                    case .home:
-                        HomeMapView()
-                    case .review:
-                        ReviewQuestionView()
-                    case .myPage:
-                        MyPageView()
+            NavigationStack {
+                VStack {
+                    ZStack {
+                        switch selectedTab {
+                        case .home:
+                            HomeMapView()
+                        case .review:
+                            OCRView()
+                        case .myPage:
+                            MyPageView(selectedTab: $selectedTab)
+                        }
                     }
+                    .frame(maxHeight: .infinity)
+                    
+                    CustomTabBarView(selectedTab: $selectedTab)
                 }
-                .frame(maxHeight: .infinity)
-
-                CustomTabBarView(selectedTab: $selectedTab)
+                .background(Color.white)
             }
-            .background(Color.white)
+            .environmentObject(authViewModel)
         }
     }
 }

@@ -25,6 +25,7 @@ struct MyPageChangePasswordModalView: View {
     
     @FocusState private var isNewPasswordFocused: Bool
     @FocusState private var isConfirmPasswordFocused: Bool
+    @StateObject private var viewModel = ChangePwdViewModel()
     
     @Environment(\.dismiss) var dismiss
     
@@ -132,8 +133,12 @@ struct MyPageChangePasswordModalView: View {
             .padding(.bottom, 24)
             
             Button {
-                showCompleteModal = true
-                editable = (isLengthValid && isUpperLowerNumberSpecialValid && isPasswordAgreement)
+                if isLengthValid && isUpperLowerNumberSpecialValid && isPasswordAgreement {
+                       viewModel.newPwd = newPassword
+                       viewModel.changePwd {
+                           showCompleteModal = true
+                       }
+                   }
             } label: {
                 Text("변경하기")
                     .primaryButtonStyle(isEnabled: (isLengthValid && isUpperLowerNumberSpecialValid && isPasswordAgreement))
@@ -150,9 +155,11 @@ struct MyPageChangePasswordModalView: View {
         }
         .tapToDismissKeyboard()
         .sheet(isPresented: $showCompleteModal) {
-            MyPageChangePasswordCompleteModalView()
-                .presentationDragIndicator(.visible)
-                .presentationDetents([.height(350)])
+            MyPageChangePasswordCompleteModalView {
+                dismiss()
+            }
+            .presentationDragIndicator(.visible)
+            .presentationDetents([.height(350)])
         }
     }
     

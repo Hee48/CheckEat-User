@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+enum FindPwdPath: Hashable {
+    case changePassword(email: String)
+    case changePasswordComplete
+}
+
 struct FindPwdView: View {
     
     @State private var userId: String = ""
@@ -26,9 +31,10 @@ struct FindPwdView: View {
     @FocusState private var fieldIsFocused: Bool
     
     @Environment(\.dismiss) private var dismiss
-    
+    @StateObject private var viewModel = FindPwdViewModel()
+    @Binding var showFindPw: Bool
+    @State private var findPath: [FindPwdPath] = []
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    private let correctAuthCode = "1234"
     
     private var isUserIdValid: Bool {
         !userId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -48,7 +54,7 @@ struct FindPwdView: View {
     
     var body: some View {
         
-        NavigationStack {
+        NavigationStack(path: $findPath) {
             ZStack {
                 ScrollView {
                     VStack(alignment: .leading) {
@@ -99,6 +105,7 @@ struct FindPwdView: View {
                         Group {
                             if !isFieldVisible {
                                 Button {
+                                    viewModel.logId = userId
                                     infoMsg = "입력하신 이메일로 인증코드를 전송했습니다."
                                     isFieldVisible = true
                                     authCodeIsValid = nil
@@ -164,11 +171,15 @@ struct FindPwdView: View {
                                 }
                                 HStack {
                                     Button {
-                                        if authCode == correctAuthCode {
-                                            authCodeIsValid = true
-                                            shouldNavigate = true
-                                        } else {
-                                            authCodeIsValid = false
+                                        viewModel.verifyEmailToken(email: userEmail, token: authCode) { success in
+                                            if success {
+                                                authCodeIsValid = true
+                                                findPath.append(.changePassword(email: userEmail))
+                                                shouldNavigate = true
+                                            } else {
+                                                authCodeIsValid = false
+
+                                            }
                                         }
                                     } label: {
                                         Text("완료")
@@ -176,9 +187,7 @@ struct FindPwdView: View {
                                             .semibold16()
                                     }
                                     .disabled(authCode.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                                    .navigationDestination(isPresented: $shouldNavigate) {
-                                        ChangePasswordView()
-                                    }
+                                    
                                 }
                             }
                         }
@@ -198,15 +207,12 @@ struct FindPwdView: View {
                             Text("비밀번호가 기억나셨나요?")
                                 .regular14()
                             Button {
-                                goToLogin = true
+                                dismiss()
                             } label: {
                                 Text("로그인")
                                     .semibold14()
                                     .foregroundStyle(.buttonAuth)
                             }
-                        }
-                        .fullScreenCover(isPresented: $goToLogin) {
-                            LoginView()
                         }
                     }
                     .padding(.bottom)
@@ -223,7 +229,15 @@ struct FindPwdView: View {
             }
             .padding(.horizontal)
         }
-        
+        .navigationDestination(for: FindPwdPath.self) { path in
+            switch path {
+            case .changePassword(let email):
+                ChangePasswordView(email: email, showFindPw: $showFindPw, findPath: $findPath)
+                    .navigationBarBackButtonHidden(false)
+            case .changePasswordComplete:
+                ChangePasswordCompleteView(showFindPw: $showFindPw, findPath: $findPath)
+            }
+        }
     }
     
     func formatTime(_ seconds: Int)-> String {
@@ -237,7 +251,7 @@ struct FindPwdView: View {
         timerActive = true
     }
     func resendCode() {
-        //인증 재요청 로직
+        viewModel.sendEmailToken(email: userEmail)
         startTimer()
     }
     func isValidEmailAddress(email: String) {
@@ -246,7 +260,3 @@ struct FindPwdView: View {
         isEmailValid = emailPredicate.evaluate(with: email)
     }
 }
-
-//#Preview {
-//    FindPwdView()
-//}

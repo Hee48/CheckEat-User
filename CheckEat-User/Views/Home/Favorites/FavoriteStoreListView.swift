@@ -54,6 +54,9 @@ struct FavoriteStoreListView: View {
             }
             .listRowSeparator(.hidden)
         }
+        .padding(.top, 20)
         .listStyle(.plain)
+        .navigationTitle("즐겨찾기 가게")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

@@ -20,6 +20,9 @@ struct FindIDViewOrigin: View {
     @State private var showCodeErrorMessage: Bool = false
     @State private var goToLogin: Bool = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @StateObject private var viewModel = FindIDViewModel()
+    @Binding var showFindId: Bool
+
     var isButtonEnabled: Bool {
         if showVerificationField {
             return isEmailValid && !verificationCode.isEmpty
@@ -27,6 +30,7 @@ struct FindIDViewOrigin: View {
             return isEmailValid
         }
     }
+    
     var body: some View {
         GeometryReader { _ in
             NavigationStack {
@@ -54,13 +58,8 @@ struct FindIDViewOrigin: View {
                                 .font(.system(size: 14, weight: .bold))
                                 .padding(.top, 10)
                             UnderLinedTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
-                                .onChange(of: verificationCode){ newValue in
-                                    isVerificationCodeValid = (newValue == "1234")
-                                    showCodeErrorMessage = !isVerificationCodeValid && !newValue.isEmpty
-                                }
                                 .font(.system(size: 14))
                                 .padding(.top, 2)
-                            
                             if showCodeErrorMessage {
                                 Text("잘못된 코드입니다. 다시 시도해 주세요.")
                                     .foregroundColor(.red)
@@ -96,22 +95,26 @@ struct FindIDViewOrigin: View {
                             }
                         }
                     }
-                    Button {
-                        if showVerificationField {
-                            if isVerificationCodeValid {
-                                goFindIDComplete = true
-                            }
+            Button {
+                if showVerificationField {
+                    showCodeErrorMessage = false
+                    viewModel.checkFindId(email: email, token: verificationCode) { success in
+                        if success {
+                            goFindIDComplete = true
                         } else {
-                            withAnimation {
-                                showVerificationField = true
-                                startTimer()
-                                infoMessage = "입력하신 이메일로 인증코드를 전송했습니다."
-                            }
+                            showCodeErrorMessage = true
                         }
-                        
-                    } label: {
+                    }
+                } else {
+                    withAnimation {
+                        showVerificationField = true
+                        startTimer()
+                        infoMessage = "입력하신 이메일로 인증코드를 전송했습니다."
+                    }
+                }
+            } label: {
                         Text(showVerificationField ? "완료" : "인증코드 받기")
-                            .font(.system(size: 16, weight: .bold))
+                            .semibold16()
                             .foregroundColor(.white)
                             .primaryButtonStyle(isEnabled: isButtonEnabled)
                             .padding(.trailing)
@@ -119,10 +122,10 @@ struct FindIDViewOrigin: View {
                     }
                     .disabled(!isButtonEnabled)
                     .fullScreenCover(isPresented: $goFindIDComplete) {
-                        FindIDComplete(userID: "test1234")
+                        FindIDComplete(userID: viewModel.foundUserId, showFindId: $showFindId, showFindPw: .constant(false))
                     }
-                    Spacer()
-                    
+                    .padding(.top, 24)
+                    .padding(.bottom, 40)
                 }
                 .padding(.top, 50)
                 .padding(.leading, 15)
@@ -164,7 +167,6 @@ struct FindIDViewOrigin: View {
                     timerActive = false
                 }
             }
-            
         }
     }
     

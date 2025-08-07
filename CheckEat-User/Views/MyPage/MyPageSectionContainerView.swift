@@ -9,6 +9,7 @@ import SwiftUI
 
 enum SettingDestination: Hashable, Identifiable {
     case visitedStores
+    case favoriteStores
     case reviewCreated
     case changePassword
     case editAllergies
@@ -25,10 +26,14 @@ struct MyPageSectionContainerView: View {
         VStack(alignment: .leading, spacing: 25) {
             SectionView(
                 title: "가게",
-                buttons: [(title: "이용한 가게", destination: .visitedStores)]
+                buttons: [
+                    (title: "즐겨찾기 가게", destination: .favoriteStores),
+                    (title: "이용한 가게", destination: .visitedStores)
+                ]
             ) { destination in
                 handleSelection(destination)
             }
+            
 
             SectionView(
                 title: "리뷰",
@@ -66,4 +71,3 @@ struct MyPageSectionContainerView: View {
 //#Preview {
 //    MyPageSectionContainerView { _ in }
 //}
-

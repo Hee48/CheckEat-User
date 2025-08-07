@@ -13,29 +13,27 @@ struct Allergy19Review: View {
     var onConfirm: (_ ids: [Int], _ text: String) -> Void
     @Environment(\.dismiss) private var dismiss
     @State private var showJoinComplete = false
-    // Shared allergen data list
     let allergenDataList: [(id: Int, name: String, imageName: String)] = [
-        (1, "난류", "난류"),
-        (2, "우유", "우유"),
-        (3, "메밀", "메밀"),
-        (4, "땅콩", "땅콩"),
-        (5, "대두", "대두"),
-        (6, "밀", "밀"),
-        (7, "고등어", "고등어"),
-        (8, "게", "게"),
-        (9, "새우", "새우"),
-        (10, "돼지고기", "돼지고기"),
-        (11, "복숭아", "복숭아"),
-        (12, "토마토", "토마토"),
-        (13, "아황산류", "아황산류"),
-        (14, "호두", "호두"),
-        (15, "닭고기", "닭고기"),
-        (16, "쇠고기", "쇠고기"),
-        (17, "오징어", "오징어"),
-        (18, "조개류", "조개류"),
-        (19, "잣", "잣")
+        (1, "난류", "Egg"),
+        (2, "우유", "Milk"),
+        (3, "메밀", "Buckwheat"),
+        (4, "땅콩", "Peanut"),
+        (5, "대두", "Soy"),
+        (6, "밀", "Wheat"),
+        (7, "고등어", "Mackerel"),
+        (8, "게", "Crab"),
+        (9, "새우", "Shrimp"),
+        (10, "돼지고기", "Pork"),
+        (11, "복숭아", "Peach"),
+        (12, "토마토", "Tomato"),
+        (13, "아황산류", "Sulfites"),
+        (14, "호두", "Walnut"),
+        (15, "닭고기", "Chicken"),
+        (16, "쇠고기", "Beef"),
+        (17, "오징어", "Squid"),
+        (18, "조개류", "Shellfish"),
+        (19, "잣", "PineNut")
     ]
-
     var body: some View {
         NavigationStack {
             VStack {

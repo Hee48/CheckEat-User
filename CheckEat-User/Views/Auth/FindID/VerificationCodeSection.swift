@@ -20,10 +20,6 @@ struct VerificationCodeSection: View {
                 .font(.system(size: 14, weight: .semibold))
                 .padding(.top, 10)
             UnderLinedTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
-                .onChange(of: verificationCode){ newValue in
-                    isVerificationCodeValid = (newValue == "1234")
-                    showCodeErrorMessage = !isVerificationCodeValid && !newValue.isEmpty
-                }
                 .font(.system(size: 14))
                 .padding(.top, 2)
             
@@ -71,8 +67,9 @@ struct VerificationCodeSection: View {
     }
 
 }
-    //
-    //#Preview {
-    //    VerificationCodeSection()
-    //}
+    
+//#Preview {
+//    VerificationCodeSection()
+//}
+
 

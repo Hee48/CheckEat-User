@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ChangePasswordView: View {
-    
+
+    let email: String
     @State private var newPassword: String = ""
     @State private var confirmPassword: String = ""
     
@@ -24,12 +25,14 @@ struct ChangePasswordView: View {
     
     @FocusState private var isNewPasswordFocused: Bool
     @FocusState private var isConfirmPasswordFocused: Bool
+    @StateObject private var viewModel = FindPwdViewModel()
     
+    @Binding var showFindPw: Bool
+    @Binding var findPath: [FindPwdPath]
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         
-        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
                     Text("비밀번호를 재설정 해주세요.")
@@ -142,7 +145,6 @@ struct ChangePasswordView: View {
             .padding(.horizontal)
             .navigationTitle("비밀번호 재설정")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
@@ -159,12 +161,11 @@ struct ChangePasswordView: View {
             .onChange(of: confirmPassword) {
                 validatePassword()
             }
-            .fullScreenCover(isPresented: $editable) {
-                ChangePasswordCompleteView()
-            }
+            .onAppear {
+                   print("✅ ChangePasswordView 등장")
+               }
         }
-    }
-    
+
     private func validatePassword() {
         isLengthValid = newPassword.count >= 8
         isUpperLowerNumberSpecialValid = containsUpperLowerNumberSpecial(newPassword)
@@ -191,11 +192,15 @@ struct ChangePasswordView: View {
     }
     
     private func resetPassword() {
+        viewModel.changePassword(email: email, newPassword: newPassword) { success in
+            if success {
+                print("✅ 비밀번호 변경 성공")
+                editable = true
+                findPath.append(.changePasswordComplete)
+            } else {
+                print("❌ 비밀번호 변경 실패")
+            }
+        }
         print("비밀번호가 성공적으로 재설정되었습니다: \(newPassword)")
     }
 }
-
-//#Preview {
-//    ChangePasswordView()
-//}
-

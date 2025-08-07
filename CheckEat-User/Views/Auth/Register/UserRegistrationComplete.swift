@@ -7,32 +7,31 @@
 
 import SwiftUI
 
+
 struct UserRegistrationComplete: View {
-    
-    @State private var goToLogin: Bool = false
-    
+    @Binding var showJoin: Bool
     var body: some View {
         VStack {
             Spacer()
-
+            
             Image("CheckMark")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50, height: 50)
                 .foregroundStyle(.green)
                 .padding(.bottom)
-
+            
             Group {
                 Text("회원가입이")
                 Text("완료되었습니다.")
             }
             .bold20()
-
+            
             Spacer()
-
+            
             Button {
-                goToLogin = true
-            } label: {
+                showJoin = false
+            }label: {
                 Text("로그인")
                     .primaryButtonStyle()
                     .semibold16()
@@ -41,14 +40,9 @@ struct UserRegistrationComplete: View {
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 30)
-            .fullScreenCover(isPresented: $goToLogin) {
-                LoginView()
-            }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarHidden(true)
         }
         .ignoresSafeArea(.keyboard)
     }
 }
-
-//#Preview {
-//    UserRegistrationComplete()
-//}

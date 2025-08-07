@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C2AA4DA2E38B4EE00D0422D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2C2AA4D92E38B4EE00D0422D /* Alamofire */; };
-		2CB860DA2E2CF34500B2BF3A /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 2CB860D92E2CF34500B2BF3A /* GoogleMaps */; };
+		3971412F2E3B3E16001A9F83 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3971412E2E3B3E16001A9F83 /* Alamofire */; };
+		397C059C2E3B686200EC59CB /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 397C059B2E3B686200EC59CB /* GoogleMaps */; };
+		39CA88822E42F40E00FA9C22 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 39CA88812E42F40E00FA9C22 /* JWTDecode */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,8 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CB860DA2E2CF34500B2BF3A /* GoogleMaps in Frameworks */,
-				2C2AA4DA2E38B4EE00D0422D /* Alamofire in Frameworks */,
+				397C059C2E3B686200EC59CB /* GoogleMaps in Frameworks */,
+				3971412F2E3B3E16001A9F83 /* Alamofire in Frameworks */,
+				39CA88822E42F40E00FA9C22 /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,8 +87,9 @@
 			);
 			name = "CheckEat-User";
 			packageProductDependencies = (
-				2CB860D92E2CF34500B2BF3A /* GoogleMaps */,
-				2C2AA4D92E38B4EE00D0422D /* Alamofire */,
+				3971412E2E3B3E16001A9F83 /* Alamofire */,
+				397C059B2E3B686200EC59CB /* GoogleMaps */,
+				39CA88812E42F40E00FA9C22 /* JWTDecode */,
 			);
 			productName = "CheckEat-User";
 			productReference = 39A0C0562E1678E00042F2F0 /* CheckEat-User.app */;
@@ -117,8 +120,9 @@
 			mainGroup = 39A0C04D2E1678E00042F2F0;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				2CB860D82E2CF34500B2BF3A /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
-				2C2AA4D82E38B4EE00D0422D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				3971412D2E3B3E16001A9F83 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				397C059A2E3B686200EC59CB /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
+				39CA88802E42F40E00FA9C22 /* XCRemoteSwiftPackageReference "JWTDecode" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 39A0C0572E1678E00042F2F0 /* Products */;
@@ -283,8 +287,10 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CheckEat-User/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 권한을 요청합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "앱 사용 중 및 백그라운드에서 위치 접근이 필요합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치 기반 지도를 제공하기 위해 사용자의 현재 위치 접근이 필요합니다. 허용하시겠습니까?";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 권한을 요청합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -319,8 +325,10 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CheckEat-User/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 권한을 요청합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "앱 사용 중 및 백그라운드에서 위치 접근이 필요합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치 기반 지도를 제공하기 위해 사용자의 현재 위치 접근이 필요합니다. 허용하시겠습니까?";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 권한을 요청합니다. 허용하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -368,15 +376,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2C2AA4D82E38B4EE00D0422D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		3971412D2E3B3E16001A9F83 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.10.2;
 			};
 		};
-		2CB860D82E2CF34500B2BF3A /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
+		397C059A2E3B686200EC59CB /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk.git";
 			requirement = {
@@ -384,18 +392,31 @@
 				minimumVersion = 10.1.0;
 			};
 		};
+		39CA88802E42F40E00FA9C22 /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2C2AA4D92E38B4EE00D0422D /* Alamofire */ = {
+		3971412E2E3B3E16001A9F83 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2C2AA4D82E38B4EE00D0422D /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = 3971412D2E3B3E16001A9F83 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		2CB860D92E2CF34500B2BF3A /* GoogleMaps */ = {
+		397C059B2E3B686200EC59CB /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2CB860D82E2CF34500B2BF3A /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			package = 397C059A2E3B686200EC59CB /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
 			productName = GoogleMaps;
+		};
+		39CA88812E42F40E00FA9C22 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39CA88802E42F40E00FA9C22 /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			productName = JWTDecode;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

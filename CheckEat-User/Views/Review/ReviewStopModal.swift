@@ -26,7 +26,6 @@ struct ReviewStopModal: View {
                 .regular16()
             HStack(spacing: 1) {
                 Button {
-                   //홈으로 돌아가게 해야함
                     dismiss()
                 } label: {
                     Text("닫기")

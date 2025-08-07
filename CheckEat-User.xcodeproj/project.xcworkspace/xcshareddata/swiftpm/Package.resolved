@@ -1,10 +1,10 @@
 {
-  "originHash" : "e726f341644b7125ade8c744eec9bfed5b1e0664bf46c70d4be76650bd8339e7",
+  "originHash" : "0cd33839e2547f28d3eeb9af5313a4e282c424fbcbb121284c38d68a91f01f94",
   "pins" : [
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "location" : "https://github.com/Alamofire/Alamofire",
       "state" : {
         "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
         "version" : "5.10.2"
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "8f10336ab74ed8fa02317d4e956514b81938be12",
         "version" : "10.1.0"
+      }
+    },
+    {
+      "identity" : "jwtdecode.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/auth0/JWTDecode.swift",
+      "state" : {
+        "revision" : "36a5ce735a61c4bc119593f43ce2c027b4ca7392",
+        "version" : "3.3.0"
       }
     }
   ],

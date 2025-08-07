@@ -11,6 +11,7 @@ struct Allergy19: View {
     var onSubmit: (_ selectedAllergens: [Int], _ customText: String) -> Void
     @State private var allergy: String
     @State private var selectedAllergens: Set<Int> = []
+    @Environment(\.dismiss) private var dismiss
     init(allergy: String, onSubmit: @escaping (_ selectedAllergens: [Int], _ customText: String) -> Void) {
         _allergy = State(initialValue: allergy)
         self.onSubmit = onSubmit
@@ -28,7 +29,7 @@ struct Allergy19: View {
                 }
                 .padding(.leading, 17)
                 .padding(.top, 20)
-                TextField("아래에 해당하지 않는 알레르기 재료를 적어주세요.", text: $allergy)
+                TextField("ex. 키위,바나나,고사리,참깨,감귤류", text: $allergy)
                     .regular14()
                     .padding(.horizontal, 10)
                     .frame(width: 362, height: 52)
@@ -82,7 +83,7 @@ struct Allergy19: View {
                 
                 NavigationLink(destination:  Allergy19Review(
                     selectedAllergyIDs: Array(selectedAllergens),
-                    customAllergyText: allergy,
+                    customAllergyText: allergy.trimmingCharacters(in: .whitespacesAndNewlines),
                     onConfirm: { confirmedIDs, confirmedText in
                         onSubmit(confirmedIDs, confirmedText)
                     }
@@ -104,7 +105,7 @@ struct Allergy19: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
-                            //                    dismiss()
+                            dismiss()
                         } label: {
                             Image(systemName: "chevron.backward")
                                 .foregroundStyle(.black)
@@ -118,6 +119,6 @@ struct Allergy19: View {
 
     }
 }
-#Preview {
-    Allergy19(allergy: "") { _, _ in }
-}
+//#Preview {
+//    Allergy19(allergy: "") { _, _ in }
+//}

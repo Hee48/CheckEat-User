@@ -7,6 +7,7 @@
 
 import Foundation
 
+//MARK: - 로그인
 //로그인 요청
 struct LoginRequest: Codable {
     var ld_log_id: String
@@ -17,23 +18,7 @@ struct LoginResponse: Decodable {
     let accessToken: String
     let refreshToken: String
 }
-//회원가입 요청
-struct RegisterRequest: Codable {
-    let log_Id: String
-    let log_pwd: String
-    let email: String
-    let allergy: String?
-    let nickname: String
-    let commonAllergies: [Int]?
-    let vegan: Int?
-    let isHalal: Int?
-}
-//회원가입 응답
-struct RegisterResponse: Decodable {
-    let message: String
-    let userId: String?
-    let status: Int
-}
+//MARK: - 아이디찾기
 //아이디찾기 토큰 요청
 struct FindIdTokenRequest: Codable {
     let email: String
@@ -52,6 +37,57 @@ struct CheckIdTokenResponse: Decodable {
 }
 struct LogID: Decodable {
     let ld_log_id: String
+}
+//MARK: - 비밀번호 찾기
+//비밀번호찾기 토큰 요청
+struct FindPwTokenRequest: Codable {
+    let email: String
+    let log_id: String
+    let language: String
+}
+//비밀번호찾기 토큰 응답
+struct FindPwTokenResponse: Codable {
+    let message: String?
+    let status: String?
+}
+//비밀번호찾기 토큰확인 요청
+struct CheckPwTokenRequest: Codable {
+    let email: String
+    let token: String
+}
+//비밀번호찾기 토큰확인 응답
+struct CheckPwTokenResponse: Codable {
+    let message: String
+    let status: String
+}
+//비밀번호찾기 비번변경 요청
+struct FindPwChangeRequest: Codable {
+    let ld_email: String
+    let new_pwd: String
+}
+//비밀번호찾기 비번변경 응답
+struct FindPwChangeResponse: Codable {
+    let message: String
+    let status: String
+}
+//MARK: - 회원가입
+//회원가입 요청
+struct RegisterRequest: Codable {
+    let log_Id: String
+    let log_pwd: String
+    let email: String
+    let allergy: String?
+    let nickname: String
+    let commonAllergies: [Int]?
+    let vegan: Int?
+    let isHalal: Int?
+    let ld_lang: String
+}
+//회원가입 응답
+struct RegisterResponse: Decodable {
+    let message: String
+    let userId: String?
+    let status: Int
 }
 //아이디중복 응답
 struct IDUniqueResponse: Decodable {
@@ -83,15 +119,17 @@ struct CheckEmailTokenResponse: Decodable {
     let status: String
 }
 //비건 단계
-enum VeganLevel: Int, CaseIterable {
+enum VeganLevel: Int, CaseIterable, Identifiable {
     case none = 0
-    case level1 = 1
-    case level2 = 2
-    case level3 = 3
-    case level4 = 4
-    case level5 = 5
-    case level6 = 6
-    
+    case level1
+    case level2
+    case level3
+    case level4
+    case level5
+    case level6
+
+    var id: Int { rawValue } 
+
     var description: String {
         switch self {
         case .none:

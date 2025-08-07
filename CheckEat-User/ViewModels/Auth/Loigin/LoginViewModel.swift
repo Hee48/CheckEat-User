@@ -21,7 +21,7 @@ class LoginViewModel: ObservableObject {
     func login() {
         let loginData = LoginRequest(ld_log_id: loginId, ld_pwd: password)
 
-        AF.request(API.loginURL, method: .post, parameters: loginData, encoder: JSONParameterEncoder.default)
+        AF.request(AuthAPI.loginURL, method: .post, parameters: loginData, encoder: JSONParameterEncoder.default)
             .publishDecodable(type: LoginResponse.self)
             .value()
             .receive(on: DispatchQueue.main)
@@ -36,8 +36,21 @@ class LoginViewModel: ObservableObject {
                 }
             } receiveValue: { data in
                 self.loginSuccess = true
+                AuthViewModel.shared.isLoggedIn = true
                 print("로그인성공 \(data)")
+                let access = data.accessToken
+                let refresh = data.refreshToken
+                TokenManager.shared.save(accessToken: access, refreshToken: refresh)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                       self.loginSuccess = false
+                   }
             }
             .store(in: &cancellables)
+    }
+    func reset() {
+        loginId = ""
+        password = ""
+        loginSuccess = false
+        alertMessage = ""
     }
 }

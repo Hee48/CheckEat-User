@@ -11,8 +11,11 @@ struct EditAllergiesView: View {
     let selectedAllergyIDs: [Int]
     let customAllergyText: String
     var onConfirm: (_ ids: [Int], _ text: String) -> Void
+    @Binding var path: NavigationPath
     @Environment(\.dismiss) private var dismiss
     @State private var showEditAllergies19 = false
+    @State private var shouldDismiss = false
+    @Binding var isPresented: Bool
     let allergenDataList: [(id: Int, name: String, imageName: String)] = [
         (1, "난류", "Egg"),
         (2, "우유", "Milk"),
@@ -36,7 +39,6 @@ struct EditAllergiesView: View {
     ]
     
     var body: some View {
-        NavigationStack {
             VStack {
                 Text("알레르기 정보 확인")
                     .bold20()
@@ -107,29 +109,30 @@ struct EditAllergiesView: View {
                 
             }
             NavigationLink(
-                destination: EditAllergies19(allergy: "", onSubmit: { selectedAllergens, customText in }),
-                isActive: $showEditAllergies19,
-                label: { EmptyView() }
-            )
+                destination: EditAllergies19(
+                    allergy: "",
+                    onSubmit: { selectedAllergens, customText in
+                        onConfirm(selectedAllergens, customText)
+                        shouldDismiss = false
+                        isPresented = false
+                    },
+                    path: $path
+                ),
+                isActive: $showEditAllergies19
+            ) {
+                EmptyView()
+            }
             .hidden()
-            
-            .navigationTitle("알레르기 수정")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.backward")
-                            .foregroundStyle(.black)
-                    }
+            .onChange(of: shouldDismiss) { newValue in
+                if newValue {
+                    dismiss()
                 }
             }
+            .navigationTitle("알레르기 수정")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
-}
 
-#Preview {
-    EditAllergiesView(selectedAllergyIDs: [2, 4, 7], customAllergyText: "납작복숭아,송충이털", onConfirm: {ids,text in })
-}
+//#Preview {
+//    EditAllergiesView(selectedAllergyIDs: [2, 4, 7], customAllergyText: "납작복숭아,송충이털", onConfirm: {ids,text in })
+//}

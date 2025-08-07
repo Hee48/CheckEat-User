@@ -7,26 +7,13 @@
 
 import SwiftUI
 
-struct MenuItem: Identifiable {
-    let id = UUID()
-    let menuName: String
-    let price: Int
-}
-
-let dummyMenus: [MenuItem] = [
-    MenuItem(menuName: "연어초밥", price: 6000),
-    MenuItem(menuName: "아보카도롤", price: 5500),
-    MenuItem(menuName: "비건김밥", price: 5000),
-    MenuItem(menuName: "유부초밥", price: 4500),
-    MenuItem(menuName: "채소비빔밥", price: 7000),
-    MenuItem(menuName: "두부덮밥", price: 6500),
-    MenuItem(menuName: "토마토파스타", price: 8000)
-]
-
 struct MenuChoicePage: View {
     @State private var searchText: String = ""
-    @State private var checkedItems: [UUID: Bool] = [:]
+    @State private var checkedItems: [Int: Bool] = [:]
     @Environment(\.dismiss) private var dismiss
+    @Binding var selectedMenu: [(id: Int, name: String)]
+    @EnvironmentObject var viewModel: ReviewViewModel
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading) {
@@ -60,23 +47,30 @@ struct MenuChoicePage: View {
                 .padding(.top, 10)
             ScrollView {
                 VStack(spacing: 16) {
-                    ForEach(dummyMenus.filter {
-                        searchText.isEmpty ? true : $0.menuName.localizedCaseInsensitiveContains(searchText)
-                    }) { menu in
+                    ForEach(viewModel.menuList.filter {
+                        searchText.isEmpty ? true : $0.foo_name.localizedCaseInsensitiveContains(searchText)
+                    }, id: \.foo_id) { menu in
                         HStack(spacing: 16) {
                             CheckBoxButton(isChecked: Binding(
-                                get: { checkedItems[menu.id] ?? false },
-                                set: { checkedItems[menu.id] = $0 }
+                                get: { checkedItems[menu.foo_id] ?? false },
+                                set: { checkedItems[menu.foo_id] = $0 }
                             ))
-                            Image("testImage")
-                                .resizable()
-                                .frame(width: 80, height: 80)
-                                .cornerRadius(8)
-                                .padding(.top, 10)
+                            AsyncImage(url: URL(string: menu.foo_img ?? "")) { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                            } placeholder: {
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.3))
+                            }
+                            .frame(width: 80, height: 80)
+                            .cornerRadius(8)
+                            .clipped()
+                            .padding(.top, 10)
                             VStack(alignment: .leading) {
-                                Text(menu.menuName)
+                                Text(menu.foo_name)
                                     .semibold18()
-                                Text("\(menu.price.formatted())원")
+                                Text("\(menu.foo_price.formatted())원")
                                     .bold14()
                             }
                             Spacer()
@@ -88,20 +82,20 @@ struct MenuChoicePage: View {
             }
             
             Button {
-                //AddReviewView페이지로 선택한 메뉴 데이터 전달해야함
+                selectedMenu = viewModel.menuList
+                    .filter { checkedItems[$0.foo_id] == true }
+                    .map { ($0.foo_id, $0.foo_name) }
+                dismiss()
             } label: {
                 Text("선택 완료")
                     .primaryButtonStyle()
                     .semibold16()
                     .frame(maxWidth: .infinity)
                     .frame(width: 362, height: 56)
+                    .padding(.leading, 20)
             }
-            .padding(.leading, 20)
         }
         .frame(height: geometry.size.height)
     }
     }
-}
-#Preview {
-    MenuChoicePage()
 }

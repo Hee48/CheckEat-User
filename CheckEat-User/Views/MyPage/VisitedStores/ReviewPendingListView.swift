@@ -14,18 +14,14 @@ struct PendingReview: Identifiable {
 }
 
 struct ReviewPendingListView: View {
-    let dummyReviews: [PendingReview] = [
-        PendingReview(storeName: "홍콩반점"),
-        PendingReview(storeName: "고등어구이전문점"),
-        PendingReview(storeName: "아비꼬")
-    ]
+    @ObservedObject var viewModel: VisitedStoreViewModel
     @State private var showAddReivew = false
     
     var body: some View {
         GeometryReader { containerGeo in
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(dummyReviews) { review in
+                    ForEach(viewModel.unreviewedStores) { store in
                         HStack(alignment: .top, spacing: 12) {
                             ZStack {
                                 Rectangle()
@@ -37,11 +33,11 @@ struct ReviewPendingListView: View {
                                     .foregroundColor(.white)
                                     .padding(20)
                             }
-                            .frame(width: 95, height: 95) 
+                            .frame(width: 95, height: 95)
                             .cornerRadius(10)
                             
                             VStack(alignment: .leading, spacing: 6) {
-                                Text(review.storeName)
+                                Text(store.sto_name)
                                     .bold18()
                                 Text("리뷰를 등록해주세요.")
                                     .medium16()
@@ -70,14 +66,15 @@ struct ReviewPendingListView: View {
                             .padding(.vertical, 10)
                     }
                 }
-                .fullScreenCover(isPresented: $showAddReivew) {
-                    AddReivewView()
-                }
+                //MARK: - 리뷰 재등록 부분 + 스토어아이디 넘겨야함 
+//                .fullScreenCover(isPresented: $showAddReivew) {
+//                    AddReivewView()
+//                }
             }
         }
     }
 }
-
-#Preview {
-    ReviewPendingListView()
-}
+//
+//#Preview {
+//    ReviewPendingListView()
+//}

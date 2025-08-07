@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct LanguageSettings: View {
+    private var selectedLanguageCode: String {
+        switch selectedLanguage {
+        case "English": return "en"
+        case "한국어": return "ko"
+        case "عربي": return "ar"
+        default: return "en" // 기본값 또는 오류 처리
+        }
+    }
     @Environment(\.dismiss) private var dismiss
     let languages = ["English", "한국어", "عربي"]
     @State private var selectedLanguage: String = "English"
+    @StateObject var viewModel = LanguageSettingsViewModel()
     var body: some View {
-        NavigationStack {
             VStack {
                 VStack(alignment: .leading) {
                     Text("언어를 선택해 주세요.")
@@ -46,7 +54,11 @@ struct LanguageSettings: View {
                 }
                 Spacer()
                 Button {
-                    
+                    viewModel.languageSettings(language: selectedLanguageCode) { success in
+                        if success {
+                            dismiss()
+                        }
+                    }
                 } label: {
                     Text("변경하기")
                         .primaryButtonStyle()
@@ -59,19 +71,5 @@ struct LanguageSettings: View {
             }
             .navigationTitle("언어 설정")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.backward")
-                            .foregroundStyle(.black)
-                    }
-                }
-            }
         }
-    }
-}
-#Preview {
-    LanguageSettings()
 }

@@ -7,18 +7,6 @@
 
 import SwiftUI
 
-enum RecommendType: String, CaseIterable, Identifiable {
-    case nonVegan = "비건 아님"
-    case vegan = "비건"
-    case lacto = "락토"
-    case ovo = "오보"
-    case lactoOvo = "락토 오보"
-    case pesco = "페스코"
-    case pollo = "폴로"
-    
-    var id: String { rawValue }
-}
-
 enum MenuRecommendType: String, CaseIterable, Identifiable {
     case like = "추천 하고 싶어요"
     case neutral = "별 생각 없어요"
@@ -33,15 +21,20 @@ enum MenuRecommendType: String, CaseIterable, Identifiable {
         case .dislike: return "😒"
         }
     }
+    var serverValue: Int {
+        switch self {
+        case .like: return 0
+        case .neutral: return 1
+        case .dislike: return 2
+        }
+    }
 }
 
 struct AddReivewView: View {
-    @State private var selectedMenu: String = ""
-    @State private var selectedType: RecommendType = .nonVegan
+    @State private var selectedType: VeganLevel = .none
     @State private var selectedRecommendation: MenuRecommendType = .like
-    @State private var showMenuOptions = false
     @State private var dislikeReasonText = ""
-    @State private var showVeganModal = false
+    @State private var likeReasonText = ""
     @State private var showReviewStopModal = false
     
     @State private var showImagePicker = false
@@ -51,9 +44,13 @@ struct AddReivewView: View {
     @State private var showMenuChoice = false
     
     @State private var selectedImages: [UIImage] = []
-    
-    
-    let menuOptions: [String] = ["연어초밥", "비건 김밥", "치킨버거", "토마토 파스타"]
+    @State private var selectedMenu: [(id: Int, name: String)] = []
+    @StateObject private var viewModel = ReviewViewModel()
+    @Binding var isPresented: Bool
+    @Binding var showCheckModal: Bool
+    @Binding var reviewQuestionPresented: Bool 
+
+    let storeId: Int
     
     var body: some View {
         ZStack {
@@ -81,6 +78,7 @@ struct AddReivewView: View {
                 AddReviewPhotoSection(
                     images: $selectedImages,
                     onAdd: {
+                        guard selectedImages.count < 4 else { return }
                         showPickerSheet = true
                     },
                     onDelete: { index in
@@ -95,160 +93,29 @@ struct AddReivewView: View {
                         .padding(.leading, 17)
                         .padding(.bottom, 2)
                     Button {
+                        viewModel.registPageStroeMenu(storeId: storeId)
                         showMenuChoice = true
                     } label: {
-                        Text("메뉴 선택하기")
-                            .regular14()
-                            .foregroundColor(.black)
-                            .padding()
-                            .frame(width: 362, height: 56)
-                            .background(RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.black, lineWidth: 1))
+                        selectedMenuTextView(selectedMenu: selectedMenu)
                     }
                     .padding(.horizontal, 17)
                 }
                 .padding(.top, 20)
                 
                 VStack(alignment: .leading, spacing: 2) {
-                    HStack {
-                        Text("어떤 사람에게 추천하시나요?")
-                            .semibold14()
-                        
-                        Button {
-                            showVeganModal = true
-                        } label: {
-                            Image(systemName: "questionmark.circle")
-                                .font(.system(size: 16))
-                                .foregroundColor(.buttonOP20)
-                            
-                        }
-                    }
-                    .padding(.top, 10)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack(spacing: 6) {
-                            ForEach(RecommendType.allCases) { type in
-                                Button {
-                                    selectedType = type
-                                } label: {
-                                    Text(type.rawValue)
-                                        .medium14()
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 8)
-                                        .background(selectedType == type ? Color.black : Color.buttonOP20)
-                                        .foregroundColor(selectedType == type ? .white : .black)
-                                        .cornerRadius(20)
-                                }
-                            }
-                        }
-                    }
-                    .frame(height: 40)
-                    .padding(.top, 10)
-                    Text("메뉴를 추천하시나요?")
-                        .semibold14()
+                    VeganTypeSelectorView(selectedType: $selectedType)
+                        .frame(height: 40)
                         .padding(.top, 20)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack(spacing: 6) {
-                            ForEach(MenuRecommendType.allCases) { type in
-                                Button {
-                                    selectedRecommendation = type
-                                } label: {
-                                    HStack {
-                                        Text(type.emoji)
-                                        Text(type.rawValue)
-                                    }
-                                    .medium14()
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 8)
-                                    .background(selectedRecommendation == type ? Color.black : Color.gray.opacity(0.1))
-                                    .foregroundColor(selectedRecommendation == type ? .white : .black)
-                                    .cornerRadius(20)
-                                }
-                            }
-                        }
-                    }
-                    .frame(height: 40)
-                    .padding(.top, 10)
-                    if selectedRecommendation == .dislike {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("추천 하고 싶지 않은 이유를 알려주세요(필수)")
-                                .semibold14()
-                                .foregroundColor(.black)
-                                .padding(.leading, 4)
-                            
-                            TextField("간단히 작성", text: $dislikeReasonText)
-                                .regular14()
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color.gray.opacity(0.4), lineWidth: 1)
-                                )
-                        }
-                        
-                        .padding(.top, 20)
-                    }
-                    if selectedRecommendation == .like {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("추천 하고 싶은 이유를 알려주세요(선택)")
-                                .semibold14()
-                                .foregroundColor(.black)
-                                .padding(.leading, 4)
-                            
-                            TextField("간단히 작성", text: $dislikeReasonText)
-                                .regular14()
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color.gray.opacity(0.4), lineWidth: 1)
-                                )
-                        }
-                        
-                        .padding(.top, 20)
-                    }
+                    RecommendationSectionView(
+                        selectedRecommendation: $selectedRecommendation,
+                        likeReasonText: $likeReasonText,
+                        dislikeReasonText: $dislikeReasonText
+                    )
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 5)
                 Spacer()
-                Button {
-                    //서버에 리뷰 등록시키기
-                } label: {
-                    Text("리뷰 등록")
-                        .primaryButtonStyle()
-                        .semibold16()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 56)
-                }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 30)
-            }
-            if showMenuOptions {
-                VStack(spacing: 0) {
-                    ForEach(menuOptions, id: \.self) { option in
-                        Button {
-                            selectedMenu = option
-                            withAnimation {
-                                showMenuOptions = false
-                            }
-                        } label: {
-                            HStack {
-                                Text(option)
-                                    .regular14()
-                                    .foregroundColor(.black)
-                                Spacer()
-                            }
-                            .padding()
-                            .background(Color.white)
-                        }
-                        Divider()
-                    }
-                }
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.white)
-                        .shadow(radius: 4)
-                )
-                .padding(.horizontal, 17)
-                .offset(y: 60)
-                .zIndex(1)
+                registerButton
             }
             
             if showReviewStopModal {
@@ -286,22 +153,117 @@ struct AddReivewView: View {
             )
         }
         .sheet(isPresented: $showImagePicker) {
-            ImagePicker(sourceType: imagePickerSource, selectedImage: $selectedImage)
+            ImagePicker(
+                sourceType: imagePickerSource,
+                selectedImage: $selectedImage,
+                selectedImages: $selectedImages
+            )
+            .onDisappear {
+                if selectedImages.count > 4 {
+                    selectedImages = Array(selectedImages.prefix(4))
+                }
+            }
         }
         .onChange(of: selectedImage) { newImage in
-            if let image = newImage {
+            if let image = newImage, selectedImages.count < 4 {
                 selectedImages.append(image)
             }
         }
-        .sheet(isPresented: $showVeganModal) {
-            VeganModal()
-                .presentationDetents([.height(450)])
-        }
         .fullScreenCover(isPresented: $showMenuChoice) {
-            MenuChoicePage()
+            MenuChoicePage(selectedMenu: $selectedMenu)
+                .environmentObject(viewModel)
+        }
+        .onReceive(viewModel.$registerSuccess) { success in
+            if success {
+                isPresented = false
+                showCheckModal = false
+                
+            }
         }
     }
+    
+    private var registerButton: some View {
+        RegisterButtonView(
+            selectedType: selectedType,
+            selectedRecommendation: selectedRecommendation,
+            dislikeReasonText: dislikeReasonText,
+            likeReasonText: likeReasonText,
+            selectedMenu: selectedMenu,
+            storeId: storeId,
+            viewModel: viewModel,
+            selectedImages: selectedImages
+        )
+    }
 }
-#Preview {
-    AddReivewView()
+private func selectedMenuTextView(selectedMenu: [(id: Int, name: String)]) -> some View {
+    let text: String
+    if selectedMenu.isEmpty {
+        text = "메뉴 선택하기"
+    } else {
+        text = selectedMenu.map { $0.name }.joined(separator: ", ")
+    }
+    return Text(text)
+        .regular14()
+        .foregroundColor(.black)
+        .padding()
+        .frame(width: 362, height: 56)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(Color.black, lineWidth: 1)
+        )
 }
+
+private struct RegisterButtonView: View {
+    let selectedType: VeganLevel
+    let selectedRecommendation: MenuRecommendType
+    let dislikeReasonText: String
+    let likeReasonText: String
+    let selectedMenu: [(id: Int, name: String)]
+    let storeId: Int
+    let viewModel: ReviewViewModel
+    let selectedImages: [UIImage]
+    
+    var body: some View {
+        Button {
+            let veganLevel = selectedType.rawValue
+            let recommendation = selectedRecommendation.serverValue
+            let dislikeReason = dislikeReasonText.trimmingCharacters(in: .whitespacesAndNewlines)
+            let likeReason = likeReasonText.trimmingCharacters(in: .whitespacesAndNewlines)
+            let reviewContent = selectedRecommendation == .dislike ? dislikeReason : likeReason
+            let foodIDs = selectedMenu.map { $0.id }
+            
+            
+            // ✅ 디버깅용 프린트
+            print("👉 보내는 데이터:")
+            print("foodIDs: \(foodIDs)")
+            print("storeID: \(storeId)")
+            print("reviewContent: \(reviewContent)")
+            print("veganLevel: \(veganLevel)")
+            print("recommendStep: \(recommendation)")
+            print("status: 0")
+            print("images count:", selectedImages.count)
+            
+            viewModel.registerReview(
+                foodIDs: foodIDs,
+                storeID: storeId,
+                reviewContent: reviewContent,
+                veganLevel: veganLevel,
+                recommendStep: recommendation,
+                status: 0,
+                images: selectedImages
+            )
+        } label: {
+            Text("리뷰 등록")
+                .primaryButtonStyle()
+                .semibold16()
+                .frame(maxWidth: .infinity)
+                .frame(height: 56)
+        }
+        .padding(.horizontal, 20)
+        .padding(.bottom, 30)
+    }
+}
+//
+//#Preview {
+//    AddReivewView(storeId: 4)
+//}
