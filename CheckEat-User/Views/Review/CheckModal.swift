@@ -15,6 +15,8 @@ struct CheckModal: View {
     @State private var showReviewQuestion = false
     @State private var showReviewFailed = false
     @EnvironmentObject var viewModel: ReviewViewModel
+    @Binding var reviewPath: [ReviewPath]
+    @Binding var isReviewFlowActive: Bool
     @Binding var isPresented: Bool
     var body: some View {
         VStack {
@@ -52,8 +54,10 @@ struct CheckModal: View {
                 Button {
                     viewModel.checkCanWriteReview(storeName: storeName, storeAddress: storeAddress)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        if viewModel.canWrite {
-                            showReviewQuestion = true
+                        if viewModel.canWrite, let storeId = viewModel.storeId {
+                            reviewPath.append(.reviewQuestionView(storeId: storeId))
+                            isReviewFlowActive = true
+                            showCheckModal = false
                         } else {
                             showReviewFailed = true
                         }
@@ -71,11 +75,7 @@ struct CheckModal: View {
             .padding(.bottom, 30)
         }
         .padding(.trailing, 15)
-        .fullScreenCover(isPresented: $showReviewQuestion) {
-            if let storeId = viewModel.storeId {
-                ReviewQuestionView(storeId: storeId, showCheckModal: $showCheckModal, isPresented: $isPresented)
-            }
-        }
+
         .fullScreenCover(isPresented: $showReviewFailed) {
             ReviewFailed(showCheckModal: $showCheckModal)
         }

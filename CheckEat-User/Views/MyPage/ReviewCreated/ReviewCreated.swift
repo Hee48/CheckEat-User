@@ -8,35 +8,42 @@
 import SwiftUI
 
 struct ReviewCreated:View {
-    let dummyReviews = [
-        (   menuImage: "testImage",
-            storeName: "홍콩반점",
-            veganType: "비건",
-            recommendation: "추천 하고 싶어요",
-        ),
-        (   menuImage: "testImage",
-            storeName: "똥글뱅이",
-            veganType: "비건아님",
-            recommendation: "별 생각 없어요",
-        ),
-        (   menuImage: "testImage",
-            storeName: "게시고무",
-            veganType: "오보",
-            recommendation: "추천 하고 싶지 않아요",
-        )
-    ]
 
+    @ObservedObject var viewModel: VisitedStoreViewModel
     @Environment(\.dismiss) private var dismiss
     var body: some View {
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(dummyReviews.indices, id: \.self) { index in
-                        let review = dummyReviews[index]
+                    ForEach(viewModel.myReviews, id: \.revi_id) { review in
                         HStack(alignment: .top, spacing: 12) {
-                            Image(review.menuImage)
+                            if let imageUrlString = review.images.first,
+                               let url = URL(string: imageUrlString) {
+                                AsyncImage(url: url) { image in
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                } placeholder: {
+                                    Rectangle().foregroundColor(.gray.opacity(0.2))
+                                }
                                 .frame(width: 95, height: 95)
+                                .cornerRadius(10)
+                                .clipped()
+                            } else {
+                                ZStack {
+                                    Rectangle()
+                                        .fill(Color("Button_OP20"))
+                                    Image(systemName: "camera.fill")
+                                        .resizable()
+                                        .frame(width: 40, height: 30)
+                                        .scaledToFit()
+                                        .foregroundColor(.white)
+                                        .padding(20)
+                                }
+                                .frame(width: 95, height: 95)
+                                .cornerRadius(10)
+                            }
                             VStack(alignment: .leading, spacing: 6) {
-                                Text(review.storeName)
+                                Text(review.store.sto_name)
                                     .bold20()
                                 HStack {
                                     Image(systemName: "exclamationmark.circle.fill")
@@ -44,7 +51,7 @@ struct ReviewCreated:View {
                                     Text("추천대상")
                                         .foregroundColor(.buttonOP20)
                                         .medium12()
-                                    Text(review.veganType)
+                                    Text(VeganLevel(rawValue: review.revi_reco_vegan)?.description ?? "비건 아님")
                                         .medium12()
                                 }
                                 .padding(.top, 20)
@@ -54,7 +61,7 @@ struct ReviewCreated:View {
                                     Text("추천")
                                         .foregroundColor(.buttonOP20)
                                         .medium12()
-                                    Text(review.recommendation)
+                                    Text(recommendText(for: review.revi_reco_step))
                                         .medium12()
                                 }
                             }
@@ -74,9 +81,18 @@ struct ReviewCreated:View {
             .padding(.top, 20)
             .navigationTitle("작성한 리뷰")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                viewModel.fetchReviewedStores()
+            }
         }
     }
-}
-#Preview {
-    ReviewCreated()
+    
+    func recommendText(for step: Int) -> String {
+        switch step {
+        case 0: return "추천 하고 싶어요"
+        case 1: return "별 생각 없어요"
+        case 2: return "추천 하고 싶지 않아요"
+        default: return ""
+        }
+    }
 }

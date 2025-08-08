@@ -104,7 +104,7 @@ struct LoginView: View {
                                 .foregroundStyle(.buttonOP50)
                         }
                         .fullScreenCover(isPresented: $showFindPwd) {
-                            FindPwdView(showFindPw: $showFindPwd)
+                            FindPwdView(showFindPwd: $showFindPwd)
                         }
                         Spacer()
                     }

@@ -11,12 +11,20 @@ enum Tab {
     case home, review, myPage
 }
 
+enum ReviewPath: Hashable {
+    case checkModal
+    case reviewQuestionView(storeId: Int)
+    case addReivewView(storeId: Int)
+}
+
 struct CustomTabBarView: View {
     @Binding var selectedTab: Tab
     @State private var showLogin = false
     @State private var intendedTab: Tab?
     @EnvironmentObject var authViewModel: AuthViewModel
-    
+    @State var reviewPath: [ReviewPath] = []
+    @State var isReviewFlowActive: Bool = false
+
     var body: some View {
         HStack {
             tabItem(image: "Home", title: "홈", tab: .home)

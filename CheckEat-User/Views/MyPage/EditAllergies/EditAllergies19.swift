@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct EditAllergies19: View {
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.presentationMode) private var presentationMode
     var onSubmit: (_ selectedAllergens: [Int], _ customText: String) -> Void
     @State private var allergy: String
-    @State private var selectedAllergens: Set<Int> = []
+    @State private var selectedAllergens: [Int] = []
+    @StateObject var viewModel = EditAllergiesViewModel()
     @Binding var path: NavigationPath
     init(
         allergy: String,
@@ -68,9 +68,12 @@ struct EditAllergies19: View {
                                             get: { selectedAllergens.contains(item.id)},
                                             set: { newValue in
                                                 if newValue {
-                                                    selectedAllergens.insert(item.id)
+                                                    if !selectedAllergens.contains(item.id) {
+                                                        selectedAllergens.append(item.id)
+                                                        selectedAllergens.sort()
+                                                    }
                                                 } else {
-                                                    selectedAllergens.remove(item.id)
+                                                    selectedAllergens.removeAll(where: { $0 == item.id })
                                                 }
                                             }
                                         )
@@ -88,15 +91,19 @@ struct EditAllergies19: View {
                 .padding(.top, 20)
                 
                 Button {
-                    onSubmit(Array(selectedAllergens), allergy.trimmingCharacters(in: .whitespacesAndNewlines))
-                    path = NavigationPath()
-
+                    onSubmit(selectedAllergens, allergy.trimmingCharacters(in: .whitespacesAndNewlines))
+                    viewModel.editAllergies(commonIDs: selectedAllergens, personalAllergy: allergy)
                 } label: {
                     Text("완료")
                         .primaryButtonStyle(isEnabled: true)
                         .padding(.horizontal, 20)
                 }
                 .padding(.top, 20)
+                .onChange(of: viewModel.isSuccess) { isSuccess in
+                    if isSuccess {
+                        path = NavigationPath()
+                    }
+                }
                 
                 Spacer()
 
@@ -108,6 +115,3 @@ struct EditAllergies19: View {
         }
 
 }
-//#Preview {
-//    EditAllergies19(allergy: "") { _, _ in }
-//}

@@ -44,7 +44,7 @@ struct FindIDComplete: View {
                 }
             }
             .fullScreenCover(isPresented: $goToFindPwd) {
-                FindPwdView(showFindPw: $showFindPw)
+                FindPwdView(showFindPwd: $showFindPw)
             }
             .padding(.vertical)
             

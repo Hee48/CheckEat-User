@@ -34,6 +34,7 @@ struct MyPageView: View {
     @StateObject private var deleteViewModel = DeleteViewModel()
     @StateObject var storeMapViewModel = StoreMapViewModel()
     @StateObject private var myPageViewModel = MyPageViewModel()
+    @StateObject private var reviewCompletedViewModel = VisitedStoreViewModel()
     @Binding var selectedTab: Tab
     @State private var cancellables = Set<AnyCancellable>()
     
@@ -143,7 +144,7 @@ struct MyPageView: View {
         }
         .hidden()
         NavigationLink(
-            destination: ReviewCreated(),
+            destination: ReviewCreated(viewModel: reviewCompletedViewModel),
             isActive: Binding(
                 get: { showReviewCreated },
                 set: { showReviewCreated = $0 }
@@ -154,8 +155,6 @@ struct MyPageView: View {
         .hidden()
         NavigationLink(
             destination: EditAllergiesView(
-                selectedAllergyIDs: [1, 3, 7],
-                customAllergyText: "송충이털",
                 onConfirm: { ids, text in },
                 path: .constant(NavigationPath()),
                 isPresented: $showEditAllergies

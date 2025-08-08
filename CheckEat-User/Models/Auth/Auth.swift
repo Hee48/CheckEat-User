@@ -135,17 +135,17 @@ enum VeganLevel: Int, CaseIterable, Identifiable {
         case .none:
             return "비건 아님"
         case .level1:
-            return "폴로 베지테리언"
+            return "폴로"
         case .level2:
-            return "페스코 베지테리언"
+            return "페스코"
         case .level3:
-            return "락토 오보 베지테리언"
+            return "락토 오보"
         case .level4:
-            return "오보 베지테리언"
+            return "오보"
         case .level5:
-            return "락토 베지테리언"
+            return "락토"
         case .level6:
-            return "비건 베지테리언"
+            return "비건"
         }
     }
 }

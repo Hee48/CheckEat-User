@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ChangePasswordCompleteView: View {
-
-    @Binding var showFindPw: Bool
-    @Binding var findPath: [FindPwdPath]
+    
+    // MARK: 스크린 상태 값
+    @Binding var showFindPwd: Bool
+    // MARK: 하위 경로 스택
+    @State var path: [FindPwdRoute] = []
+    
     var body: some View {
         
         VStack(spacing: 8) {
@@ -27,19 +30,19 @@ struct ChangePasswordCompleteView: View {
             .bold20()
             
             Button {
-                findPath.removeAll()
-                showFindPw = false
+                showFindPwd = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                    path.removeAll()
+                }
             } label: {
                 Text("로그인")
                     .primaryButtonStyle()
                     .semibold16()
                     .padding(.vertical, 24)
             }
-         
         }
         .padding()
         .padding(.bottom, 200)
         .navigationBarBackButtonHidden(true)
-        .navigationBarHidden(true)
     }
 }

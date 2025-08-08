@@ -8,26 +8,17 @@
 import SwiftUI
 
 struct ReviewQuestionView:View {
+ 
     @Environment(\.dismiss) private var dismiss
     let storeId: Int
-    @State private var showReviewPage = false
+//    @State private var showReviewPage = false
     @Binding var showCheckModal: Bool
     @StateObject private var viewModel = ReviewViewModel()
     @Binding var isPresented: Bool
+    @Binding var reviewPath: [ReviewPath]
+    @Binding var isReviewFlowActive: Bool
     var body: some View {
         VStack {
-            ZStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image("xmark")
-                    }
-                    .padding(.trailing, 15)
-                }
-            }
-            .frame(height: 44)
             Spacer()
             
             Image("QuestionMark")
@@ -65,7 +56,7 @@ struct ReviewQuestionView:View {
                         )
                 }
                 Button {
-                    showReviewPage = true
+                    reviewPath.append(.addReivewView(storeId: storeId))
                 } label: {
                     Text("리뷰등록")
                         .foregroundStyle(Color.white)
@@ -78,14 +69,8 @@ struct ReviewQuestionView:View {
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 30)
-            .fullScreenCover(isPresented: $showReviewPage) {
-                AddReivewView(
-                    isPresented: $showReviewPage,
-                    showCheckModal: $showCheckModal, reviewQuestionPresented: $isPresented,
-                    storeId: storeId
-                )
-            }
         }
+        .navigationBarBackButtonHidden(true)
         .onChange(of: viewModel.registerSuccess) { success in
             if success {
                 DispatchQueue.main.async {
@@ -98,6 +83,3 @@ struct ReviewQuestionView:View {
     }
     
 }
-//#Preview {
-//    ReviewQuestionView()
-//}

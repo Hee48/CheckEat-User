@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct EditAllergiesView: View {
-    let selectedAllergyIDs: [Int]
-    let customAllergyText: String
+    @State private var allergyIDs: [Int] = []
+    @State private var customAllergy: String = ""
     var onConfirm: (_ ids: [Int], _ text: String) -> Void
     @Binding var path: NavigationPath
     @Environment(\.dismiss) private var dismiss
     @State private var showEditAllergies19 = false
     @State private var shouldDismiss = false
     @Binding var isPresented: Bool
+    @StateObject private var myPageViewModel = MyPageViewModel()
     let allergenDataList: [(id: Int, name: String, imageName: String)] = [
         (1, "난류", "Egg"),
         (2, "우유", "Milk"),
@@ -47,10 +48,27 @@ struct EditAllergiesView: View {
                     .regular16()
                     .padding(.top, 20)
             }
+            .onAppear {
+                if let allergy = myPageViewModel.loadAllergiesFromToken() {
+                    let ids = allergy.commonAllergies.map { $0.coal_id }
+                    print("📦 토큰에서 받아온 allergyIDs: \(ids)")
+                    
+                    for id in ids {
+                        if let matched = allergenDataList.first(where: { $0.id == id }) {
+                            print("✅ 매칭됨: \(matched.name)")
+                        } else {
+                            print("❌ 매칭 실패: \(id)")
+                        }
+                    }
+
+                    allergyIDs = ids
+                    customAllergy = allergy.directAllergy
+                }
+            }
             ScrollView {
-                if !selectedAllergyIDs.isEmpty {
+                if !allergyIDs.isEmpty {
                     LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 16), count: 3), spacing: 16) {
-                        ForEach(selectedAllergyIDs, id: \.self) { id in
+                        ForEach(allergyIDs, id: \.self) { id in
                             if let item = allergenDataList.first(where: { $0.id == id }) {
                                 ZStack(alignment: .topTrailing) {
                                     ZStack(alignment: .center) {
@@ -83,11 +101,11 @@ struct EditAllergiesView: View {
                 
                 
                 VStack(alignment: .leading) {
-                    if !customAllergyText.trimmingCharacters(in: .whitespaces).isEmpty {
+                    if !customAllergy.trimmingCharacters(in: .whitespaces).isEmpty {
                         Text("나의 알러지 정보")
                             .semibold14()
                             .padding(.top, 20)
-                        Text(customAllergyText)
+                        Text(customAllergy)
                             .regular14()
                             .padding(.top, 10)
                     }
@@ -132,7 +150,3 @@ struct EditAllergiesView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
     }
-
-//#Preview {
-//    EditAllergiesView(selectedAllergyIDs: [2, 4, 7], customAllergyText: "납작복숭아,송충이털", onConfirm: {ids,text in })
-//}

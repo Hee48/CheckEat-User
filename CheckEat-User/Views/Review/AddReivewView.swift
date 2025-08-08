@@ -48,7 +48,8 @@ struct AddReivewView: View {
     @StateObject private var viewModel = ReviewViewModel()
     @Binding var isPresented: Bool
     @Binding var showCheckModal: Bool
-    @Binding var reviewQuestionPresented: Bool 
+    @Binding var reviewPath: [ReviewPath]
+    @Binding var isReviewFlowActive: Bool
 
     let storeId: Int
     
@@ -177,6 +178,8 @@ struct AddReivewView: View {
             if success {
                 isPresented = false
                 showCheckModal = false
+                reviewPath.removeAll()
+                isReviewFlowActive = false
                 
             }
         }
@@ -263,7 +266,3 @@ private struct RegisterButtonView: View {
         .padding(.bottom, 30)
     }
 }
-//
-//#Preview {
-//    AddReivewView(storeId: 4)
-//}
