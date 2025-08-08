@@ -6,6 +6,4 @@
 
 import Foundation
 
-enum API {
 
-}

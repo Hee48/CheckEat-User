@@ -9,8 +9,10 @@ import SwiftUI
 
 struct FindIDComplete: View {
     let userID: String
-    @State var goToLogin: Bool = false
     @State var goToFindPwd: Bool = false
+    @Binding var showFindId: Bool
+    @Binding var showFindPw: Bool
+    
     var body: some View {
         
         VStack(spacing: 8) {
@@ -42,28 +44,23 @@ struct FindIDComplete: View {
                 }
             }
             .fullScreenCover(isPresented: $goToFindPwd) {
-                FindPwdView()
+                FindPwdView(showFindPwd: $showFindPw)
             }
             .padding(.vertical)
             
             Button {
-                goToLogin = true
+                showFindId = false
             } label: {
                 Text("로그인")
                     .primaryButtonStyle()
                     .semibold16()
             }
-            .fullScreenCover(isPresented: $goToLogin) {
-                LoginView()
-            }
             .padding(.vertical, 8)
         }
         .padding()
         .padding(.bottom, 200)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(true)
     }
     
 }
-
-//#Preview {
-//    FindIDComplete(userID: "test1234")
-//}

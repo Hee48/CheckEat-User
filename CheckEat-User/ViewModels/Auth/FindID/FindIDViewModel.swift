@@ -9,17 +9,19 @@ import Foundation
 import Alamofire
 import Combine
 
+
 class FindIDViewModel: ObservableObject {
     
-    @Published var findIdTokenSuccess: Bool? = nil
-    @Published var foundUserId: String? = nil
+    @Published var findIdTokenSuccess: Bool = false
+    @Published var foundUserId: String = ""
+    @Published var languageCode: String = Locale.preferredLanguages.first?.components(separatedBy: "-").first ?? "ko"
     
     private var cancellables = Set<AnyCancellable>()
     
     func findId(email: String, language: String) {
-        let findIdData = FindIdTokenRequest(email: email, language: "ko")
+        let findIdData = FindIdTokenRequest(email: email, language: languageCode)
         
-        AF.request(API.FindIdURL, method: .post, parameters: findIdData, encoder: JSONParameterEncoder.default)
+        AF.request(AuthAPI.findIdURL, method: .post, parameters: findIdData, encoder: JSONParameterEncoder.default)
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
@@ -31,27 +33,24 @@ class FindIDViewModel: ObservableObject {
             }
     }
     
-    func checkFindId(email: String, token: String) {
+    func checkFindId(email: String, token: String, completion: @escaping (Bool) -> Void) {
         let checkTokenData = CheckIdTokenRequest(email: email, token: token)
- 
-        AF.request(API.FindIdTokenURL, method: .post, parameters: checkTokenData, encoder: JSONParameterEncoder.default)
+
+        AF.request(AuthAPI.findIdTokenURL, method: .post, parameters: checkTokenData, encoder: JSONParameterEncoder.default)
             .validate(statusCode: 200..<300)
-            .publishDecodable(type: CheckIdTokenResponse.self)
-            .value()
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
+            .responseDecodable(of: CheckIdTokenResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    print("아이디 찾기 토큰 인증성공 ✅")
+                    self.findIdTokenSuccess = true
+                    self.foundUserId = data.log_id.ld_log_id
+                    completion(true)
                 case .failure(let error):
                     print("토큰 확인 실패 ❌❌❌ \(error.localizedDescription)")
-                case .finished:
-                    break
+                    self.findIdTokenSuccess = false
+                    completion(false)
                 }
-            } receiveValue: { data in
-                print("아이디 찾기 토큰 인증성공 ✅")
-                self.findIdTokenSuccess = true
-                self.foundUserId = data.log_id.ld_log_id
             }
-            .store(in: &cancellables)
     }
 
 }

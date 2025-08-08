@@ -14,7 +14,8 @@ struct ContactVerificationSection: View {
     @Binding var verificationCode: String
     @Binding var didSendCode: Bool
 //    private let correctAuthCode = "1234"
-//    @State private var isVerificationCodeValid: Bool = false
+    @State private var isVerificationCodeValid: Bool = true
+    @State private var showCodeErrorMessage: Bool = false
     @State private var hasSentOnce: Bool = false
     @ObservedObject var viewModel: RegisterViewModel
     @Binding var selectedVeganType: VeganLevel
@@ -65,14 +66,14 @@ struct ContactVerificationSection: View {
                 ZStack(alignment: .trailing) {
                     UnderLinedTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
                         .regular14()
-                        .padding(.leading, 17)
+                        .padding(.horizontal, 20)
                         .padding(.top, 5)
-//                        .onChange(of: verificationCode) { newValue in
-//                            isVerificationCodeValid = (newValue == correctAuthCode)
-//                        }
                     Button {
                         //인증코드 인증부분
-                        viewModel.verifyEmailToken(email: email, token: verificationCode)
+                        viewModel.verifyEmailToken(email: email, token: verificationCode) { isSuccess in
+                            isVerificationCodeValid = isSuccess
+                            showCodeErrorMessage = !isSuccess
+                        }
                     } label: {
                         Text("인증하기")
                             .frame(width: 97, height: 34)
@@ -83,6 +84,13 @@ struct ContactVerificationSection: View {
                             .padding(.bottom, 13)
                             .padding(.trailing, 20)
                     }
+                }
+                if showCodeErrorMessage {
+                    Text("잘못된 코드입니다. 다시 시도해 주세요.")
+                        .foregroundColor(.red)
+                        .font(.system(size: 12))
+                        .padding(.leading, 17)
+                        .padding(.top, 2)
                 }
             }
         }

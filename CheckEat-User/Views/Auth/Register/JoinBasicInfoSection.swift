@@ -66,7 +66,7 @@ struct JoinBasicInfoSection: View {
                     }
                 }
                 .font(.system(size: 14))
-                .padding(.leading, 17)
+                .padding(.horizontal, 20)
 
                 .focused($isPasswordFocused)
                 .frame(height: 36)
@@ -84,7 +84,7 @@ struct JoinBasicInfoSection: View {
                 }
             }
             Rectangle()
-                .frame(width: 362, height: 1)
+                .frame(width: 356, height: 1)
                 .padding(.leading, 17)
                 .foregroundColor(isPasswordFocused || !password.isEmpty ? .black : Color(red: 0.85, green: 0.85, blue: 0.85))
                 .animation(.easeInOut(duration: 0.1), value: isPasswordFocused)
@@ -118,7 +118,7 @@ struct JoinBasicInfoSection: View {
                     }
                 }
                 .font(.system(size: 14))
-                .padding(.leading, 17)
+                .padding(.horizontal, 20)
                 .padding(.top, 5)
                 .focused($isPasswordConfirmFocused)
                 .frame(height: 40)
@@ -132,7 +132,7 @@ struct JoinBasicInfoSection: View {
                 }
             }
             Rectangle()
-                .frame(width: 362, height: 1)
+                .frame(width: 356, height: 1)
                 .padding(.leading, 17)
                 .foregroundColor(isPasswordConfirmFocused || !passwordConfirm.isEmpty ? .black : Color(red: 0.85, green: 0.85, blue: 0.85))
                 .animation(.easeInOut(duration: 0.1), value: isPasswordConfirmFocused)

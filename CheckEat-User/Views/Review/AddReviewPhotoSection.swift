@@ -25,7 +25,7 @@ struct AddReviewPhotoSection: View {
                             .font(.system(size: 24))
                             .foregroundColor(.gray)
                             .frame(width: 40, height: 40)
-                        Text("\(images.count) / 10")
+                        Text("\(images.count) / 4")
                             .font(.caption)
                             .foregroundColor(.gray)
                     }

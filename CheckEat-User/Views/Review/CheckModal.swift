@@ -8,26 +8,34 @@
 import SwiftUI
 
 struct CheckModal: View {
-    let storeName: String
-    let storeAddress: String
+    @Binding var showCheckModal: Bool
+    @Binding var storeName: String
+    @Binding var storeAddress: String
+    @Binding var showOCRView: Bool
     @State private var showReviewQuestion = false
+    @State private var showReviewFailed = false
+    @EnvironmentObject var viewModel: ReviewViewModel
+    @Binding var reviewPath: [ReviewPath]
+    @Binding var isReviewFlowActive: Bool
+    @Binding var isPresented: Bool
     var body: some View {
         VStack {
             Spacer()
-
+            
             VStack(alignment: .center) {
-                Text(storeName)
+                Text("가게명 : \(storeName) ")
                     .bold20()
-                Text(storeAddress)
+                Text("주소 : \(storeAddress) ")
                     .medium16()
                     .padding(.top, 20)
             }
-
+            
             Spacer()
-
+            
             HStack {
                 Button {
-                    //재스캔 시키기
+                    showCheckModal = false
+                    showOCRView = true
                 } label: {
                     Text("다릅니다")
                         .foregroundStyle(Color.buttonEnable)
@@ -42,9 +50,18 @@ struct CheckModal: View {
                         )
                 }
                 .padding()
-
+                
                 Button {
-                   showReviewQuestion = true
+                    viewModel.checkCanWriteReview(storeName: storeName, storeAddress: storeAddress)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        if viewModel.canWrite, let storeId = viewModel.storeId {
+                            reviewPath.append(.reviewQuestionView(storeId: storeId))
+                            isReviewFlowActive = true
+                            showCheckModal = false
+                        } else {
+                            showReviewFailed = true
+                        }
+                    }
                 } label: {
                     Text("맞습니다")
                         .foregroundStyle(Color.white)
@@ -57,12 +74,11 @@ struct CheckModal: View {
             }
             .padding(.bottom, 30)
         }
-        .fullScreenCover(isPresented: $showReviewQuestion, content: {
-            ReviewQuestionView()
-        })
+        .padding(.trailing, 15)
+
+        .fullScreenCover(isPresented: $showReviewFailed) {
+            ReviewFailed(showCheckModal: $showCheckModal)
+        }
         .frame(maxHeight: .infinity, alignment: .top)
     }
-}
-#Preview {
-    CheckModal(storeName: "슈의 초밥가게", storeAddress: "서울특별시 강남구 테헤란로 1~19")
 }

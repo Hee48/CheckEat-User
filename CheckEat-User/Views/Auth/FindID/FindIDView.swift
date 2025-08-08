@@ -7,17 +7,20 @@
 
 import SwiftUI
 
+enum FindIDPath: Hashable {
+    case findIdComplete(userID: String)
+}
+
 struct FindIDView: View {
     
     @State private var userEmail: String = ""
     @State private var authCode: String = ""
     @State private var infoMsg = "가입시 등록하신 이메일을 입력해주세요."
+    @State private var showCodeErrorMessage: Bool = false
     
     @State private var isFieldVisible: Bool = false
     @State private var authCodeIsValid: Bool? = nil
     @State private var isEmailValid: Bool = false
-    @State private var goFindIDComplete = false
-    @State private var goToLogin: Bool = false
     
     @State private var timeRemaining = 30
     @State private var timerActive: Bool = false
@@ -26,6 +29,8 @@ struct FindIDView: View {
     @StateObject private var viewModel = FindIDViewModel()
     
     @Environment(\.dismiss) private var dismiss
+    @State private var findPath: [FindIDPath] = []
+    @Binding var showFindId: Bool
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -39,7 +44,7 @@ struct FindIDView: View {
     
     var body: some View {
         
-        NavigationStack {
+        NavigationStack(path: $findPath) {
             ZStack {
                 ScrollView {
                     VStack(alignment: .leading) {
@@ -77,6 +82,14 @@ struct FindIDView: View {
                             }
                         }
                     }
+                    .navigationDestination(for: FindIDPath.self) { path in
+                        switch path {
+                        case .findIdComplete(let userID):
+                            FindIDComplete(userID: viewModel.foundUserId, showFindId: $showFindId, showFindPw: .constant(false))
+                        default:
+                            EmptyView()
+                        }
+                    }
                     
                     VStack {
                         Group {
@@ -102,7 +115,7 @@ struct FindIDView: View {
                                         .regular14()
                                         .focused($fieldIsFocused)
                                     
-                                    if authCodeIsValid == false {
+                                    if showCodeErrorMessage {
                                         VStack(alignment: .leading) {
                                             Text("잘못된 코드입니다. 다시 시도해주세요.")
                                                 .regular12()
@@ -147,26 +160,21 @@ struct FindIDView: View {
                                 }
                                 HStack {
                                     Button {
-                                        viewModel.checkFindId(email: userEmail, token: authCode)
+                                        showCodeErrorMessage = false
+                                        viewModel.checkFindId(email: userEmail, token: authCode) { success in
+                                            if success {
+                                                findPath.append(.findIdComplete(userID: viewModel.foundUserId))
+                                            } else {
+                                                showCodeErrorMessage = true
+                                            }
+                                        }
                                     } label: {
                                         Text("완료")
                                             .primaryButtonStyle(isEnabled: canRequestAuthCode)
                                             .semibold16()
                                     }
                                     .disabled(authCode.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                                    .onChange(of: viewModel.findIdTokenSuccess) { newValue in
-                                        if newValue == true {
-                                            authCodeIsValid = true
-                                            goFindIDComplete = true
-                                        } else if newValue == false {
-                                            authCodeIsValid = false
-                                        }
-                                    }
-                                    .fullScreenCover(isPresented: $goFindIDComplete) {
-                                        if let userID = viewModel.foundUserId {
-                                            FindIDComplete(userID: userID)
-                                        }
-                                    }
+                                   
                                 }
                             }
                         }
@@ -185,15 +193,12 @@ struct FindIDView: View {
                             Text("아이디가 기억나셨나요?")
                                 .regular14()
                             Button {
-                                goToLogin = true
+                               dismiss()
                             } label: {
                                 Text("로그인")
                                     .semibold14()
                                     .foregroundStyle(.buttonAuth)
                             }
-                        }
-                        .fullScreenCover(isPresented: $goToLogin) {
-                            LoginView()
                         }
                     }
                     .padding(.bottom)
@@ -234,7 +239,3 @@ struct FindIDView: View {
         isEmailValid = emailPredicate.evaluate(with: email)
     }
 }
-
-//#Preview {
-//    FindIDView()
-//}

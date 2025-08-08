@@ -6,13 +6,25 @@
 //
 import SwiftUI
 
+
+enum Tab {
+    case home, review, myPage
+}
+
+enum ReviewPath: Hashable {
+    case checkModal
+    case reviewQuestionView(storeId: Int)
+    case addReivewView(storeId: Int)
+}
+
 struct CustomTabBarView: View {
     @Binding var selectedTab: Tab
-    
-    enum Tab {
-        case home, review, myPage
-    }
-    
+    @State private var showLogin = false
+    @State private var intendedTab: Tab?
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @State var reviewPath: [ReviewPath] = []
+    @State var isReviewFlowActive: Bool = false
+
     var body: some View {
         HStack {
             tabItem(image: "Home", title: "홈", tab: .home)
@@ -26,11 +38,28 @@ struct CustomTabBarView: View {
         .padding(.horizontal, 16)
         .background(Color.white)
         .shadow(color: Color.black.opacity(0.1), radius: 8, y: -2)
+        .fullScreenCover(isPresented: $showLogin) {
+            LoginView {
+                if let tab = intendedTab {
+                    selectedTab = tab
+                }
+                showLogin = false
+            }
+        }
     }
-    
     private func tabItem(image: String, title: String, tab: Tab) -> some View {
         Button {
-            selectedTab = tab
+            switch tab {
+            case .home:
+                selectedTab = .home
+            case .review, .myPage:
+                if authViewModel.isLoggedIn {
+                    selectedTab = tab
+                } else {
+                    intendedTab = tab
+                    showLogin = true
+                }
+            }
         } label: {
             VStack(spacing: 4) {
                 Image(image)
@@ -43,5 +72,6 @@ struct CustomTabBarView: View {
                     .foregroundColor(selectedTab == tab ? .black : .gray)
             }
         }
+        .frame(maxWidth: .infinity)
     }
 }

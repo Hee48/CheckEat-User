@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MyPageChangePasswordCompleteModalView: View {
     
-    @State private var goToLogin: Bool = false
-    
+    @Environment(\.dismiss) private var dismiss
+    var dismissParent: () -> Void  
     var body: some View {
         VStack(spacing: 8) {
             Image("CheckMark")
@@ -29,15 +29,15 @@ struct MyPageChangePasswordCompleteModalView: View {
                 .padding(.vertical, 8)
             
             Button {
-                goToLogin = true
+                dismissParent()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        dismiss()
+                    }
             } label: {
                 Text("닫기")
                     .subButtonStyle()
                     .semibold16()
                     .padding(.top, 24)
-            }
-            .fullScreenCover(isPresented: $goToLogin) {
-                LoginView()
             }
         }
         .padding(.horizontal)

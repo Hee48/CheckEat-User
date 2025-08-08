@@ -19,6 +19,7 @@ class RegisterViewModel: ObservableObject {
     @Published var selectedVeganLevel: VeganLevel = .none
     @Published var selectedHalalStatus: HalaStatus = .no
     @Published var selectedCommonAllergies: [Int] = []
+    @Published var languageCode: String = Locale.preferredLanguages.first?.components(separatedBy: "-").first ?? "ko"
     
     //이메일 인증 관련
     @Published var emailVerificationToken = ""
@@ -101,32 +102,33 @@ class RegisterViewModel: ObservableObject {
               }
               .store(in: &cancellables)
       }
-      
-      //이메일 인증 토큰 확인
-    func verifyEmailToken(email: String, token: String) {
-          print("📨 인증 요청 - email: \(email), token: \(token)")
-        
-          RegisterSerivce.checkEmailToken(email: email, token: token)
-              .receive(on: DispatchQueue.main)
-              .sink { completion in
-                  switch completion {
-                  case .finished:
-                      print("이메일 인증토큰 확인 ✅")
-                  case .failure(let error):
-                      print("이메일 인증토큰 실패 ❌❌❌ \(error.localizedDescription)")
-                  }
-              } receiveValue: { [weak self] response in
-                  if response.status == "success" {
-                      self?.alertItem = AlertItem(title: "성공", message: "이메일 인증이 완료되었습니다.", dissmissButton: .default(Text("확인")))
-                      print("이메일 인증 성공 ✅")
-                  } else {
-                      self?.alertItem = AlertItem(title: "실패", message: "이메일 인증코드를 다시 확인해주세요.", dissmissButton: .default(Text("확인")))
-                      print("이메일 인증 실패: \(response.message)")
-                  }
-              }
-              .store(in: &cancellables)
-      }
-      
+    //이메일 인증 토큰 확인
+    func verifyEmailToken(email: String, token: String, completion: @escaping (Bool) -> Void) {
+        print("📨 인증 요청 - email: \(email), token: \(token)")
+
+        RegisterSerivce.checkEmailToken(email: email, token: token)
+            .receive(on: DispatchQueue.main)
+            .sink { completionResult in
+                switch completionResult {
+                case .finished:
+                    print("이메일 인증토큰 확인 ✅")
+                case .failure(let error):
+                    print("이메일 인증토큰 실패 ❌❌❌ \(error.localizedDescription)")
+                    completion(false)
+                }
+            } receiveValue: { [weak self] response in
+                if response.status == "success" {
+                    self?.alertItem = AlertItem(title: "성공", message: "이메일 인증이 완료되었습니다.", dissmissButton: .default(Text("확인")))
+                    print("이메일 인증 성공 ✅")
+                    completion(true)
+                } else {
+                    self?.alertItem = AlertItem(title: "실패", message: "이메일 인증코드를 다시 확인해주세요.", dissmissButton: .default(Text("확인")))
+                    print("이메일 인증 실패: \(response.message)")
+                    completion(false)
+                }
+            }
+            .store(in: &cancellables)
+    }
       //회원가입
     func signUp(completion: @escaping (Bool) -> Void) {
           let request = RegisterRequest(
@@ -137,7 +139,8 @@ class RegisterViewModel: ObservableObject {
               nickname: nickName,
               commonAllergies: selectedCommonAllergies.isEmpty ? nil : Array(selectedCommonAllergies),
               vegan: selectedVeganLevel.rawValue,
-              isHalal: selectedHalalStatus.rawValue
+              isHalal: selectedHalalStatus.rawValue,
+              ld_lang: languageCode
           )
           
           RegisterSerivce.signUp(request: request)

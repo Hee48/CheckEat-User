@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct EditAllergies19: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.presentationMode) private var presentationMode
     var onSubmit: (_ selectedAllergens: [Int], _ customText: String) -> Void
     @State private var allergy: String
-    @State private var selectedAllergens: Set<Int> = []
-    @State private var showMypage = false
-    init(allergy: String, onSubmit: @escaping (_ selectedAllergens: [Int], _ customText: String) -> Void) {
+    @State private var selectedAllergens: [Int] = []
+    @StateObject var viewModel = EditAllergiesViewModel()
+    @Binding var path: NavigationPath
+    init(
+        allergy: String,
+        onSubmit: @escaping (_ selectedAllergens: [Int], _ customText: String) -> Void,
+        path: Binding<NavigationPath>
+    ) {
         _allergy = State(initialValue: allergy)
         self.onSubmit = onSubmit
+        self._path = path
     }
     var body: some View {
-        NavigationStack {
             VStack(alignment: .leading) {
                 HStack(spacing: 10) {
                     Text("나의 알러지 정보")
@@ -30,7 +35,7 @@ struct EditAllergies19: View {
                 }
                 .padding(.leading, 17)
                 .padding(.top, 20)
-                TextField("아래에 해당하지 않는 알레르기 재료를 적어주세요.", text: $allergy)
+                TextField("ex. 키위,바나나,고사리,참깨,감귤류", text: $allergy)
                     .regular14()
                     .padding(.horizontal, 10)
                     .frame(width: 362, height: 52)
@@ -63,9 +68,12 @@ struct EditAllergies19: View {
                                             get: { selectedAllergens.contains(item.id)},
                                             set: { newValue in
                                                 if newValue {
-                                                    selectedAllergens.insert(item.id)
+                                                    if !selectedAllergens.contains(item.id) {
+                                                        selectedAllergens.append(item.id)
+                                                        selectedAllergens.sort()
+                                                    }
                                                 } else {
-                                                    selectedAllergens.remove(item.id)
+                                                    selectedAllergens.removeAll(where: { $0 == item.id })
                                                 }
                                             }
                                         )
@@ -83,44 +91,27 @@ struct EditAllergies19: View {
                 .padding(.top, 20)
                 
                 Button {
-                    onSubmit(Array(selectedAllergens), allergy)
-                    showMypage = true
+                    onSubmit(selectedAllergens, allergy.trimmingCharacters(in: .whitespacesAndNewlines))
+                    viewModel.editAllergies(commonIDs: selectedAllergens, personalAllergy: allergy)
                 } label: {
                     Text("완료")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(Color("Button_Enable"))
-                        .cornerRadius(8)
+                        .primaryButtonStyle(isEnabled: true)
                         .padding(.horizontal, 20)
                 }
                 .padding(.top, 20)
-                .fullScreenCover(isPresented: $showMypage) {
-                    MyPageView()
+                .onChange(of: viewModel.isSuccess) { isSuccess in
+                    if isSuccess {
+                        path = NavigationPath()
+                    }
                 }
                 
                 Spacer()
+
                 .navigationTitle("알레르기 수정")
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden(true)
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.backward")
-                                .foregroundStyle(.black)
-                        }
-                    }
-                }
                 
             }
             
         }
 
-    }
-}
-#Preview {
-    EditAllergies19(allergy: "") { _, _ in }
 }

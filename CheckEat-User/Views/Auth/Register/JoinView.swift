@@ -7,13 +7,18 @@
 
 import SwiftUI
 
+
+enum JoinViewPath: Hashable {
+    case join
+    case joinComplete
+}
+
 struct JoinView: View {
     @State private var id: String = ""
     @State private var password: String = ""
     @State private var isPasswordValid: Bool = false
     @State private var passwordConfirm: String = ""
     @State private var isLengthValid: Bool = false
-    @State private var isComplexValid: Bool = false
     @State private var isPasswordVisible: Bool = false
     @State private var isPasswordConfirmVisible: Bool = false
     @State private var verificationCode:String = ""
@@ -23,18 +28,19 @@ struct JoinView: View {
     @State private var didSendCode: Bool = false
     @State private var email: String = ""
     @State private var isChecked: Bool = false
-    @State private var goUserRegistrationComplete = false
     @StateObject private var viewModel = RegisterViewModel()
     @State private var showAllergy19: Bool = false
     //알러지 전달받는 데이터 배열
     @State private var selectedCommonAllergies: [Int] = []
     @State private var customAllergyText: String = ""
-    @Environment(\.dismiss) private var dismiss
+
+    @Binding var showJoin: Bool
+    @State private var joinPath: [JoinViewPath] = []
     private var isFormValid: Bool {
         return !id.isEmpty && !password.isEmpty && !passwordConfirm.isEmpty && !email.isEmpty && !verificationCode.isEmpty && isChecked
     }
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $joinPath) {
             GeometryReader { _ in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 4){
@@ -61,24 +67,11 @@ struct JoinView: View {
                             viewModel.password = password
                             viewModel.email = email
                             viewModel.nickName = nickName
-                            //임시 테스트 데이터
-//                            viewModel.selectedVeganLevel = .none
-//                            viewModel.selectedHalalStatus = .no
                             viewModel.allergy = customAllergyText
                             viewModel.selectedCommonAllergies = selectedCommonAllergies
-                            // ✅ 서버로 넘기기 전 데이터 확인용 프린트
-                               print("🍽️ 회원가입 데이터 확인:")
-                               print("- ID: \(viewModel.loginId)")
-                               print("- PW: \(viewModel.password)")
-                               print("- Email: \(viewModel.email)")
-                               print("- Nickname: \(viewModel.nickName)")
-                               print("- Vegan: \(viewModel.selectedVeganLevel.rawValue)")
-                               print("- Halal: \(viewModel.selectedHalalStatus.rawValue)")
-                               print("- Custom Allergy: \(viewModel.allergy)")
-                               print("- Common Allergies: \(viewModel.selectedCommonAllergies.sorted())")
                             viewModel.signUp { sucess in
                                 if sucess {
-                                    goUserRegistrationComplete = true
+                                    joinPath.append(.joinComplete)
                                 }
                             }
                         } label: {
@@ -92,10 +85,6 @@ struct JoinView: View {
                                 .padding(.leading, 20)
                         }
                         .disabled(!isFormValid)
-                        .fullScreenCover(isPresented: $goUserRegistrationComplete) {
-                            UserRegistrationComplete()
-                        }
-                        
                         Spacer()
                         
                     }
@@ -117,14 +106,15 @@ struct JoinView: View {
                     })
                     .navigationTitle("회원가입")
                     .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button {
-                                dismiss()
-                            } label: {
-                                Image(systemName: "chevron.backward")
-                                    .foregroundStyle(.black)
-                            }
+                    NavigationLink(value: JoinViewPath.joinComplete) {
+                        EmptyView()
+                    }
+                    .navigationDestination(for: JoinViewPath.self) { path in
+                        switch path {
+                        case .joinComplete:
+                            UserRegistrationComplete(showJoin: $showJoin)
+                        default:
+                            EmptyView()
                         }
                     }
                 }
@@ -132,7 +122,3 @@ struct JoinView: View {
         }
     }
 }
-
-//#Preview {
-//    JoinView()
-//}

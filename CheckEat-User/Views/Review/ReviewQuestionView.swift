@@ -8,22 +8,17 @@
 import SwiftUI
 
 struct ReviewQuestionView:View {
+ 
     @Environment(\.dismiss) private var dismiss
-    @State private var showReviewPage = false
+    let storeId: Int
+//    @State private var showReviewPage = false
+    @Binding var showCheckModal: Bool
+    @StateObject private var viewModel = ReviewViewModel()
+    @Binding var isPresented: Bool
+    @Binding var reviewPath: [ReviewPath]
+    @Binding var isReviewFlowActive: Bool
     var body: some View {
         VStack {
-            ZStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image("xmark")
-                    }
-                    .padding(.trailing, 15)
-                }
-            }
-            .frame(height: 44)
             Spacer()
             
             Image("QuestionMark")
@@ -35,14 +30,18 @@ struct ReviewQuestionView:View {
             
             Text("바로 리뷰를\n등록하시겠어요?")
                 .lineSpacing(4)
-                .multilineTextAlignment(.center )
+                .multilineTextAlignment(.center)
                 .bold20()
 
             Spacer()
             
             HStack(spacing: 12) {
                 Button {
-                //ocr스캔정보가 마이페이지에 리뷰미등록부분에 데이터가 가야함
+                    viewModel.registLaterReview(storeId: storeId)
+                    showCheckModal = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            dismiss()
+                        }
                 } label: {
                     Text("다음에등록")
                         .foregroundStyle(Color.buttonEnable)
@@ -57,7 +56,7 @@ struct ReviewQuestionView:View {
                         )
                 }
                 Button {
-                    showReviewPage = true
+                    reviewPath.append(.addReivewView(storeId: storeId))
                 } label: {
                     Text("리뷰등록")
                         .foregroundStyle(Color.white)
@@ -70,13 +69,17 @@ struct ReviewQuestionView:View {
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 30)
-            .fullScreenCover(isPresented: $showReviewPage) {
-                AddReivewView()
+        }
+        .navigationBarBackButtonHidden(true)
+        .onChange(of: viewModel.registerSuccess) { success in
+            if success {
+                DispatchQueue.main.async {
+                    showCheckModal = false
+                    dismiss()
+                }
             }
         }
         .ignoresSafeArea(.keyboard)
     }
-}
-#Preview {
-    ReviewQuestionView()
+    
 }

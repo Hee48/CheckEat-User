@@ -9,6 +9,14 @@ import SwiftUI
 
 struct ChangePasswordView: View {
     
+    // MARK: 스크린 상태 값
+    @Binding var showFindPwd: Bool
+    // MARK: 하위 경로 스택
+    @Binding var path: [FindPwdRoute]
+    
+    //MARK: 비밀번호 변경시 필요한 필드
+    @Binding var userEmail: String
+    //MARK: 변경할 비밀번호
     @State private var newPassword: String = ""
     @State private var confirmPassword: String = ""
     
@@ -25,143 +33,133 @@ struct ChangePasswordView: View {
     @FocusState private var isNewPasswordFocused: Bool
     @FocusState private var isConfirmPasswordFocused: Bool
     
-    @Environment(\.dismiss) private var dismiss
+    //MARK: 뷰 모델
+    @ObservedObject var viewModel: FindPwdViewModel
     
     var body: some View {
         
-        NavigationStack {
-            ScrollView {
+        ScrollView {
+            VStack(alignment: .leading) {
+                Text("비밀번호를 재설정 해주세요.")
+                    .bold20()
+                    .padding(.top, 35)
+                Text("새로운 비밀번호를 입력해주세요.")
+                    .regular16()
+                    .padding(.top, 1)
+                    .padding(.bottom, 35)
+                
+                Text("새로운 비밀번호")
+                    .semibold16()
+                HStack {
+                    Group {
+                        if isNewPasswordVisible {
+                            UnderLinedTextField(placeholder: "새로운 비밀번호를 입력해주세요", text: $newPassword)
+                                .focused($isNewPasswordFocused)
+                                .textContentType(.newPassword)
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
+                        } else {
+                            UnderLinedTextField(placeholder: "새로운 비밀번호를 입력해주세요", isSecure: true, text: $newPassword)
+                                .focused($isNewPasswordFocused)
+                                .textContentType(.newPassword)
+                        }
+                    }
+                    
+                    Button {
+                        isNewPasswordVisible.toggle()
+                    } label: {
+                        Image(systemName: isNewPasswordVisible ? "eye" : "eye.slash")
+                            .foregroundColor(.gray)
+                            .padding(8)
+                            .contentShape(Rectangle())
+                    }
+                }
+                .regular14()
+                
+                
                 VStack(alignment: .leading) {
-                    Text("비밀번호를 재설정 해주세요.")
-                        .bold20()
-                        .padding(.top, 35)
-                    Text("새로운 비밀번호를 입력해주세요.")
-                        .regular16()
-                        .padding(.top, 1)
-                        .padding(.bottom, 35)
-                    
-                    Text("새로운 비밀번호")
-                        .semibold16()
                     HStack {
-                        Group {
-                            if isNewPasswordVisible {
-                                UnderLinedTextField(placeholder: "새로운 비밀번호를 입력해주세요", text: $newPassword)
-                                    .focused($isNewPasswordFocused)
-                                    .textContentType(.newPassword)
-                                    .autocapitalization(.none)
-                                    .disableAutocorrection(true)
-                            } else {
-                                UnderLinedTextField(placeholder: "새로운 비밀번호를 입력해주세요", isSecure: true, text: $newPassword)
-                                    .focused($isNewPasswordFocused)
-                                    .textContentType(.newPassword)
-                            }
-                        }
+                        Image(systemName: isLengthValid ? "checkmark" : "checkmark")
+                            .foregroundColor(isLengthValid ? .green : .gray)
+                        Text("8자 이상")
+                            .foregroundColor(isLengthValid ? .green : .gray)
                         
-                        Button {
-                            isNewPasswordVisible.toggle()
-                        } label: {
-                            Image(systemName: isNewPasswordVisible ? "eye" : "eye.slash")
-                                .foregroundColor(.gray)
-                                .padding(8)
-                                .contentShape(Rectangle())
-                        }
-                    }
-                    .regular14()
-                    
-                    
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Image(systemName: isLengthValid ? "checkmark" : "checkmark")
-                                .foregroundColor(isLengthValid ? .green : .gray)
-                            Text("8자 이상")
-                                .foregroundColor(isLengthValid ? .green : .gray)
-                            
-                            Image(systemName: isUpperLowerNumberSpecialValid ? "checkmark" : "checkmark")
-                                .foregroundColor(isUpperLowerNumberSpecialValid ? .green : .gray)
-                            Text("대소문자, 숫자, 특수문자 포함")
-                                .foregroundColor(isUpperLowerNumberSpecialValid ? .green : .gray)
-                        }
-                    }
-                    .regular12()
-                    .padding(.vertical, 8)
-                    
-                    Text("비밀번호 확인")
-                        .semibold16()
-                        .padding(.top)
-                    
-                    HStack {
-                        Group {
-                            if isConfirmPasswordVisible {
-                                UnderLinedTextField(placeholder: "비밀번호를 한 번 더 입력해주세요", text: $confirmPassword)
-                                    .focused($isConfirmPasswordFocused)
-                                    .textContentType(.newPassword)
-                                    .autocapitalization(.none)
-                                    .disableAutocorrection(true)
-                            } else {
-                                UnderLinedTextField(placeholder: "비밀번호를 한 번 더 입력해주세요", isSecure: true, text: $confirmPassword)
-                                    .focused($isConfirmPasswordFocused)
-                                    .textContentType(.newPassword)
-                            }
-                        }
-                        
-                        Button {
-                            isConfirmPasswordVisible.toggle()
-                        } label: {
-                            Image(systemName: isConfirmPasswordVisible ? "eye" : "eye.slash")
-                                .foregroundColor(.gray)
-                                .padding(8)
-                                .contentShape(Rectangle())
-                        }
-                    }
-                    .regular14()
-                    
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Image(systemName: isPasswordAgreement ? "checkmark" : "checkmark")
-                                .foregroundColor(isPasswordAgreement ? .green : .gray)
-                            Text("비밀번호 일치")
-                                .foregroundColor(isPasswordAgreement ? .green : .gray)
-                        }
-                    }
-                    .regular12()
-                    .padding(.vertical, 8)
-                    .padding(.bottom, 24)
-                    
-                    Button {
-                        resetPassword()
-                        editable = (isLengthValid && isUpperLowerNumberSpecialValid && isPasswordAgreement)
-                    } label: {
-                        Text("비밀번호 재설정")
-                            .primaryButtonStyle(isEnabled: (isLengthValid && isUpperLowerNumberSpecialValid && isPasswordAgreement))
-                            .semibold16()
-                    }
-                    .disabled(!(isLengthValid && isUpperLowerNumberSpecialValid && !confirmPassword.isEmpty))
-                }
-                .tapToDismissKeyboard()
-            }
-            .padding(.horizontal)
-            .navigationTitle("비밀번호 재설정")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.backward")
-                            .foregroundStyle(.black)
+                        Image(systemName: isUpperLowerNumberSpecialValid ? "checkmark" : "checkmark")
+                            .foregroundColor(isUpperLowerNumberSpecialValid ? .green : .gray)
+                        Text("대소문자, 숫자, 특수문자 포함")
+                            .foregroundColor(isUpperLowerNumberSpecialValid ? .green : .gray)
                     }
                 }
+                .regular12()
+                .padding(.vertical, 8)
+                
+                Text("비밀번호 확인")
+                    .semibold16()
+                    .padding(.top)
+                
+                HStack {
+                    Group {
+                        if isConfirmPasswordVisible {
+                            UnderLinedTextField(placeholder: "비밀번호를 한 번 더 입력해주세요", text: $confirmPassword)
+                                .focused($isConfirmPasswordFocused)
+                                .textContentType(.newPassword)
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
+                        } else {
+                            UnderLinedTextField(placeholder: "비밀번호를 한 번 더 입력해주세요", isSecure: true, text: $confirmPassword)
+                                .focused($isConfirmPasswordFocused)
+                                .textContentType(.newPassword)
+                        }
+                    }
+                    
+                    Button {
+                        isConfirmPasswordVisible.toggle()
+                    } label: {
+                        Image(systemName: isConfirmPasswordVisible ? "eye" : "eye.slash")
+                            .foregroundColor(.gray)
+                            .padding(8)
+                            .contentShape(Rectangle())
+                    }
+                }
+                .regular14()
+                
+                VStack(alignment: .leading) {
+                    HStack {
+                        Image(systemName: isPasswordAgreement ? "checkmark" : "checkmark")
+                            .foregroundColor(isPasswordAgreement ? .green : .gray)
+                        Text("비밀번호 일치")
+                            .foregroundColor(isPasswordAgreement ? .green : .gray)
+                    }
+                }
+                .regular12()
+                .padding(.vertical, 8)
+                .padding(.bottom, 24)
+                
+                Button {
+                        viewModel.changePassword(email: userEmail, newPassword: newPassword) { result in
+                            if result == true {
+                                path.append(.findPwdComplete)
+                            } else if result == false {
+                                ToastManager.shared.showToast(message: "비밀번호 재설정에 실패했습니다. 다시 시도해주세요.")
+                            }
+                        }
+                } label: {
+                    Text("비밀번호 재설정")
+                        .primaryButtonStyle(isEnabled: (isLengthValid && isUpperLowerNumberSpecialValid && isPasswordAgreement))
+                        .semibold16()
+                }
+                .disabled(!(isLengthValid && isUpperLowerNumberSpecialValid && !confirmPassword.isEmpty))
             }
-            .onChange(of: newPassword) {
-                validatePassword()
-            }
-            .onChange(of: confirmPassword) {
-                validatePassword()
-            }
-            .fullScreenCover(isPresented: $editable) {
-                ChangePasswordCompleteView()
-            }
+            .tapToDismissKeyboard()
+        }
+        .padding(.horizontal)
+        .navigationTitle("비밀번호 재설정")
+        .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: newPassword) {
+            validatePassword()
+        }
+        .onChange(of: confirmPassword) {
+            validatePassword()
         }
     }
     
@@ -171,7 +169,8 @@ struct ChangePasswordView: View {
         
         if (!newPassword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
             !confirmPassword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) {
-            isPasswordAgreement = (newPassword == confirmPassword)
+            isPasswordAgreement = newPassword.trimmingCharacters(in: .whitespacesAndNewlines) ==
+                                  confirmPassword.trimmingCharacters(in: .whitespacesAndNewlines)
         }
         
     }
@@ -195,7 +194,15 @@ struct ChangePasswordView: View {
     }
 }
 
-//#Preview {
-//    ChangePasswordView()
-//}
-
+import Combine
+class ToastManager: ObservableObject {
+    static let shared = ToastManager()
+    @Published var message: String? = nil
+    
+    func showToast(message: String) {
+        self.message = message
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.message = nil
+        }
+    }
+}
