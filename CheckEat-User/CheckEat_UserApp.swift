@@ -19,7 +19,7 @@ struct CheckEat_UserApp: App {
     @State private var showCheckModal: Bool = false
     @State private var storeName: String = ""
     @State private var storeAddress: String = ""
-    @State private var showOCRView: Bool = true 
+    @State private var showOCRView: Bool = true
     @State private var isPresented: Bool = false
     
     var body: some Scene {
@@ -29,7 +29,7 @@ struct CheckEat_UserApp: App {
                     ZStack {
                         switch selectedTab {
                         case .home:
-                            HomeMapView()
+                            MainHomeView()
                         case .review:
                             NavigationStack(path: $reviewPath) {
                                 OCRView(isReviewFlowActive: $isReviewFlowActive, reviewPath: $reviewPath)
