@@ -35,7 +35,12 @@ class NearByStoreViewModel: ObservableObject {
                 }
             } catch {
                 await MainActor.run {
-                    self.errorMessage = "가게 목록을 불러오는데 실패했습니다"
+                    let messages = [
+                        "사막 같은 지도네요...\n가게 몇 방울만 수집해올게요...",
+                        "아직 이 지역은 미지의 구역이에요.\n탐험가를 더 모집해올게요!",
+                        "앗, 표시할 가게가 없어요...\n다음 업데이트를 기대해주세요!."
+                    ]
+                    self.errorMessage = messages.randomElement() ?? "이 지역은 서비스 준비 중이에요.\n곧 찾아갈게요!"
                     self.isLoading = false
                 }
             }
