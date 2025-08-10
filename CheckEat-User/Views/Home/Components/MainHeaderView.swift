@@ -6,29 +6,70 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct MainHeaderView: View {
+    
     @Binding var searchText: String
     @Binding var selectedFilter: String
-    @Binding var selectedStoreType: String
-    let onSearch: () -> Void
-    let hasToken: Bool // 토큰 존재 여부
+    
+    let hasToken: Bool
+    let currentLocation: CLLocationCoordinate2D?
+    
+    // 콜백들
+    let onSearchResult: ([Stores]) -> Void
+    let onSearchError: (String?) -> Void
+    let onFilterResult: ([Stores]) -> Void
+    let onFilterError: (String?) -> Void
+    let onFilterClear: () -> Void
+    
+    @StateObject private var viewModel = MainHeaderViewModel()
     
     var body: some View {
         VStack(spacing: 16) {
             SearchBar(
                 searchText: $searchText,
                 placeholder: "가게명으로 검색해보세요",
-                onSearch: onSearch
+                onSearch: {
+                    viewModel.performSearchByName(
+                        searchText: searchText,
+                        location: currentLocation
+                    )
+                }
             )
             FilterButtonSection(
                 selectedFilter: $selectedFilter,
-                selectedStoreType: $selectedStoreType,
                 searchText: $searchText,
-                hasToken: hasToken
+                hasToken: hasToken,
+                onFilterSelected: { filter in
+                    viewModel.performFilterSearch(
+                        filter: filter,
+                        location: currentLocation
+                    )
+                },
+                onFilterClear: {
+                    viewModel.clearFilter()
+                }
             )
         }
         .padding(.horizontal)
         .padding(.top, 35)
+        .onAppear {
+            setupCallbacks()
+        }
+        .onChange(of: searchText) { newText in
+            if newText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                onSearchResult([])
+                onSearchError(nil)
+            }
+        }
+    }
+    
+    private func setupCallbacks() {
+        viewModel.onSearchResult = onSearchResult
+        viewModel.onSearchError = onSearchError
+        viewModel.onFilterResult = onFilterResult
+        viewModel.onFilterError = onFilterError
+        viewModel.onFilterClear = onFilterClear
     }
 }
