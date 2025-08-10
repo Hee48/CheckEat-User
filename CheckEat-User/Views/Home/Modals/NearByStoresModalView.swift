@@ -16,20 +16,21 @@ struct NearByStoresModalView: View {
     @StateObject private var viewModel = NearByStoreViewModel()
     @State private var selectedStore: Stores? = nil
     
-    @State var runTime: String = "09:00 ~ 18:00"
-    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("🔍 2Km 반경 가게 (\(viewModel.nearbyStores.count)곳 조회)")
-                    .regular16()
+                Text("🔍 2km 반경에 \(viewModel.nearbyStores.count)곳의 가게가 있어요")
+                    .bold18()
                 Spacer()
                 Button("닫기") {
                     isPresented = false
                 }
                 .regular14()
+                .foregroundStyle(.black)
             }
-            .padding()
+            .padding(.top, 24)
+            .padding(.bottom, 4)
+            .padding(.horizontal)
             
             if viewModel.isLoading {
                 ProgressView("가게 목록을 불러오는 중...")
@@ -102,8 +103,20 @@ extension NearByStoresModalView {
                 }
             }
             
-            Text(store.sto_name)
-                .bold20()
+            HStack(spacing: 8) {
+                Text(store.sto_name)
+                    .bold20()
+                
+                if store.sto_halal == 1 {
+                    Text("할랄 인증")
+                        .regular12()
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(.correct)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+            }
             
             Group {
                 HStack {
@@ -123,19 +136,12 @@ extension NearByStoresModalView {
             .foregroundColor(.secondary)
             
             HStack {
-                Text("거리: \(Int(store.distance))m")
+                Image("Desc")
+                Text("현재 위치에서 \(Int(store.distance))m 거리에 있어요")
                     .regular14()
-                    .foregroundColor(.blue)
+                    .foregroundColor(.buttonEnable)
                 Spacer()
-                if store.sto_halal == 1 {
-                    Text("할랄 인증")
-                        .regular12()
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(4)
-                }
+                
             }
         }
         .padding()

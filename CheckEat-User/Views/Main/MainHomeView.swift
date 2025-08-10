@@ -39,6 +39,7 @@ struct MainHomeView: View {
                 currentFilter: selectedFilter,
                 isFavoriteMode: false
             )
+            .ignoresSafeArea(.all)
             
             // 2. 헤더 (맵 위)
             VStack {
