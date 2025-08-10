@@ -12,6 +12,9 @@ struct NearByStoresModalView: View {
     
     @Binding var isPresented: Bool
     var currentLocation: CLLocationCoordinate2D
+    var stores: [Stores] // 외부에서 전달받은 가게 목록
+    var isSearchMode: Bool // 검색 모드인지 여부
+    var isFilterMode: Bool // 필터 모드인지 여부
     
     @StateObject private var viewModel = NearByStoreViewModel()
     @State private var selectedStore: Stores? = nil
@@ -19,18 +22,24 @@ struct NearByStoresModalView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("🔍 2km 반경에 \(viewModel.nearbyStores.count)곳의 가게가 있어요")
-                    .bold18()
+                // 제목을 모드에 따라 다르게 표시
+                if isFilterMode {
+                    Text("🔍 비건 필터 결과 (\(stores.count)곳 조회)")
+                        .regular16()
+                } else if isSearchMode {
+                    Text("🔍 검색 결과 (\(stores.count)곳 조회)")
+                        .regular16()
+                } else {
+                    Text("🔍 2Km 반경 가게 (\(stores.count)곳 조회)")
+                        .regular16()
+                }
                 Spacer()
                 Button("닫기") {
                     isPresented = false
                 }
                 .regular14()
-                .foregroundStyle(.black)
             }
-            .padding(.top, 24)
-            .padding(.bottom, 4)
-            .padding(.horizontal)
+            .padding()
             
             if viewModel.isLoading {
                 ProgressView("가게 목록을 불러오는 중...")
@@ -43,18 +52,10 @@ struct NearByStoresModalView: View {
                     Text(errorMessage)
                         .regular16()
                         .multilineTextAlignment(.center)
-                    Button("다시 시도") {
-                        loadNearbyStores()
-                    }
-                    .regular14()
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                List(viewModel.nearbyStores, id: \.storeId) { store in
+                List(stores, id: \.storeId) { store in
                     Button {
                         selectedStore = store
                     } label: {
@@ -69,7 +70,10 @@ struct NearByStoresModalView: View {
         }
         .frame(maxHeight: .infinity)
         .onAppear {
-            loadNearbyStores()
+            // 검색 모드나 필터 모드가 아닐 때만 API 호출
+            if !isSearchMode && !isFilterMode {
+                loadNearbyStores()
+            }
         }
     }
     
@@ -103,20 +107,8 @@ extension NearByStoresModalView {
                 }
             }
             
-            HStack(spacing: 8) {
-                Text(store.sto_name)
-                    .bold20()
-                
-                if store.sto_halal == 1 {
-                    Text("할랄 인증")
-                        .regular12()
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(.correct)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-            }
+            Text(store.sto_name)
+                .bold20()
             
             Group {
                 HStack {
@@ -136,12 +128,19 @@ extension NearByStoresModalView {
             .foregroundColor(.secondary)
             
             HStack {
-                Image("Desc")
-                Text("현재 위치에서 \(Int(store.distance))m 거리에 있어요")
+                Text("거리: \(Int(store.distance))m")
                     .regular14()
-                    .foregroundColor(.buttonEnable)
+                    .foregroundColor(.blue)
                 Spacer()
-                
+                if store.sto_halal == 1 {
+                    Text("할랄 인증")
+                        .regular12()
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(4)
+                }
             }
         }
         .padding()

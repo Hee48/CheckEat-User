@@ -20,6 +20,8 @@ struct GoogleMapsView: UIViewRepresentable {
     // 마커 커스텀을 위한 추가 프로퍼티들
     let currentFilter: String
     let isFavoriteMode: Bool
+    let isSearchMode: Bool // 검색 모드 여부 추가
+    let isFilterMode: Bool // 필터 모드 여부 추가
     
     func makeUIView(context: Context) -> GMSMapView {
         let camera = GMSCameraPosition.camera(
@@ -217,20 +219,50 @@ struct GoogleMapsView: UIViewRepresentable {
     }
     
     private func markerIcon(for store: Stores) -> String {
-        // 기본 아이콘은 할랄 여부에 따라
-        if store.sto_halal == 1 {
-            return "figure.mind.and.body.circle.fill" // 할랄 인증 가게
+        // 비건 필터로 검색된 결과인 경우에만 나뭇잎 모양
+        if isFilterMode && !currentFilter.isEmpty && currentFilter != "마이필터" {
+            return "leaf.circle.fill" // 비건 필터: 나뭇잎 모양
         } else {
-            return "pin.circle.fill" // 할랄 인증 안된 가게
+            // 기본 아이콘은 할랄 여부에 따라
+            if store.sto_halal == 1 {
+                return "figure.mind.and.body.circle.fill" // 할랄 인증 가게
+            } else {
+                return "pin.circle.fill" // 할랄 인증 안된 가게
+            }
         }
     }
-
+    
     private func markerColor(for store: Stores) -> UIColor {
-        // 기본 색상은 할랄 여부에 따라
-        if store.sto_halal == 1 {
-            return .purple // 할랄 인증 가게: 보라색
+        // 비건 필터로 검색된 결과인 경우에만 레벨별 색상
+        if isFilterMode && !currentFilter.isEmpty && currentFilter != "마이필터" {
+            return veganLevelColor(for: store, filter: currentFilter)
         } else {
-            return .gray // 할랄 인증 안된 가게: 그레이
+            // 기본 색상은 할랄 여부에 따라
+            if store.sto_halal == 1 {
+                return .purple // 할랄 인증 가게: 보라색
+            } else {
+                return .gray // 할랄 인증 안된 가게: 그레이
+            }
+        }
+    }
+    
+    // 비건 레벨에 따른 색상 반환
+    private func veganLevelColor(for store: Stores, filter: String) -> UIColor {
+        switch filter {
+        case "비건":
+            return .green // 비건: 초록색
+        case "락토":
+            return .blue // 락토: 파란색
+        case "오보":
+            return .orange // 오보: 주황색
+        case "락토오보":
+            return .cyan // 락토오보: 청록색
+        case "페스코":
+            return .brown // 페스코: 갈색
+        case "폴로":
+            return .magenta // 폴로: 마젠타
+        default:
+            return .gray // 기본값
         }
     }
     
@@ -301,14 +333,10 @@ struct GoogleMapsView: UIViewRepresentable {
             searchButton.setTitle("현재 위치에서 검색", for: .normal)
             searchButton.setTitleColor(.buttonOP50, for: .normal)
             searchButton.backgroundColor = .white
-            searchButton.layer.cornerRadius = 18 // 8에서 18로 증가 (더 둥글게)
+            searchButton.layer.cornerRadius = 18
             searchButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-            
-            
-            // 테두리 추가
             searchButton.layer.borderWidth = 1.0
             searchButton.layer.borderColor = UIColor.systemGray3.cgColor
-
             
             searchButton.addTarget(context.coordinator, action: #selector(Coordinator.searchButtonTapped), for: .touchUpInside)
             
@@ -320,12 +348,10 @@ struct GoogleMapsView: UIViewRepresentable {
                 searchButton.topAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: 150), // 서치바
                 searchButton.centerXAnchor.constraint(equalTo: mapView.centerXAnchor), // 가운데 정렬
                 searchButton.heightAnchor.constraint(equalToConstant: 36),
-                searchButton.widthAnchor.constraint(equalToConstant: 200) // 버튼 너비 고정
+                searchButton.widthAnchor.constraint(equalToConstant: 150) // 버튼 너비 고정
             ])
-            
-            print("🔘 검색 버튼 추가됨")
         } else {
-            print("🔍 검색 버튼 숨김")
+            print("🔘 검색 버튼 숨김")
         }
     }
     
