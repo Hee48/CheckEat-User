@@ -28,21 +28,22 @@ struct NearByStoresModalView: View {
                 // 제목을 모드에 따라 다르게 표시
                 if isFilterMode {
                     Text("🔍 비건 필터 결과 (\(stores.count)곳 조회)")
-                        .regular16()
                 } else if isSearchMode {
                     Text("🔍 검색 결과 (\(stores.count)곳 조회)")
-                        .regular16()
                 } else {
                     Text("🔍 2Km 반경 가게 (\(stores.count)곳 조회)")
-                        .regular16()
                 }
                 Spacer()
                 Button("닫기") {
                     isPresented = false
                 }
                 .regular14()
+                .foregroundStyle(.secondary)
             }
-            .padding()
+            .semibold18()
+            .padding(.horizontal)
+            .padding(.top, 24)
+            .padding(.bottom, 4)
             
             if viewModel.isLoading {
                 ProgressView("가게 목록을 불러오는 중...")
@@ -115,8 +116,21 @@ extension NearByStoresModalView {
                 }
             }
             
-            Text(store.sto_name)
-                .bold20()
+            HStack {
+                Text(store.sto_name)
+                    .bold20()
+                
+                if store.sto_halal == 1 {
+                    Text("할랄 인증")
+                        .foregroundColor(.white)
+                        .medium12()
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                        .background(.correct)
+                        .cornerRadius(15)
+                }
+            }
+            .padding(.vertical, 8)
             
             Group {
                 HStack {
@@ -132,25 +146,16 @@ extension NearByStoresModalView {
                     }
                 }
             }
-            .regular14()
             .foregroundColor(.secondary)
             
             HStack {
-                Text("거리: \(Int(store.distance))m")
-                    .regular14()
-                    .foregroundColor(.blue)
-                Spacer()
-                if store.sto_halal == 1 {
-                    Text("할랄 인증")
-                        .regular12()
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(4)
-                }
+                Image("Desc")
+                Text("현재 위치에서 \(Int(store.distance))m 거리에 있어요")
+                    .foregroundColor(.buttonEnable)
             }
+            .padding(.bottom, 4)
         }
+        .regular14()
         .padding()
         .background(Color(.white))
         .cornerRadius(12)

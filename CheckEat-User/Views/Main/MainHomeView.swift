@@ -16,6 +16,7 @@ struct MainHomeView: View {
     @State private var selectedFilter: String = ""
     @State private var showingNearbyModal = false
     @State private var showingFavoriteModal = false
+    @State private var showingLoginView = false
     @State private var mapCenter: CLLocationCoordinate2D? = nil
     @State private var mapZoomLevel: Float = 15.0
     @State private var hasShownInitialModal = false
@@ -96,7 +97,13 @@ struct MainHomeView: View {
                     showingNearbyModal = true
                 },
                 onFavoriteTapped: {
-                    showingFavoriteModal = true
+                    // 로그인 상태 확인
+                    if AuthViewModel.shared.isLoggedIn {
+                        showingFavoriteModal = true
+                    } else {
+                        print("🚫 로그인이 필요합니다. 로그인 화면을 띄웁니다.")
+                        showingLoginView = true
+                    }
                 }
             )
             
@@ -232,6 +239,11 @@ struct MainHomeView: View {
         .sheet(item: $selectedStoreId) { id in
             StoreDetailInfoView(storeId: id, language: "ko")
                 .presentationDetents([.medium, .large])
+        }
+        .fullScreenCover(isPresented: $showingLoginView) {
+            LoginView {
+                showingLoginView = false
+            }
         }
     }
     

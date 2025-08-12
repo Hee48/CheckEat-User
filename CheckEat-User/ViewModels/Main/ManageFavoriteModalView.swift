@@ -20,15 +20,19 @@ struct ManageFavoriteModalView: View {
         VStack(alignment: .leading) {
             // Header (스타일 통일)
             HStack {
-                Text("⭐️ 즐겨찾기 가게 (\(viewModel.items.count)곳)")
-                    .regular16()
+//                Text("⭐️ 즐겨찾기한 가게 (\(viewModel.items.count)곳)")
+                Text("⭐️ 즐겨찾기한 가게")
                 Spacer()
                 Button("닫기") {
                     isPresented = false
                 }
                 .regular14()
+                .foregroundStyle(.secondary)
             }
-            .padding()
+            .semibold18()
+            .padding(.horizontal)
+            .padding(.top, 24)
+            .padding(.bottom, 4)
             
             // Content
             if viewModel.isLoading {
