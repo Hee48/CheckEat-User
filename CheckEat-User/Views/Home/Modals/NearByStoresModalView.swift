@@ -19,6 +19,9 @@ struct NearByStoresModalView: View {
     @StateObject private var viewModel = NearByStoreViewModel()
     @State private var selectedStore: Stores? = nil
     
+    // 가게 상세정보 조회
+    @State private var selectedStoreId: Int? = nil
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -57,7 +60,8 @@ struct NearByStoresModalView: View {
             } else {
                 List(stores, id: \.storeId) { store in
                     Button {
-                        selectedStore = store
+                        // 선택한 가게 아이디 저장
+                        selectedStoreId = store.storeId
                     } label: {
                         storeCell(for: store)
                     }
@@ -74,6 +78,10 @@ struct NearByStoresModalView: View {
             if !isSearchMode && !isFilterMode {
                 loadNearbyStores()
             }
+        }
+        .sheet(item: $selectedStoreId) { id in
+            StoreDetailInfoView(storeId: id, language: "ko")
+                .presentationDetents([.large])
         }
     }
     

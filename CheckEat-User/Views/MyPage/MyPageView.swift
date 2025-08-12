@@ -28,7 +28,7 @@ struct MyPageView: View {
     @State private var showLanguageSettings = false
     @State private var showNickNameChangeModal = false
     
-    @State private var selectedStore: Store? = nil
+    @State private var selectedStoreID: Int? = nil
     @State private var runTime: String = ""
     
     @StateObject private var deleteViewModel = DeleteViewModel()
@@ -122,13 +122,8 @@ struct MyPageView: View {
                 .presentationDetents([.height(270)])
         }
         NavigationLink(
-            destination: FavoriteStoreListView(
-                selectedStore: $selectedStore,
-                runTime: $runTime
-            )
-            .environmentObject(storeMapViewModel),
+            destination: FavoriteStoreScreenView(isPresented: $showFavoriteStores, selectedStoreId: $selectedStoreID),
             isActive: $showFavoriteStores
-  
         ) {
             EmptyView()
         }

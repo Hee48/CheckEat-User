@@ -16,6 +16,7 @@ struct GoogleMapsView: UIViewRepresentable {
     let stores: [Stores]
     let shouldShowSearchButton: Bool
     let onSearchButtonTapped: () -> Void
+    let onMarkerTapped: (Stores) -> Void
     
     // 마커 커스텀을 위한 추가 프로퍼티들
     let currentFilter: String
@@ -172,6 +173,7 @@ struct GoogleMapsView: UIViewRepresentable {
         // 커스텀 마커 아이콘 생성
         let customIconView = createCustomMarkerView(for: store)
         marker.iconView = customIconView
+        marker.userData = store
         
         marker.map = mapView
     }
@@ -203,6 +205,7 @@ struct GoogleMapsView: UIViewRepresentable {
         // 커스텀 마커 아이콘 생성
         let customIconView = createCustomMarkerView(for: store)
         marker.iconView = customIconView
+        marker.userData = store
         
         marker.map = mapView
     }
@@ -389,6 +392,12 @@ struct GoogleMapsView: UIViewRepresentable {
                 
                 let update = GMSCameraUpdate.fit(bounds, withPadding: 50)
                 mapView.animate(with: update)
+                return true
+            }
+            
+            // 단일 마커 탭 시 상세 콜백 호출
+            if let store = marker.userData as? Stores {
+                parent.onMarkerTapped(store)
                 return true
             }
             

@@ -15,6 +15,7 @@ struct MainHomeView: View {
     @State private var searchText: String = ""
     @State private var selectedFilter: String = ""
     @State private var showingNearbyModal = false
+    @State private var showingFavoriteModal = false
     @State private var mapCenter: CLLocationCoordinate2D? = nil
     @State private var mapZoomLevel: Float = 15.0
     @State private var hasShownInitialModal = false
@@ -28,6 +29,8 @@ struct MainHomeView: View {
     
     @State private var isFilterMode: Bool = false // 필터 모드 여부
     @State private var filterErrorMessage: String? = nil // 필터 에러 메시지
+    
+    @State private var selectedStoreId: Int? = nil
     
     var body: some View {
         ZStack {
@@ -50,6 +53,9 @@ struct MainHomeView: View {
                     exitAllModes()
                     selectedFilter = ""
                     locationService.fetchStoresAtCurrentCenter(viewModel: storeViewModel)
+                },
+                onMarkerTapped: { store in
+                    selectedStoreId = store.storeId
                 },
                 currentFilter: selectedFilter,
                 isFavoriteMode: false,
@@ -90,8 +96,7 @@ struct MainHomeView: View {
                     showingNearbyModal = true
                 },
                 onFavoriteTapped: {
-                    // TODO: 즐겨찾기 기능 구현
-                    print("즐겨찾기 버튼 탭")
+                    showingFavoriteModal = true
                 }
             )
             
@@ -219,6 +224,14 @@ struct MainHomeView: View {
                 isFilterMode: isFilterMode
             )
             .presentationDetents([.medium, .large])
+        }
+        .sheet(isPresented: $showingFavoriteModal) {
+            ManageFavoriteModalView(isPresented: $showingFavoriteModal)
+                .presentationDetents([.medium, .large])
+        }
+        .sheet(item: $selectedStoreId) { id in
+            StoreDetailInfoView(storeId: id, language: "ko")
+                .presentationDetents([.medium, .large])
         }
     }
     
