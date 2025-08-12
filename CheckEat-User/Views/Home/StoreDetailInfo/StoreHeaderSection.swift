@@ -7,6 +7,59 @@
 
 import SwiftUI
 
+enum VeganType: Int, CaseIterable {
+    case none = 0
+    case vegan = 1
+    case lacto = 2
+    case ovo = 3
+    case lactoovo = 4
+    case pesco = 5
+    case pollo = 6
+    
+    var displayName: String? {
+        switch self {
+        case .vegan:    return "비건"
+        case .lacto:    return "락토 베지테리언"
+        case .ovo:      return "오보 베지테리언"
+        case .lactoovo: return "락토 오보 베지테리언"
+        case .pesco:    return "페스코 베지테리언"
+        case .pollo:    return "폴로 베지테리언"
+        case .none:     return nil
+        }
+    }
+    
+    var backgroundColor: Color {
+        switch self {
+        case .vegan:    return Color("Vegan")
+        case .lacto:    return Color("Lacto")
+        case .ovo:      return Color("Ovo")
+        case .lactoovo: return Color("Lacto-ovo")
+        case .pesco:    return Color("Pesco")
+        case .pollo:    return Color("Pollo")
+        case .none:     return Color.clear
+        }
+    }
+    
+    var textColor: Color {
+        switch self {
+        case .vegan:
+            return Color(red: 0.1686, green: 0.4784, blue: 0.4196)
+        case .lacto:
+            return Color(red: 0.4784, green: 0.451, blue: 0.1725)
+        case .ovo:
+            return Color(red: 0.3725, green: 0.2941, blue: 0.5451)
+        case .lactoovo:
+            return Color(red: 0.2039, green: 0.4941, blue: 0.5804)
+        case .pesco:
+            return Color(red: 0.2902, green: 0.4353, blue: 0.3529)
+        case .pollo:
+            return Color(red: 0.7216, green: 0.3569, blue: 0.2941)
+        case .none:
+            return Color.clear
+        }
+    }
+}
+
 struct StoreHeaderSection: View {
     
     let storeId: Int
@@ -186,7 +239,7 @@ struct StoreMenuSection: View {
                         Text("채식메뉴")
                             .semibold16()
                             .foregroundColor(selectedTab == "채식메뉴" ? .buttonAuth : .buttonOP20)
-                                            
+                        
                         Rectangle()
                             .fill(selectedTab == "채식메뉴" ? Color.buttonAuth : Color.gray.opacity(0.3))
                             .frame(width: 100, height: 2)
@@ -225,7 +278,19 @@ struct StoreMenuSection: View {
                                     Text(food.foo_name)
                                         .semibold16()
                                     Spacer()
-                                    Text("비건 단계 표시")
+                                    // 비건 레벨 표시
+                                    if let veganLevel = food.foo_vegan, veganLevel != 0 {
+                                        if let veganType = VeganType(rawValue: veganLevel),
+                                           let displayName = veganType.displayName {
+                                            Text(displayName)
+                                                .regular12()
+                                                .padding(.horizontal, 8)
+                                                .padding(.vertical, 4)
+                                                .background(veganType.backgroundColor)
+                                                .foregroundColor(veganType.textColor)
+                                                .cornerRadius(12)
+                                        }
+                                    }
                                 }
                                 HStack {
                                     Text(formatPrice(food.foo_price))
