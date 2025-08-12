@@ -15,6 +15,7 @@ class StoreDetailInfoViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var isFavoriteLoading = false
+    @Published var showLoginView = false
 
     // Favorites (UserDefaults-backed)
     private let favoritesKey = "favorite_store_ids"
@@ -25,7 +26,6 @@ class StoreDetailInfoViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     init() {
-        
         loadFavoritesFromServer()
     }
     
@@ -54,6 +54,13 @@ class StoreDetailInfoViewModel: ObservableObject {
     }
 
     func toggleFavorite(storeId: Int) {
+        // 로그인 상태 확인
+        guard AuthViewModel.shared.isLoggedIn else {
+            print("🚫 로그인이 필요합니다. 로그인 화면을 띄웁니다.")
+            showLoginView = true
+            return
+        }
+        
         isFavoriteLoading = true
         
         favoriteService.toggleFavorite(storeId: (storeId), isCurrentlyFavorite: self.favoriteStoreIds.contains(storeId))
