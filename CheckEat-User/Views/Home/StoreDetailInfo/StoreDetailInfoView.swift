@@ -19,6 +19,8 @@ struct StoreDetailInfoView: View {
     @State var showLocationField: Bool = false
     // 전체 운영 보여주기 (러닝타임)
     @State var showRunningTimeField: Bool = false
+    // 탭 선택 상태
+    @State var selectedTab: String = "전체메뉴"
     
     var body: some View {
         GeometryReader { geo in
@@ -94,7 +96,7 @@ struct StoreDetailInfoView: View {
                         .padding(.vertical, 8)
                     
                     // 메뉴 섹션
-                    StoreMenuSection(storeInfo: storeInfo)
+                    StoreMenuSection(storeInfo: storeInfo, selectedTab: $selectedTab)
                 }
             }
             //MARK: 네트워크 통신 지연 등의 이슈로 인한 초기 세팅

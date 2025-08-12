@@ -157,10 +157,50 @@ struct CoreDataSection: View {
 struct StoreMenuSection: View {
     
     let storeInfo: StoreDetailInfo
+    @Binding var selectedTab: String
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            ForEach(Array(storeInfo.food_list.enumerated()), id: \.1.id) { idx, food in
+            // 탭 선택 버튼
+            HStack(spacing: 24) {
+                Spacer()
+                Button {
+                    selectedTab = "전체메뉴"
+                } label: {
+                    VStack(spacing: 10) {
+                        Text("전체메뉴")
+                            .semibold16()
+                            .foregroundColor(selectedTab == "전체메뉴" ? .buttonAuth : .buttonOP20)
+                        
+                        Rectangle()
+                            .fill(selectedTab == "전체메뉴" ? Color.buttonAuth : Color.gray.opacity(0.3))
+                            .frame(width: 100, height: 2)
+                            .animation(.easeInOut(duration: 0.3), value: selectedTab)
+                    }
+                }
+                Spacer()
+                Button {
+                    selectedTab = "채식메뉴"
+                } label: {
+                    VStack(spacing: 10) {
+                        Text("채식메뉴")
+                            .semibold16()
+                            .foregroundColor(selectedTab == "채식메뉴" ? .buttonAuth : .buttonOP20)
+                                            
+                        Rectangle()
+                            .fill(selectedTab == "채식메뉴" ? Color.buttonAuth : Color.gray.opacity(0.3))
+                            .frame(width: 100, height: 2)
+                            .animation(.easeInOut(duration: 0.3), value: selectedTab)
+                    }
+                }
+                Spacer()
+            }
+            .padding(.bottom, 10)
+            
+            // 필터링된 메뉴 목록
+            let filteredFoodList = getFilteredFoodList()
+            
+            ForEach(Array(filteredFoodList.enumerated()), id: \.1.id) { idx, food in
                 VStack {
                     VStack(alignment: .leading, spacing: 12) {
                         HStack(spacing: 20) {
@@ -222,11 +262,29 @@ struct StoreMenuSection: View {
                     .regular16()
                     .padding(.horizontal)
                 }
-                if idx < storeInfo.food_list.count - 1 {
+                if idx < filteredFoodList.count - 1 {
                     Divider()
                         .padding(.vertical, 4)
                 }
             }
+        }
+    }
+    
+    // 탭에 따라 메뉴 필터링
+    private func getFilteredFoodList() -> [MenuInfo] {
+        switch selectedTab {
+        case "전체메뉴":
+            return storeInfo.food_list
+        case "채식메뉴":
+            return storeInfo.food_list.filter { food in
+                // foo_vegan이 0이 아닌 메뉴만 필터링
+                if let veganLevel = food.foo_vegan {
+                    return veganLevel != 0
+                }
+                return false
+            }
+        default:
+            return storeInfo.food_list
         }
     }
     
