@@ -9,20 +9,26 @@ import SwiftUI
 
 struct MyPageHeaderView: View {
     
-    let nickName: String
-    let userEmail: String
+    @ObservedObject var myPageViewModel: MyPageViewModel
+
     @Binding var showMoreMenu: Bool
-    @Binding var showManageCompanyModal: Bool
     @Binding var showNickNameChangeModal: Bool
+    @Binding var showImageChangeModal: Bool
+
+    @State private var profileImageName: String = UserDefaults.standard.string(forKey: "profileImageName") ?? "user1"
+
     
     var body: some View {
         HStack(alignment: .top) {
             Button {
-                showManageCompanyModal = true
+                showImageChangeModal = true
             } label: {
-                Image(systemName: "person.crop.circle")
+                Image(profileImageName)
                     .resizable()
+                    .scaledToFill()
                     .frame(width: 60, height: 60)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.gray.opacity(0.2), lineWidth: 1))
                     .padding(.trailing, 10)
             }
             .foregroundStyle(.primary)
@@ -32,7 +38,7 @@ struct MyPageHeaderView: View {
                     Button {
                         showNickNameChangeModal = true
                     } label: {
-                        Text(nickName)
+                        Text(myPageViewModel.userInfo?.nickName ?? "")
                             .bold20()
                             .foregroundColor(.black)
                     }
@@ -44,12 +50,20 @@ struct MyPageHeaderView: View {
                     }
                 }
                 
-                Text(userEmail)
+                Text(myPageViewModel.userInfo?.email ?? "")
                     .regular16()
                     .foregroundColor(.buttonAuth)
             }
         }
         .padding(.vertical, 35)
         .padding(.horizontal)
+        .sheet(isPresented: $showImageChangeModal) {
+            UserImageChange(selectedImageName: $profileImageName)
+                .presentationDetents([.height(380), .medium])
+        }
+        .onChange(of: profileImageName) { newValue in
+            UserDefaults.standard.set(newValue, forKey: "profileImageName")
+        }
+   
     }
 }

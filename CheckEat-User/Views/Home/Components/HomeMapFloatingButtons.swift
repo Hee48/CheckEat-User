@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeMapFloatingButtons: View {
+    
     var onNearbyTapped: () -> Void
     var onFavoriteTapped: () -> Void
     

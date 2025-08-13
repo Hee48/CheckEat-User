@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NickNameChangeModal:View {
     @StateObject private var viewModel = NickNameChangeViewModel()
+    @ObservedObject var myPageViewModel: MyPageViewModel
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         VStack(alignment: .leading) {
@@ -28,8 +29,8 @@ struct NickNameChangeModal:View {
             Button {
                 viewModel.newNickName = viewModel.newNickName.trimmingCharacters(in: .whitespacesAndNewlines)
                 viewModel.updateNickName()
+                myPageViewModel.loadUserInfoFromToken()
                 dismiss()
-                //MARK: - get으로 마이페이지 닉네임 새로 가져와야함
             } label: {
                 Text("변경하기")
                     .primaryButtonStyle(isEnabled: true)
@@ -41,6 +42,3 @@ struct NickNameChangeModal:View {
         .padding(.leading, 5)
     }
 }
-//#Preview {
-//    NickNameChangeModal()
-//}

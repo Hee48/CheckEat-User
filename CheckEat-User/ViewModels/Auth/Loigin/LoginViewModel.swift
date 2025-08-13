@@ -19,9 +19,29 @@ class LoginViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     func login() {
+        self.alertMessage = ""
         let loginData = LoginRequest(ld_log_id: loginId, ld_pwd: password)
 
         AF.request(AuthAPI.loginURL, method: .post, parameters: loginData, encoder: JSONParameterEncoder.default)
+            .responseString { resp in
+                let code = resp.response?.statusCode ?? -1
+                print("🗒️ RAW(\(code)):", resp.value ?? "<no body>")
+
+                guard !(200...299).contains(code) else { return }
+                
+                // 서버 메시지 파싱
+                if let data = resp.data,
+                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let message = json["message"] as? String {
+                    if message == "탈퇴한 회원입니다." {
+                        self.alertMessage = message
+                    } else {
+                        self.alertMessage = "입력하신 정보가 일치하지 않습니다. 다시 확인해주세요"
+                    }
+                } else {
+                    self.alertMessage = "입력하신 정보가 일치하지 않습니다. 다시 확인해주세요"
+                }
+            }
             .publishDecodable(type: LoginResponse.self)
             .value()
             .receive(on: DispatchQueue.main)
@@ -29,21 +49,21 @@ class LoginViewModel: ObservableObject {
                 switch completion {
                 case .failure(let error):
                     self.loginSuccess = false
-                    self.alertMessage = "입력하신 정보가 일치하지 않습니다. 다시 확인해주세요"
                     print("로그인실패 ❌❌❌ \(error.localizedDescription)")
                 case .finished:
                     break
                 }
             } receiveValue: { data in
                 self.loginSuccess = true
-                AuthViewModel.shared.isLoggedIn = true
                 print("로그인성공 \(data)")
                 let access = data.accessToken
                 let refresh = data.refreshToken
                 TokenManager.shared.save(accessToken: access, refreshToken: refresh)
+                UserDefaults.standard.set(self.loginId, forKey: "logId")
+                self.alertMessage = ""
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                       self.loginSuccess = false
-                   }
+                    self.loginSuccess = false
+                }
             }
             .store(in: &cancellables)
     }

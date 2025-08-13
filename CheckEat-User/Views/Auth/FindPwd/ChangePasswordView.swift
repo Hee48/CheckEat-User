@@ -11,6 +11,7 @@ struct ChangePasswordView: View {
     
     // MARK: 스크린 상태 값
     @Binding var showFindPwd: Bool
+    @Binding var showFindID: Bool
     // MARK: 하위 경로 스택
     @Binding var path: [FindPwdRoute]
     

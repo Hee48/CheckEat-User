@@ -60,3 +60,4 @@ struct FavoriteStoreListView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+

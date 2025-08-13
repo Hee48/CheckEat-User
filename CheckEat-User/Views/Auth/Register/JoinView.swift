@@ -33,7 +33,7 @@ struct JoinView: View {
     //알러지 전달받는 데이터 배열
     @State private var selectedCommonAllergies: [Int] = []
     @State private var customAllergyText: String = ""
-
+    
     @Binding var showJoin: Bool
     @State private var joinPath: [JoinViewPath] = []
     private var isFormValid: Bool {
@@ -48,8 +48,8 @@ struct JoinView: View {
                         JoinBasicInfoSection(id: $id, password: $password, passwordConfirm: $passwordConfirm, isPasswordVisible: $isPasswordVisible, isPasswordConfirmVisible: $isPasswordConfirmVisible, isPasswordValid: $isPasswordValid, isLengthValid: $isLengthValid, nickName: $nickName, isPasswordFocused: $isPasswordFocused, isPasswordConfirmFocused: $isPasswordConfirmFocused, viewModel: viewModel)
                         //이메일,인증코드,채식구분,할랄여부,알레르기
                         ContactVerificationSection(email: $email, verificationCode: $verificationCode, didSendCode: $didSendCode, viewModel: viewModel, selectedVeganType: $viewModel.selectedVeganLevel, showAllergy19: $showAllergy19, selectedHalalStatus: $viewModel.selectedHalalStatus)
-            
-    
+                        
+                        
                         VStack(alignment: .leading, spacing: 12) {
                             HStack(spacing: 8) {
                                 CheckBoxButton(isChecked: $isChecked)
@@ -108,6 +108,16 @@ struct JoinView: View {
                     .navigationBarTitleDisplayMode(.inline)
                     NavigationLink(value: JoinViewPath.joinComplete) {
                         EmptyView()
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button {
+                                showJoin = false
+                            } label: {
+                                Image(systemName: "chevron.backward")
+                                    .foregroundStyle(.black)
+                            }
+                        }
                     }
                     .navigationDestination(for: JoinViewPath.self) { path in
                         switch path {

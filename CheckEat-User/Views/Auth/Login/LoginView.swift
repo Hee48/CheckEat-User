@@ -9,15 +9,15 @@ import SwiftUI
 
 struct LoginView: View {
     
- 
     var onLoginSuccess: () -> Void = {}
+    var allowsDismiss: Bool = true
     @State private var isPasswordVisible: Bool = false
     @State private var showFindId: Bool = false
     @State private var showFindPwd: Bool = false
     @State private var showJoin: Bool = false
     @StateObject private var viewModel = LoginViewModel()
     @Environment(\.dismiss) private var dismiss
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -93,7 +93,7 @@ struct LoginView: View {
                                 .foregroundStyle(.buttonOP50)
                         }
                         .fullScreenCover(isPresented: $showFindId) {
-                            FindIDView(showFindId: $showFindId)
+                            FindIDView(showFindId: $showFindId, showFindID: $showFindId, showFindPw: $showFindPwd)
                         }
                         Text(" | ")
                             .foregroundStyle(.buttonOP50)
@@ -104,7 +104,7 @@ struct LoginView: View {
                                 .foregroundStyle(.buttonOP50)
                         }
                         .fullScreenCover(isPresented: $showFindPwd) {
-                            FindPwdView(showFindPwd: $showFindPwd)
+                            FindPwdView(showFindPwd: $showFindPwd, showFindID: showFindId)
                         }
                         Spacer()
                     }
@@ -142,13 +142,16 @@ struct LoginView: View {
             .ignoresSafeArea(.keyboard)
             .navigationTitle("로그인")
             .navigationBarTitleDisplayMode(.inline)
+            .interactiveDismissDisabled(!allowsDismiss)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .foregroundColor(.black)
+                if allowsDismiss {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark")
+                                .foregroundColor(.black)
+                        }
                     }
                 }
             }

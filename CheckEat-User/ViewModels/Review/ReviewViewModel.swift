@@ -136,7 +136,7 @@ class ReviewViewModel: ObservableObject {
                     )
                 }
             }
-        }, to: ReviewAPI.registerReview, method: .post, headers: headers)
+        }, to: ReviewAPI.registerReviewURL, method: .post, headers: headers)
         .validate()
         .responseDecodable(of: RegisterReviewResponse.self) { response in
             switch response.result {

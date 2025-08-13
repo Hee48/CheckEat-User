@@ -29,8 +29,6 @@ class AuthViewModel: ObservableObject {
     func logout() {
         TokenManager.shared.clear()
         isLoggedIn = false
-
+        UserDefaults.standard.removeObject(forKey: "favorite_store_ids")
     }
-    
-    
 }

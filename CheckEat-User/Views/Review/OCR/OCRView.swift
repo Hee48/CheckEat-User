@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OCRView: View {
     @State private var capturedImage: UIImage?
-    @State private var showSourcePicker = true
+    @State private var showSourcePicker = false
     @State private var showImagePicker = false
     @State private var showOCRView = false
     @State private var selectedSourceType: UIImagePickerController.SourceType = .camera
@@ -46,6 +46,15 @@ struct OCRView: View {
                         .multilineTextAlignment(.center)
                         .regular16()
                         .padding(.top, 8)
+                    
+                    Button {
+                        showSourcePicker = true
+                    } label: {
+                        Text("사진추가")
+                            .primaryButtonStyle(isEnabled: true)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 20)
+                    }
                 }
                 
                 Spacer()
@@ -63,7 +72,9 @@ struct OCRView: View {
                             selectedSourceType = .photoLibrary
                             showImagePicker = true
                         },
-                        .cancel()
+                        .cancel() {
+                            showSourcePicker = false
+                        }
                     ]
                 )
             }
@@ -75,9 +86,7 @@ struct OCRView: View {
                     },
                     sourceType: selectedSourceType
                 )
-            }
-            .onAppear {
-                showSourcePicker = true
+                .ignoresSafeArea()
             }
             .onChange(of: capturedImage) { newImage in
                 if let image = newImage, let imageData = image.jpegData(compressionQuality: 0.8) {

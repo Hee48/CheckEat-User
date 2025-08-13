@@ -14,6 +14,7 @@ struct UpdateNickNameRequest: Codable {
 struct UpdateNickNameResponse: Decodable {
     let message: String
     let status: String
+    let accessToken: String
 }
 
 

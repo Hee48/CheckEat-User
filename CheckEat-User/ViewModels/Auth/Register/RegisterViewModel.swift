@@ -73,7 +73,7 @@ class RegisterViewModel: ObservableObject {
                       print("이메일 사용 가능 ✅")
                       completion()
                       self?.alertItem = AlertItem(title: "사용 가능", message: "이 이메일은 사용 가능합니다.", dissmissButton: .default(Text("확인")))
-                      self?.sendEmailToken(email: email, language: "ko")
+                      self?.sendEmailToken(email: email, language: self?.languageCode ?? "ko")
                   } else {
                       print("이메일 중복돰: \(response.message)")
                       self?.alertItem = AlertItem(title: "중복된 이메일 입니다", message: "이메일을 다시 확인 해주세요.", dissmissButton: .default(Text("확인")))

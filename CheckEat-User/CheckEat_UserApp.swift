@@ -7,10 +7,10 @@
 
 import SwiftUI
 import GoogleMaps
+import Combine
 
 @main
 struct CheckEat_UserApp: App {
-    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @State private var selectedTab: Tab = .home
     @StateObject private var authViewModel = AuthViewModel.shared
@@ -19,17 +19,19 @@ struct CheckEat_UserApp: App {
     @State private var showCheckModal: Bool = false
     @State private var storeName: String = ""
     @State private var storeAddress: String = ""
-    @State private var showOCRView: Bool = true 
+    @State private var showOCRView: Bool = true
     @State private var isPresented: Bool = false
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var cancellables = Set<AnyCancellable>()
     
     var body: some Scene {
         WindowGroup {
             NavigationStack {
                 VStack {
-                    ZStack {
+//                    ZStack {
                         switch selectedTab {
                         case .home:
-                            HomeMapView()
+                            MainHomeView()
                         case .review:
                             NavigationStack(path: $reviewPath) {
                                 OCRView(isReviewFlowActive: $isReviewFlowActive, reviewPath: $reviewPath)
@@ -67,18 +69,27 @@ struct CheckEat_UserApp: App {
                         case .myPage:
                             MyPageView(selectedTab: $selectedTab)
                         }
-                    }
-                    .frame(maxHeight: .infinity)
+//                    }
+//                    .frame(maxHeight: .infinity)
                     
-                    CustomTabBarView(
-                        selectedTab: $selectedTab,
-                        reviewPath: reviewPath,
-                        isReviewFlowActive: isReviewFlowActive
-                    )
+                    CustomTabBarView(selectedTab: $selectedTab)
                 }
                 .background(Color.white)
             }
             .environmentObject(authViewModel)
+            .onChange(of: scenePhase) { phase in
+                if phase == .active {
+                    AuthService.shared.refreshPublisher()
+                        .sink { completion in
+                            if case let .failure(error) = completion {
+                                print("🔁 refresh fail:", error.localizedDescription)
+                            }
+                        } receiveValue: {_ in
+                            print("🔁 refresh ok")
+                        }
+                        .store(in: &cancellables)
+                }
+            }
         }
     }
 }
