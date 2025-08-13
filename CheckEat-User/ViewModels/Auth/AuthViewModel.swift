@@ -31,6 +31,4 @@ class AuthViewModel: ObservableObject {
         isLoggedIn = false
         UserDefaults.standard.removeObject(forKey: "favorite_store_ids")
     }
-    
-    
 }

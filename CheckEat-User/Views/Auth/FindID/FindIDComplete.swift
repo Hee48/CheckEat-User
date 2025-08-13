@@ -9,9 +9,9 @@ import SwiftUI
 
 struct FindIDComplete: View {
     let userID: String
-    @State var goToFindPwd: Bool = false
     @Binding var showFindId: Bool
     @Binding var showFindPw: Bool
+    @Binding var findPath: [FindIDPath]
     
     var body: some View {
         
@@ -36,15 +36,16 @@ struct FindIDComplete: View {
                     .foregroundStyle(.buttonOP70)
                     .regular14()
                 Button {
-                    goToFindPwd = true
+                    showFindId = false
+                    DispatchQueue.main.async {
+                        findPath.removeAll()
+                        showFindPw = true
+                    }
                 } label: {
                     Text("비밀번호 찾기")
                         .bold14()
                         .foregroundStyle(.buttonAuth)
                 }
-            }
-            .fullScreenCover(isPresented: $goToFindPwd) {
-                FindPwdView(showFindPwd: $showFindPw)
             }
             .padding(.vertical)
             

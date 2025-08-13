@@ -124,6 +124,7 @@ struct EditAllergiesView: View {
                     .cornerRadius(5)
                     .padding(.leading, 20)
                     .padding(.trailing, 25)
+                    .padding(.bottom, 30)
                 
             }
             NavigationLink(

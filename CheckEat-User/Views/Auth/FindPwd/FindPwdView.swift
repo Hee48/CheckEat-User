@@ -11,6 +11,7 @@ struct FindPwdView: View {
 
     // MARK: 스크린 상태 값
     @Binding var showFindPwd: Bool
+    @State var showFindID: Bool
     // MARK: 하위 경로 스택
     @State var path: [FindPwdRoute] = []
     
@@ -25,7 +26,7 @@ struct FindPwdView: View {
     //MARK: 인증코드 입력 필드 노출 여부
     @State private var isFieldVisible: Bool = false
     //MARK: 인증코드 입력 제한시간 타이머 설정
-    @State private var timeRemaining = 30
+    @State private var timeRemaining = 180
     @State private var timerActive: Bool = false
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     //MARK: 인증코드 유효성
@@ -130,9 +131,9 @@ struct FindPwdView: View {
             .navigationDestination(for: FindPwdRoute.self) { route in
                 switch route {
                 case .inputNewPwd:
-                    ChangePasswordView(showFindPwd: $showFindPwd, path: $path, userEmail: $userEmail, viewModel: viewModel)
+                    ChangePasswordView(showFindPwd: $showFindPwd, showFindID: $showFindID, path: $path, userEmail: $userEmail, viewModel: viewModel)
                 case .findPwdComplete:
-                    ChangePasswordCompleteView(showFindPwd: $showFindPwd)
+                    ChangePasswordCompleteView(showFindPwd: $showFindPwd, showFindID: $showFindID)
                 }
             }
             .safeAreaInset(edge: .bottom) {
@@ -171,7 +172,7 @@ struct FindPwdView: View {
         return String(format: "%02d:%02d", minutes, secs)
     }
     func startTimer() {
-        timeRemaining = 30
+        timeRemaining = 180
         timerActive = true
     }
     

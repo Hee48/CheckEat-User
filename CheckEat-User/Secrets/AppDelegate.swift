@@ -25,7 +25,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         appearance.shadowColor = .clear
         
         // 백버튼 이미지 설정
-        let backButtonImage = UIImage(systemName: "chevron.left")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        let backButtonImage = UIImage(systemName: "chevron.backward")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         appearance.setBackIndicatorImage(backButtonImage, transitionMaskImage: backButtonImage)
 
         UINavigationBar.appearance().standardAppearance = appearance

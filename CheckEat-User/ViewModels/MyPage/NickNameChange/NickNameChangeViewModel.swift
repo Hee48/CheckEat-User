@@ -37,6 +37,10 @@ class NickNameChangeViewModel: ObservableObject {
                        print("✅ 서버 응답 성공:")
                        print("message:", value.message)
                        print("status:", value.status)
+                    print("value:", value)
+                     let newAccessToken = value.accessToken
+                            TokenManager.shared.saveAccessToken(accessToken: newAccessToken)
+                            print("🔑 새로운 AccessToken 저장 완료")
                    } else {
                        if let data = response.data,
                           let rawString = String(data: data, encoding: .utf8) {

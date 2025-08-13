@@ -163,3 +163,16 @@ enum HalaStatus: Int, CaseIterable {
         }
     }
 }
+//MARK: - 토큰검증하기
+
+//리프레시 토큰으로 토큰확인 요청
+struct RefreshRequest: Encodable {
+    let log_Id: String
+    let refreshToken: String
+}
+//리프레시 토큰으로 토큰확인 응답
+struct RefreshResponse: Decodable {
+    let accessToken: String
+    let refreshToken: String
+}
+

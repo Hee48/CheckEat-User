@@ -18,8 +18,9 @@ class FindIDViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
-    func findId(email: String, language: String) {
-        let findIdData = FindIdTokenRequest(email: email, language: languageCode)
+    func findId(email: String, language: String? = nil) {
+        let lang = language ?? languageCode
+        let findIdData = FindIdTokenRequest(email: email, language: lang)
         
         AF.request(AuthAPI.findIdURL, method: .post, parameters: findIdData, encoder: JSONParameterEncoder.default)
             .validate(statusCode: 200..<300)

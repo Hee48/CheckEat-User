@@ -42,6 +42,7 @@ struct CustomTabBarView: View {
             LoginView {
                 if let tab = intendedTab {
                     selectedTab = tab
+                    authViewModel.checkToken()
                 }
                 showLogin = false
             }

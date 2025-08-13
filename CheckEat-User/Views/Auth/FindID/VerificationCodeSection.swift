@@ -67,9 +67,5 @@ struct VerificationCodeSection: View {
     }
 
 }
-    
-//#Preview {
-//    VerificationCodeSection()
-//}
 
 
