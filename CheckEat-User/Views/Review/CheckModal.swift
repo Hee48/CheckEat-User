@@ -14,6 +14,7 @@ struct CheckModal: View {
     @Binding var showOCRView: Bool
     @State private var showReviewQuestion = false
     @State private var showReviewFailed = false
+    @State private var editedStoreName: String = ""
     @EnvironmentObject var viewModel: ReviewViewModel
     @Binding var reviewPath: [ReviewPath]
     @Binding var isReviewFlowActive: Bool
@@ -23,10 +24,14 @@ struct CheckModal: View {
             Spacer()
             
             VStack(alignment: .center) {
-                Text("가게명 : \(storeName) ")
+                Text("가게명 : \(storeName)")
                     .bold20()
-                Text("주소 : \(storeAddress) ")
+                Text("주소 : \(storeAddress)")
                     .medium16()
+                    .padding(.top, 12)
+                UnderLinedTextField(placeholder: "가게명이 다르다면 입력해주세요", text: $editedStoreName)
+                    .regular16()
+                    .padding(.horizontal, 20)
                     .padding(.top, 20)
             }
             
@@ -52,7 +57,9 @@ struct CheckModal: View {
                 .padding()
                 
                 Button {
-                    viewModel.checkCanWriteReview(storeName: storeName, storeAddress: storeAddress)
+                    let trimmed = editedStoreName.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let finalName = (!trimmed.isEmpty && trimmed != storeName) ? trimmed : storeName
+                    viewModel.checkCanWriteReview(storeName: finalName, storeAddress: storeAddress)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         if viewModel.canWrite, let storeId = viewModel.storeId {
                             reviewPath.append(.reviewQuestionView(storeId: storeId))

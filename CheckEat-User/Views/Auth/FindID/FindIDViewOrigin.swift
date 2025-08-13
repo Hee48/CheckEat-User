@@ -12,7 +12,7 @@ struct FindIDViewOrigin: View {
     @State private var showVerificationField = false
     @State private var verificationCode = ""
     @State private var isVerificationCodeValid: Bool = false
-    @State private var timeRemaining = 30
+    @State private var timeRemaining = 180
     @State private var timerActive = false
     @State private var infoMessage = "가입시 등록하신 이메일을 입력해주세요."
     @State private var isEmailValid: Bool = false
@@ -22,6 +22,7 @@ struct FindIDViewOrigin: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @StateObject private var viewModel = FindIDViewModel()
     @Binding var showFindId: Bool
+    @Binding private var findPath: [FindIDPath]
 
     var isButtonEnabled: Bool {
         if showVerificationField {
@@ -122,7 +123,7 @@ struct FindIDViewOrigin: View {
                     }
                     .disabled(!isButtonEnabled)
                     .fullScreenCover(isPresented: $goFindIDComplete) {
-                        FindIDComplete(userID: viewModel.foundUserId, showFindId: $showFindId, showFindPw: .constant(false))
+                        FindIDComplete(userID: viewModel.foundUserId, showFindId: $showFindId, showFindPw: .constant(false), findPath: $findPath)
                     }
                     .padding(.top, 24)
                     .padding(.bottom, 40)
@@ -177,7 +178,7 @@ struct FindIDViewOrigin: View {
     }
     
     func startTimer() {
-        timeRemaining = 30
+        timeRemaining = 180
         timerActive = true
     }
     func resendCode() {

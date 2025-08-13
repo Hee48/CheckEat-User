@@ -22,7 +22,7 @@ struct FindIDView: View {
     @State private var authCodeIsValid: Bool? = nil
     @State private var isEmailValid: Bool = false
     
-    @State private var timeRemaining = 30
+    @State private var timeRemaining = 180
     @State private var timerActive: Bool = false
     
     @FocusState private var fieldIsFocused: Bool
@@ -31,6 +31,8 @@ struct FindIDView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var findPath: [FindIDPath] = []
     @Binding var showFindId: Bool
+    @Binding var showFindID: Bool
+    @Binding var showFindPw: Bool
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -85,7 +87,7 @@ struct FindIDView: View {
                     .navigationDestination(for: FindIDPath.self) { path in
                         switch path {
                         case .findIdComplete(let userID):
-                            FindIDComplete(userID: viewModel.foundUserId, showFindId: $showFindId, showFindPw: .constant(false))
+                            FindIDComplete(userID: viewModel.foundUserId, showFindId: $showFindId, showFindPw: $showFindPw, findPath: $findPath)
                         default:
                             EmptyView()
                         }
@@ -225,12 +227,12 @@ struct FindIDView: View {
     }
     
     func startTimer() {
-        timeRemaining = 30
+        timeRemaining = 180
         timerActive = true
     }
     //아이디찾기 인증번호 발송
     func resendCode() {
-        viewModel.findId(email: userEmail, language: "ko")
+        viewModel.findId(email: userEmail)
         startTimer()
     }
     func isValidEmailAddress(email: String) {

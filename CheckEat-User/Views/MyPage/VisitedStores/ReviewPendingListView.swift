@@ -15,7 +15,10 @@ struct PendingReview: Identifiable {
 
 struct ReviewPendingListView: View {
     @ObservedObject var viewModel: VisitedStoreViewModel
-    @State private var showAddReivew = false
+    @State private var selectedStoreId: Int? = nil
+    @State private var showCheckModal = false
+    @State private var reviewPath: [ReviewPath] = []
+    @State private var isReviewFlowActive = false
     
     var body: some View {
         GeometryReader { containerGeo in
@@ -49,10 +52,10 @@ struct ReviewPendingListView: View {
                             Spacer()
                             
                             Button {
-                               showAddReivew = true
+                                selectedStoreId = store.sto_id
+                                print("👉 선택된 sto_id:", store.sto_id)
                             } label: {
                                 Image("arrow.right")
-                    
                             }
                             .padding(.top, 30)
                         }
@@ -66,15 +69,23 @@ struct ReviewPendingListView: View {
                             .padding(.vertical, 10)
                     }
                 }
-                //MARK: - 리뷰 재등록 부분 + 스토어아이디 넘겨야함 
-//                .fullScreenCover(isPresented: $showAddReivew) {
-//                    AddReivewView()
-//                }
+                .fullScreenCover(item: $selectedStoreId) { storeId in
+                    AddReivewView(
+                        isPresented: Binding(
+                            get: { selectedStoreId != nil },
+                            set: { if !$0 { selectedStoreId = nil } }
+                        ),
+                        showCheckModal: $showCheckModal,
+                        reviewPath: $reviewPath,
+                        isReviewFlowActive: $isReviewFlowActive,
+                        storeId: storeId
+                    )
+                }
+            }
+            .onAppear {
+                viewModel.pendingReviewStores()
             }
         }
     }
 }
-//
-//#Preview {
-//    ReviewPendingListView()
-//}
+

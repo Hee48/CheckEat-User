@@ -95,8 +95,10 @@ struct EditAllergies19: View {
                     viewModel.editAllergies(commonIDs: selectedAllergens, personalAllergy: allergy)
                 } label: {
                     Text("완료")
+                        .semibold16()
                         .primaryButtonStyle(isEnabled: true)
                         .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
                 }
                 .padding(.top, 20)
                 .onChange(of: viewModel.isSuccess) { isSuccess in

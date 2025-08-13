@@ -12,6 +12,7 @@ enum SettingDestination: Hashable, Identifiable {
     case favoriteStores
     case reviewCreated
     case changePassword
+    case changeNickName
     case editAllergies
     case languageSettings
 
@@ -44,7 +45,8 @@ struct MyPageSectionContainerView: View {
 
             SectionView(
                 title: "계정",
-                buttons: [(title: "비밀번호 변경", destination: .changePassword)]
+                buttons: [(title: "비밀번호 변경", destination: .changePassword),
+                          (title: "닉네임 변경", destination: .changeNickName)]
             ) { destination in
                 handleSelection(destination)
             }

@@ -31,6 +31,4 @@ class AuthViewModel: ObservableObject {
         isLoggedIn = false
 
     }
-    
-    
 }
