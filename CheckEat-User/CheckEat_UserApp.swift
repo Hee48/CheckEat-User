@@ -31,7 +31,7 @@ struct CheckEat_UserApp: App {
 //                    ZStack {
                         switch selectedTab {
                         case .home:
-                            HomeMapView()
+                            MainHomeView()
                         case .review:
                             NavigationStack(path: $reviewPath) {
                                 OCRView(isReviewFlowActive: $isReviewFlowActive, reviewPath: $reviewPath)
