@@ -43,11 +43,11 @@ struct CommonAlInfo: Decodable {
 }
 
 struct HolidayInfo: Decodable {
-    let holi_id: Int?
-    let holi_weekday: String? // 금일 영업시간
+    let holi_weekday: Int?
+    let today: String?
     let holi_break: String?
-    let holi_regular: String?
-    let holi_public: String?
+    let holi_regular: [String]?
+    let holi_public: [String]?
     let holi_runtime_sun: String?
     let holi_runtime_mon: String?
     let holi_runtime_tue: String?

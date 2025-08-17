@@ -19,9 +19,10 @@ struct FavoriteStoreItem: Decodable {
     let sto_img: String?
     let sto_address: String
     let today_runtime: String?
+    let today_weekday: Int
     let holi_break: String?
-    let holi_regular: String?
-    let holi_public: String?
+    let holi_regular: [String]?
+    let holi_public: [String]?
 }
 
 struct FavoriteStoreListResponse: Decodable {
