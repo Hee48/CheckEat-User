@@ -56,20 +56,6 @@ struct AddReivewView: View {
     var body: some View {
         ZStack {
             VStack {
-                ZStack {
-                    Text("리뷰 등록")
-                        .medium16()
-                    HStack {
-                        Spacer()
-                        Button {
-                            showReviewStopModal = true
-                        } label: {
-                            Image("xmark")
-                        }
-                        .padding(.trailing, 20)
-                    }
-                }
-                .frame(height: 44)
                 
                 Text("내가 먹은 음식에 대한 리뷰를 남겨\n많은 사람과 공유해보세요!")
                     .lineSpacing(4)
@@ -135,6 +121,19 @@ struct AddReivewView: View {
                     .zIndex(3)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("리뷰 등록")
+                    .medium16()
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showReviewStopModal = true
+                } label: {
+                    Image("xmark")
+                }
             }
         }
         .actionSheet(isPresented: $showPickerSheet) {

@@ -40,7 +40,7 @@ struct StoreMenuItem: Decodable {
     let foo_price: Int
     let foo_img: String?
     let foo_name: String
-    let foo_material: String?
+    let foo_material: [String]
 }
 //리뷰등록 요청
 struct RegisterReviewRequest: Codable {
