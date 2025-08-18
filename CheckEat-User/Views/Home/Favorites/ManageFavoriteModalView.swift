@@ -18,7 +18,6 @@ struct ManageFavoriteModalView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            // Header (스타일 통일)
             HStack {
 //                Text("⭐️ 즐겨찾기한 가게 (\(viewModel.items.count)곳)")
                 Text("⭐️ 즐겨찾기한 가게")
@@ -99,7 +98,7 @@ extension ManageFavoriteModalView {
             Text(item.sto_name)
                 .bold20()
             
-            Group {
+            VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Image("Location")
                     Text(item.sto_address)
@@ -112,7 +111,15 @@ extension ManageFavoriteModalView {
                         Text("영업시간 정보 없음")
                     }
                 }
+                HStack {
+                    Image("Time")
+                    let breakTime = item.holi_break
+                    let currentWeekday = item.today_weekday
+                    Text("휴게시간 \(BreakTimeUtils.getBreakTimeText(for: item.holi_break, weekday: item.today_weekday))")
+                }
             }
+            .regular14()
+            .foregroundColor(.secondary)
             .regular14()
             .foregroundColor(.secondary)
         }

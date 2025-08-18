@@ -56,8 +56,8 @@ struct Stores: Decodable, Identifiable, Hashable {
     let holi_break: String? // 브레이크 타임
     
     // 쓰이지 않은 정보 필드
-    let holi_regular: String? // 정기 휴일 정보
-    let holi_public: String? // 공휴일 휴무 정보
+    let holi_regular: [String]? // 정기 휴일 정보
+    let holi_public: [String]? // 공휴일 휴무 정보
     
     enum CodingKeys: String, CodingKey {
         case storeId = "sto_id"

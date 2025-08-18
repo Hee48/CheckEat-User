@@ -98,6 +98,7 @@ struct NearByStoresModalView: View {
 extension NearByStoresModalView {
     @ViewBuilder
     private func storeCell(for store: Stores) -> some View {
+        
         VStack(alignment: .leading, spacing: 8) {
             AsyncImage(url: URL(string: store.sto_img ?? "")) { image in
                 image
@@ -144,6 +145,10 @@ extension NearByStoresModalView {
                     } else {
                         Text("영업시간 정보 없음")
                     }
+                }
+                HStack {
+                    Image("Time")
+                    Text("휴게시간 \(BreakTimeUtils.getBreakTimeText(for: store.holi_break, weekday: store.holi_weekday))")
                 }
             }
             .foregroundColor(.secondary)

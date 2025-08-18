@@ -12,7 +12,7 @@ struct ManagerFavoriteStoreListView: View {
     
     @Binding var selectedStoreId: Int?
     let items: [FavoriteStoreItem]
-
+    
     var body: some View {
         List(items, id: \.sto_id) { item in
             Button {
@@ -33,23 +33,23 @@ struct ManagerFavoriteStoreListView: View {
 private extension ManagerFavoriteStoreListView {
     @ViewBuilder
     func favoriteCell(for item: FavoriteStoreItem) -> some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 12) {
             AsyncImage(url: URL(string: item.sto_img ?? "")) { image in
                 image
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
-                    .frame(maxWidth: 70)
+                    .frame(maxWidth: 90)
                     .cornerRadius(8)
             } placeholder: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)
-                        .frame(width: 70, height: 70)
+                        .frame(width: 90, height: 90)
                         .foregroundStyle(.buttonSoft)
                     Image(systemName: "heart.fill")
                         .foregroundStyle(.buttonEnable)
                 }
             }
-
+            
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.sto_name)
                     .bold20()
@@ -66,6 +66,14 @@ private extension ManagerFavoriteStoreListView {
                         } else {
                             Text("영업시간 정보 없음")
                         }
+                    }
+                    HStack {
+                        Image("Time")
+                        let breakTime = BreakTimeUtils.getBreakTimeText(
+                            for: item.holi_break,
+                            weekday: item.today_weekday
+                        )
+                        Text("휴게시간 \(breakTime)")
                     }
                 }
                 .regular14()
