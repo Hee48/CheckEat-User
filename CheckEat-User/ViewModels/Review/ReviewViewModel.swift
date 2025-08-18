@@ -103,6 +103,7 @@ class ReviewViewModel: ObservableObject {
                     self.menuList = value
                 case .failure(let error):
                     print("❌ 메뉴 등록 실패: \(error.localizedDescription)")
+                    
                 }
             }
         
