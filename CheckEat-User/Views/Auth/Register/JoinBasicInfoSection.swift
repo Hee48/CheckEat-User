@@ -31,6 +31,9 @@ struct JoinBasicInfoSection: View {
                         .font(.system(size: 14))
                         .padding(.horizontal, 20)
                 }
+                .keyboardType(.asciiCapable)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
                 Button {
                     viewModel.checkIdUnique(id: id)
                 } label: {
@@ -52,6 +55,8 @@ struct JoinBasicInfoSection: View {
             UnderLinedTextField(placeholder: "닉네임을 입력해 주세요.", text: $nickName)
                 .font(.system(size: 14))
                 .padding(.horizontal, 20)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
 
             Text("비밀번호")
                 .semibold14()
@@ -67,6 +72,8 @@ struct JoinBasicInfoSection: View {
                 }
                 .font(.system(size: 14))
                 .padding(.horizontal, 20)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
 
                 .focused($isPasswordFocused)
                 .frame(height: 36)
@@ -78,7 +85,7 @@ struct JoinBasicInfoSection: View {
                     isPasswordVisible.toggle()
                 } label: {
                     Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
-                        .frame(width: 20, height: 20)
+                        .frame(width: 16, height: 16)
                         .foregroundColor(.buttonOP50)
                         .padding(.trailing, 30)
                 }
@@ -117,6 +124,8 @@ struct JoinBasicInfoSection: View {
                         SecureField("비밀번호를 한번더 입력해주세요", text: $passwordConfirm)
                     }
                 }
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
                 .font(.system(size: 14))
                 .padding(.horizontal, 20)
                 .padding(.top, 5)
@@ -126,7 +135,7 @@ struct JoinBasicInfoSection: View {
                     isPasswordConfirmVisible.toggle()
                 } label: {
                     Image(systemName: isPasswordConfirmVisible ? "eye" : "eye.slash")
-                        .frame(width: 20, height: 20)
+                        .frame(width: 16, height: 16)
                         .foregroundColor(.buttonOP50)
                         .padding(.trailing, 30)
                 }
@@ -158,6 +167,7 @@ struct JoinBasicInfoSection: View {
                 .padding(.top, 5)
             }
         }
+        .tapToDismissKeyboard()
         
     }
     func isValidPassword(_ password: String) -> Bool {

@@ -30,39 +30,43 @@ struct LoginView: View {
                         .semibold16()
                     UnderLinedTextField(placeholder: "아이디를 입력해주세요", text: $viewModel.loginId)
                         .regular14()
-                        .autocorrectionDisabled(true)
+                        .keyboardType(.asciiCapable)
                         .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
                         .padding(.bottom)
                     
                     Text("비밀번호")
                         .semibold16()
-                    HStack {
-                        Group {
-                            if isPasswordVisible {
-                                UnderLinedTextField(placeholder: "비밀번호를 입력해주세요", text: $viewModel.password)
-                                    .textContentType(.password)
-                                    .autocapitalization(.none)
-                                    .disableAutocorrection(true)
-                            } else {
-                                UnderLinedTextField(placeholder: "비밀번호를 입력해주세요", isSecure: true, text: $viewModel.password)
-                                    .textContentType(.password)
-                                    .autocapitalization(.none)
-                                    .disableAutocorrection(true)
-                                    .tapToDismissKeyboard()
-                            }
+                    
+                    Group {
+                        if isPasswordVisible {
+                            UnderLinedTextField(placeholder: "비밀번호를 입력해주세요", text: $viewModel.password)
+                                .textContentType(.password)
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
+                        } else {
+                            UnderLinedTextField(placeholder: "비밀번호를 입력해주세요", isSecure: true, text: $viewModel.password)
+                                .textContentType(.password)
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
+                                .tapToDismissKeyboard()
                         }
-                        .padding(.bottom)
-                        
+                    }
+                    .regular14()
+                    .padding(.bottom)
+                    .overlay(alignment: .trailing) {
                         Button {
                             isPasswordVisible.toggle()
                         } label: {
                             Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
-                                .foregroundColor(.gray)
-                                .padding(8)
+                                .frame(width: 16, height: 16)
+                                .foregroundColor(.buttonOP50)
+                                .padding(.bottom, 30)
+                                .padding(.trailing, 8)
                                 .contentShape(Rectangle())
                         }
                     }
-                    .regular14()
+                    
                     Text(viewModel.alertMessage)
                         .regular12()
                         .foregroundStyle(.red)

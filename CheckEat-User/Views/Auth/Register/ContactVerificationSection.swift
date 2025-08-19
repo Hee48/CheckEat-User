@@ -31,6 +31,9 @@ struct ContactVerificationSection: View {
                 .padding(.top, 10)
             ZStack(alignment: .trailing) {
                 UnderLinedTextField(placeholder: "이메일을 입력해 주세요", text: $email)
+                    .keyboardType(.emailAddress)
+                    .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
                     .regular14()
                     .padding(.horizontal, 20)
                     .padding(.top, 5)
@@ -64,10 +67,11 @@ struct ContactVerificationSection: View {
                     .padding(.leading, 17)
                     .padding(.top, 10)
                 ZStack(alignment: .trailing) {
-                    UnderLinedTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
+                    AuthCodeTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
                         .regular14()
                         .padding(.horizontal, 20)
                         .padding(.top, 5)
+                        .disableAutocorrection(true)
                     Button {
                         //인증코드 인증부분
                         viewModel.verifyEmailToken(email: email, token: verificationCode) { isSuccess in
@@ -94,6 +98,7 @@ struct ContactVerificationSection: View {
                 }
             }
         }
+        .tapToDismissKeyboard()
         VeganDropDown(selected: $selectedVeganType)
             .padding(.top, 10)
         Text("할랄 여부")
