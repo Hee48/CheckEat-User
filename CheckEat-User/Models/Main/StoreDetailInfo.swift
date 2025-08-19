@@ -33,6 +33,8 @@ struct MenuInfo: Decodable, Identifiable {
     let foo_vegan: Int?
     let foo_status: Int
     let CommonAl: [CommonAlInfo]?
+    let foo_warning: String?
+    let foo_warning_coal: [Int]?
     
     var id: Int { foo_id }
     

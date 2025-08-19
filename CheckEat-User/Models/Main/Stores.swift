@@ -5,37 +5,6 @@
 //  Created by 최준영 on 8/9/25.
 //
 
-/* request
- 현재 위치 기반 검색
- {
-  "user_la": "37.49572211819299",
-  "user_long": "127.02744584530593",
-  "radius": "10000"
- }
- */
-
-/* request
- 가게명으로 검색
- {
-   "sto_name": "스노우폭스",
-   "user_la": "37.49572211819299",
-   "user_long": "127.02744584530593",
-   "lang": "ko",
-   "radius": "2000"
- }
-*/
-
-/* request
- 비건 레벨로 검색 (필터 버튼 이용)
- {
-   "vegan_level": "3",
-   "user_la": "37.49572211819299",
-   "user_long": "127.02744584530593",
-   "lang": "ko",
-   "radius": "2000"
- }
- */
-
 //MARK: 사용자 현재 위치 반경 지정 가게 조회, 가게명/비건레벨로 가게 조회 (response 동일)
 struct Stores: Decodable, Identifiable, Hashable {
     
