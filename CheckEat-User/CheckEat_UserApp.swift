@@ -74,7 +74,10 @@ struct CheckEat_UserApp: App {
                     
                     CustomTabBarView(selectedTab: $selectedTab)
                 }
+                .ignoresSafeArea(.keyboard, edges: .bottom)
                 .background(Color.white)
+                .simultaneousGesture(TapGesture().onEnded { dismissKeyboard() })
+                .gesture(DragGesture().onChanged { _ in dismissKeyboard() })
             }
             .environmentObject(authViewModel)
             .onChange(of: scenePhase) { phase in
@@ -91,5 +94,9 @@ struct CheckEat_UserApp: App {
                 }
             }
         }
+    }
+    
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
