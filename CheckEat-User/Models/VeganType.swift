@@ -9,7 +9,7 @@ import Foundation
 import SwiftUICore
 
 enum VeganType: Int, CaseIterable {
-    case none = 0
+    case none = 7
     case vegan = 1
     case lacto = 2
     case ovo = 3

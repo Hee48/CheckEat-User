@@ -56,17 +56,6 @@ struct FavoriteStoreScreenView: View {
             }
             .navigationTitle("즐겨찾기 가게")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        isPresented = false
-                    } label: {
-                        Image(systemName: "chevron.backward")
-                            .foregroundStyle(.black)
-                    }
-                }
-            }
         }
     }
 }

@@ -12,6 +12,14 @@ struct StoreMenuSection: View {
     let storeInfo: StoreDetailInfo
     @Binding var selectedTab: String
     
+    // 공통 알레르기 매핑
+    private let allergyMapping: [Int: String] = [
+        1: "난류", 2: "우유", 3: "메밀", 4: "땅콩", 5: "대두",
+        6: "밀", 7: "고등어", 8: "게", 9: "새우", 10: "돼지고기",
+        11: "복숭아", 12: "토마토", 13: "아황산류", 14: "호두", 15: "닭고기",
+        16: "쇠고기", 17: "오징어", 18: "조개류", 19: "잣"
+    ]
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             // 탭 선택 버튼
@@ -79,7 +87,7 @@ struct StoreMenuSection: View {
                                         .semibold16()
                                     Spacer()
                                     // 비건 레벨 표시
-                                    if let veganLevel = food.foo_vegan, veganLevel != 0 {
+                                    if let veganLevel = food.foo_vegan, veganLevel != 7 {
                                         if let veganType = VeganType(rawValue: veganLevel),
                                            let displayName = veganType.displayName {
                                             Text(displayName)
@@ -101,24 +109,42 @@ struct StoreMenuSection: View {
                                     } label: {
                                         HStack {
                                             Text("리뷰")
-                                                .foregroundStyle(.black)
                                             Image(systemName: "chevron.forward")
                                                 .resizable()
                                                 .frame(width: 6, height: 9)
-                                                .foregroundStyle(.buttonOP50)
+                                            
                                         }
-                                        .regular14()
+                                        .foregroundStyle(.buttonOP50)
+                                        .regular12()
                                     }
                                     
                                 }
-                                HStack(spacing: 4) {
-                                    Image("Warn")
-                                        .foregroundStyle(.buttonOP50)
-                                    Text("알레르기")
-                                        .foregroundStyle(.buttonOP50)
-                                    Text(food.foo_material.isEmpty ? "유발재료 없음"
-                                         : food.foo_material.joined(separator: ", "))
-                                    .foregroundStyle(.red)
+                                
+                                // 알레르기 정보 섹션
+                                VStack(alignment: .leading, spacing: 6) {
+                                    
+                                    // 전체 재료 (직접입력 + 19종 알레르기)
+                                    HStack(alignment: .top, spacing: 4) {
+                                        Image("Warn")
+                                            .foregroundStyle(.buttonOP50)
+                                        Text("재료")
+                                            .foregroundStyle(.buttonOP50)
+                                        Text(getCombinedIngredients(food: food))
+                                            .foregroundStyle(.black)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                    }
+                                    
+                                    // 개인 알레르기 주의 성분 (직접입력 + 19종 중 해당되는 것)
+                                    if hasAllergyWarnings(food: food) {
+                                        HStack(spacing: 4) {
+                                            Image(systemName: "exclamationmark.triangle.fill")
+                                                .font(.system(size: 12))
+                                            Text("알레르기 주의")
+                                        }
+                                        Text(getCombinedAllergyWarnings(food: food))
+                                            .foregroundStyle(.red)
+                                            .fontWeight(.semibold)
+                                    }
                                 }
                                 .regular14()
                             }
@@ -135,6 +161,50 @@ struct StoreMenuSection: View {
         }
     }
     
+    // MARK: - Helper Functions
+    private func getCombinedIngredients(food: MenuInfo) -> String {
+        var allIngredients: [String] = []
+        
+        // 직접 입력된 재료들
+        allIngredients.append(contentsOf: food.foo_material)
+        
+        // 19종 공통 알레르기 재료들
+        if let commonAl = food.CommonAl, !commonAl.isEmpty {
+            let allergyIngredients = commonAl.compactMap { allergyMapping[$0.coal_id] }
+            allIngredients.append(contentsOf: allergyIngredients)
+        }
+        
+        // 중복 제거 및 정렬
+        let uniqueIngredients = Array(Set(allIngredients)).sorted()
+        
+        return uniqueIngredients.isEmpty ? "재료 정보 없음" : uniqueIngredients.joined(separator: ", ")
+    }
+    
+    private func getCombinedAllergyWarnings(food: MenuInfo) -> String {
+        var allWarnings: [String] = []
+        
+        // 개인 알레르기 (직접 입력)
+        if let personalAllergy = food.foo_warning {
+            allWarnings.append(personalAllergy)
+        }
+        
+        // 19종 중 해당되는 알레르기
+        if let coalWarnings = food.foo_warning_coal, !coalWarnings.isEmpty {
+            let allergyNames = coalWarnings.compactMap { allergyMapping[$0] }
+            allWarnings.append(contentsOf: allergyNames)
+        }
+        
+        // 중복 제거 및 정렬
+        let uniqueWarnings = Array(Set(allWarnings)).sorted()
+        
+        return uniqueWarnings.joined(separator: ", ")
+    }
+    
+    private func hasAllergyWarnings(food: MenuInfo) -> Bool {
+        return food.foo_warning != nil ||
+        (food.foo_warning_coal != nil && !food.foo_warning_coal!.isEmpty)
+    }
+    
     // 탭에 따라 메뉴 필터링
     private func getFilteredFoodList() -> [MenuInfo] {
         switch selectedTab {
@@ -142,9 +212,9 @@ struct StoreMenuSection: View {
             return storeInfo.food_list
         case "채식메뉴":
             return storeInfo.food_list.filter { food in
-                // foo_vegan이 0이 아닌 메뉴만 필터링
+                // foo_vegan이 7이 아닌 메뉴만 필터링
                 if let veganLevel = food.foo_vegan {
-                    return veganLevel != 0
+                    return veganLevel != 7
                 }
                 return false
             }
