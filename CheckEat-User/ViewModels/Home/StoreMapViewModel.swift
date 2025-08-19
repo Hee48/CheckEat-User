@@ -96,7 +96,7 @@ class StoreMapViewModel: ObservableObject {
         case "전체메뉴":
             return storeMenus
         case "채식메뉴":
-            return storeMenus.filter { $0.foo_vegan != 0 }
+            return storeMenus.filter { $0.foo_vegan != 7 }
         default:
             print("XXX 메뉴 카테고리별 필터링 조회 오류 발생")
             return []

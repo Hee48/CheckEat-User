@@ -36,8 +36,9 @@ struct CustomTabBarView: View {
         }
         .frame(height: 70)
         .padding(.horizontal, 16)
-        .background(Color.white)
+        
         .shadow(color: Color.black.opacity(0.1), radius: 8, y: -2)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
         .fullScreenCover(isPresented: $showLogin) {
             LoginView {
                 if let tab = intendedTab {
@@ -76,3 +77,4 @@ struct CustomTabBarView: View {
         .frame(maxWidth: .infinity)
     }
 }
+
