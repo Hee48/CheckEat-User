@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import Kingfisher
 
 struct ManageFavoriteModalView: View {
     
@@ -38,7 +39,7 @@ struct ManageFavoriteModalView: View {
                 ProgressView {
                     Text("loading_stores".localized)
                 }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let msg = viewModel.errorMessage {
                 VStack(spacing: 12) {
                     Image(systemName: "exclamationmark.triangle")
@@ -80,22 +81,20 @@ extension ManageFavoriteModalView {
     @ViewBuilder
     private func favoriteCell(for item: FavoriteStoreItem) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            AsyncImage(url: URL(string: item.sto_img ?? "")) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 100)
-                    .cornerRadius(8)
-            } placeholder: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8)
-                        .frame(height: 100)
-                        .frame(maxWidth: .infinity)
-                        .foregroundStyle(.buttonSoft)
-                    Image(systemName: "storefront.fill")
-                        .foregroundStyle(.buttonEnable)
+            KFImage(URL(string: item.sto_img ?? ""))
+                .placeholder {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .frame(height: 100)
+                            .foregroundStyle(.buttonOP)
+                        Image(systemName: "fork.knife")
+                            .foregroundStyle(.buttonEnable)
+                    }
                 }
-            }
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 100)
+                .cornerRadius(8)
             
             Text(item.sto_name)
                 .bold20()
@@ -129,14 +128,14 @@ class ManageFavoriteModalViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String? = nil
     @Published var items: [FavoriteStoreItem] = []
-
+    
     private var bag = Set<AnyCancellable>()
     private let service = ManageFavoriteService()
-
+    
     func load() {
         errorMessage = nil
         isLoading = true
-
+        
         service.fetchFavoriteStoreItems()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in

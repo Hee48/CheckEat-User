@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 // MARK: - ManagerFavoriteStoreListView
 struct ManagerFavoriteStoreListView: View {
@@ -34,21 +35,20 @@ private extension ManagerFavoriteStoreListView {
     @ViewBuilder
     func favoriteCell(for item: FavoriteStoreItem) -> some View {
         HStack(spacing: 12) {
-            AsyncImage(url: URL(string: item.sto_img ?? "")) { image in
-                image
-                    .resizable()
-                    .aspectRatio(1, contentMode: .fit)
-                    .frame(maxWidth: 90)
-                    .cornerRadius(8)
-            } placeholder: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8)
-                        .frame(width: 90, height: 90)
-                        .foregroundStyle(.buttonSoft)
-                    Image(systemName: "heart.fill")
-                        .foregroundStyle(.buttonEnable)
+            KFImage(URL(string: item.sto_img ?? ""))
+                .placeholder {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .frame(width: 90, height: 90)
+                            .foregroundStyle(.buttonSoft)
+                        Image(systemName: "heart.fill")
+                            .foregroundStyle(.buttonEnable)
+                    }
                 }
-            }
+                .resizable()
+                .aspectRatio(1, contentMode: .fit)
+                .frame(maxWidth: 90)
+                .cornerRadius(8)
             
             VStack(alignment: .leading, spacing: 4) {
                 if LanguageSettingsViewModel.getCurrentLanguage() == "ko" {

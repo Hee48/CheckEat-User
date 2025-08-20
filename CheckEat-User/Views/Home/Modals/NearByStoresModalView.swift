@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreLocation
+import Kingfisher
 
 struct NearByStoresModalView: View {
     
@@ -101,22 +102,21 @@ extension NearByStoresModalView {
     private func storeCell(for store: Stores) -> some View {
         
         VStack(alignment: .leading, spacing: 8) {
-            AsyncImage(url: URL(string: store.sto_img ?? "")) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 100)
-                    .cornerRadius(8)
-            } placeholder: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8)
-                        .frame(height: 100)
-                        .frame(maxWidth: .infinity)
-                        .foregroundStyle(.buttonSoft)
-                    Image(systemName: "storefront.fill")
-                        .foregroundStyle(.buttonEnable)
+            KFImage(URL(string: store.sto_img ?? ""))
+                .placeholder {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .frame(height: 100)
+                            .frame(maxWidth: .infinity)
+                            .foregroundStyle(.buttonSoft)
+                        Image(systemName: "storefront.fill")
+                            .foregroundStyle(.buttonEnable)
+                    }
                 }
-            }
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 100)
+                .cornerRadius(8)
             
             HStack {
                 if LanguageSettingsViewModel.getCurrentLanguage() == "ko" {
