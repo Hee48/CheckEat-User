@@ -62,13 +62,17 @@ struct MyPageChangePasswordModalView: View {
                     }
                 }
                 
-                Button {
-                    isNewPasswordVisible.toggle()
-                } label: {
-                    Image(systemName: isNewPasswordVisible ? "eye" : "eye.slash")
-                        .foregroundColor(.gray)
-                        .padding(8)
-                        .contentShape(Rectangle())
+                .overlay(alignment: .trailing) {
+                    Button {
+                        isConfirmPasswordVisible.toggle()
+                    } label: {
+                        Image(systemName: isConfirmPasswordVisible ? "eye" : "eye.slash")
+                            .frame(width: 16, height: 16)
+                            .foregroundColor(.buttonOP50)
+                            .padding(.bottom, 30)
+                            .padding(.trailing, 8)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
             .regular14()
@@ -109,13 +113,17 @@ struct MyPageChangePasswordModalView: View {
                     }
                 }
                 
-                Button {
-                    isConfirmPasswordVisible.toggle()
-                } label: {
-                    Image(systemName: isConfirmPasswordVisible ? "eye" : "eye.slash")
-                        .foregroundColor(.gray)
-                        .padding(8)
-                        .contentShape(Rectangle())
+                .overlay(alignment: .trailing) {
+                    Button {
+                        isConfirmPasswordVisible.toggle()
+                    } label: {
+                        Image(systemName: isConfirmPasswordVisible ? "eye" : "eye.slash")
+                            .frame(width: 16, height: 16)
+                            .foregroundColor(.buttonOP50)
+                            .padding(.bottom, 30)
+                            .padding(.trailing, 8)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
             .regular14()

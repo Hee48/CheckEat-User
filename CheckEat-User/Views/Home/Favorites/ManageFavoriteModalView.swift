@@ -19,10 +19,10 @@ struct ManageFavoriteModalView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-//                Text("⭐️ 즐겨찾기한 가게 (\(viewModel.items.count)곳)")
-                Text("⭐️ 즐겨찾기한 가게")
+                Image(systemName: "bookmark.fill")
+                Text("favorite_stores_title".localized)
                 Spacer()
-                Button("닫기") {
+                Button("close".localized) {
                     isPresented = false
                 }
                 .regular14()
@@ -35,7 +35,9 @@ struct ManageFavoriteModalView: View {
             
             // Content
             if viewModel.isLoading {
-                ProgressView("불러오는 중…")
+                ProgressView {
+                    Text("loading_stores".localized)
+                }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let msg = viewModel.errorMessage {
                 VStack(spacing: 12) {
@@ -68,7 +70,7 @@ struct ManageFavoriteModalView: View {
             viewModel.load()
         }
         .sheet(item: $selectedStoreId) { id in
-            StoreDetailInfoView(storeId: id, language: "ko")
+            StoreDetailInfoView(storeId: id, language: LanguageSettingsViewModel.getCurrentLanguage())
                 .presentationDetents([.large])
         }
     }
@@ -105,21 +107,13 @@ extension ManageFavoriteModalView {
                 }
                 HStack {
                     Image("Time")
-                    if let runtime = item.today_runtime {
-                        Text("영업시간 \(runtime)")
-                    } else {
-                        Text("영업시간 정보 없음")
-                    }
+                    Text(CommonStoreHelpers.businessHours(item.today_runtime))
                 }
                 HStack {
                     Image("Time")
-                    let breakTime = item.holi_break
-                    let currentWeekday = item.today_weekday
-                    Text("휴게시간 \(BreakTimeUtils.getBreakTimeText(for: item.holi_break, weekday: item.today_weekday))")
+                    Text(CommonStoreHelpers.breakTime(breakTime: item.holi_break, weekday: item.holi_weekday))
                 }
             }
-            .regular14()
-            .foregroundColor(.secondary)
             .regular14()
             .foregroundColor(.secondary)
         }
@@ -149,7 +143,7 @@ class ManageFavoriteModalViewModel: ObservableObject {
                 guard let self else { return }
                 self.isLoading = false
                 if case let .failure(error) = completion {
-                    self.errorMessage = "즐겨찾기 목록을 가져오지 못했어요. 잠시 후 다시 시도해주세요.\n\(error.localizedDescription)"
+                    self.errorMessage = "favorite_fetch_error".localized
                 }
             } receiveValue: { [weak self] items in
                 self?.items = items

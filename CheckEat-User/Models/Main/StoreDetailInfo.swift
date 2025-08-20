@@ -32,7 +32,7 @@ struct MenuInfo: Decodable, Identifiable {
     let foo_img: String?
     let foo_vegan: Int?
     let foo_status: Int
-    let CommonAl: [CommonAlInfo]?
+    let CommonAl: [CommonAlInfo]
     let foo_warning: String?
     let foo_warning_coal: [Int]?
     
@@ -48,8 +48,8 @@ struct HolidayInfo: Decodable {
     let holi_weekday: Int?
     let today: String?
     let holi_break: String?
-    let holi_regular: [String]?
-    let holi_public: [String]?
+    let holi_regular: [String]
+    let holi_public: [String]
     let holi_runtime_sun: String?
     let holi_runtime_mon: String?
     let holi_runtime_tue: String?

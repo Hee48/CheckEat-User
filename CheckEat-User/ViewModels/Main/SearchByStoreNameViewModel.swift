@@ -42,12 +42,7 @@ class SearchByStoreNameViewModel: ObservableObject {
                 }
             } catch {
                 await MainActor.run {
-                    let messages = [
-                        "앗! 아직 등록되지 않은 가게예요...\n곧 추가될지도 몰라요",
-                        "탐험을 열심히 하는 중이에요...\n다음 업데이트를 기대해주세요!",
-                        "찾으시는 가게가 숨은 맛집인가요?\n우리 지도에선 보이지가 않네요..."
-                    ]
-                    self.errorMessage = messages.randomElement() ?? "찾으시는 가게명으로 등록된 가게가 없습니다."
+                    self.errorMessage = "search_by_store_name_error".localized
                     self.isLoading = false
                 }
             }

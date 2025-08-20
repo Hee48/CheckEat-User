@@ -63,16 +63,22 @@ struct ChangePasswordView: View {
                             UnderLinedTextField(placeholder: "new_password_placeholder", isSecure: true, text: $newPassword)
                                 .focused($isNewPasswordFocused)
                                 .textContentType(.newPassword)
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
                         }
                     }
                     
-                    Button {
-                        isNewPasswordVisible.toggle()
-                    } label: {
-                        Image(systemName: isNewPasswordVisible ? "eye" : "eye.slash")
-                            .foregroundColor(.gray)
-                            .padding(8)
-                            .contentShape(Rectangle())
+                    .overlay(alignment: .trailing) {
+                        Button {
+                            isNewPasswordVisible.toggle()
+                        } label: {
+                            Image(systemName: isNewPasswordVisible ? "eye" : "eye.slash")
+                                .frame(width: 16, height: 16)
+                                .foregroundColor(.buttonOP50)
+                                .padding(.bottom, 30)
+                                .padding(.trailing, 8)
+                                .contentShape(Rectangle())
+                        }
                     }
                 }
                 .regular14()
@@ -110,16 +116,22 @@ struct ChangePasswordView: View {
                             UnderLinedTextField(placeholder: "password_confirm_placeholder", isSecure: true, text: $confirmPassword)
                                 .focused($isConfirmPasswordFocused)
                                 .textContentType(.newPassword)
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
                         }
                     }
                     
-                    Button {
-                        isConfirmPasswordVisible.toggle()
-                    } label: {
-                        Image(systemName: isConfirmPasswordVisible ? "eye" : "eye.slash")
-                            .foregroundColor(.gray)
-                            .padding(8)
-                            .contentShape(Rectangle())
+                    .overlay(alignment: .trailing) {
+                        Button {
+                            isConfirmPasswordVisible.toggle()
+                        } label: {
+                            Image(systemName: isConfirmPasswordVisible ? "eye" : "eye.slash")
+                                .frame(width: 16, height: 16)
+                                .foregroundColor(.buttonOP50)
+                                .padding(.bottom, 30)
+                                .padding(.trailing, 8)
+                                .contentShape(Rectangle())
+                        }
                     }
                 }
                 .regular14()
@@ -137,6 +149,7 @@ struct ChangePasswordView: View {
                 .padding(.bottom, 24)
                 
                 Button {
+
                         viewModel.changePassword(email: userEmail, newPassword: newPassword) { result in
                             if result == true {
                                 path.append(.findPwdComplete)
@@ -144,6 +157,7 @@ struct ChangePasswordView: View {
                                 ToastManager.shared.showToast(message: "reset_password_failed")
                             }
                         }
+                    }
                 } label: {
                     Text("reset_password_title")
                         .primaryButtonStyle(isEnabled: (isLengthValid && isUpperLowerNumberSpecialValid && isPasswordAgreement))
@@ -171,7 +185,7 @@ struct ChangePasswordView: View {
         if (!newPassword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
             !confirmPassword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) {
             isPasswordAgreement = newPassword.trimmingCharacters(in: .whitespacesAndNewlines) ==
-                                  confirmPassword.trimmingCharacters(in: .whitespacesAndNewlines)
+            confirmPassword.trimmingCharacters(in: .whitespacesAndNewlines)
         }
         
     }

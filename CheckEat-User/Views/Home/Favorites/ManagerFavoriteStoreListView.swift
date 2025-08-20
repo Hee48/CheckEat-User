@@ -25,7 +25,7 @@ struct ManagerFavoriteStoreListView: View {
         }
         .padding(.top, 20)
         .listStyle(.plain)
-        .navigationTitle("즐겨찾기 가게")
+        .navigationTitle("favorite_store_title")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -51,8 +51,13 @@ private extension ManagerFavoriteStoreListView {
             }
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(item.sto_name)
-                    .bold20()
+                if LanguageSettingsViewModel.getCurrentLanguage() == "ko" {
+                    Text(item.sto_name)
+                        .bold20()
+                } else {
+                    Text(item.sto_name_en)
+                        .bold20()
+                }
                 Group {
                     HStack {
                         Image("Location")
@@ -61,19 +66,11 @@ private extension ManagerFavoriteStoreListView {
                     }
                     HStack {
                         Image("Time")
-                        if let runtime = item.today_runtime {
-                            Text("영업시간 \(runtime)")
-                        } else {
-                            Text("영업시간 정보 없음")
-                        }
+                        Text(CommonStoreHelpers.businessHours(item.today_runtime))
                     }
                     HStack {
                         Image("Time")
-                        let breakTime = BreakTimeUtils.getBreakTimeText(
-                            for: item.holi_break,
-                            weekday: item.today_weekday
-                        )
-                        Text("휴게시간 \(breakTime)")
+                        Text(CommonStoreHelpers.breakTime(breakTime: item.holi_break, weekday: item.holi_weekday))
                     }
                 }
                 .regular14()

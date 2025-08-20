@@ -25,8 +25,8 @@ struct CoreDataSection: View {
             // 영업시간(오늘)
             HStack(spacing: 4) {
                 Image("Time")
-                Text("영업시간").medium16()
-                Text(holiday?.today ?? "금일 영업시간 정보 없음")
+                Text("business_hours".localized).medium16()
+                Text(holiday?.today ?? "today_hours_not_available".localized)
                     .padding(.trailing, 12)
                 Button {
                     showRunningTimeField.toggle()
@@ -40,20 +40,20 @@ struct CoreDataSection: View {
             
             // 요일별 영업시간 목록
             let weekData: [(String, String?)] = [
-                ("월요일", holiday?.holi_runtime_mon),
-                ("화요일", holiday?.holi_runtime_tue),
-                ("수요일", holiday?.holi_runtime_wed),
-                ("목요일", holiday?.holi_runtime_thu),
-                ("금요일", holiday?.holi_runtime_fri),
-                ("토요일", holiday?.holi_runtime_sat),
-                ("일요일", holiday?.holi_runtime_sun)
+                ("monday".localized, holiday?.holi_runtime_mon),
+                ("tuesday".localized, holiday?.holi_runtime_tue),
+                ("wednesday".localized, holiday?.holi_runtime_wed),
+                ("thursday".localized, holiday?.holi_runtime_thu),
+                ("friday".localized, holiday?.holi_runtime_fri),
+                ("saturday".localized, holiday?.holi_runtime_sat),
+                ("sunday".localized, holiday?.holi_runtime_sun)
             ]
             
             if showRunningTimeField {
                 ForEach(weekData, id: \.0) { day, time in
                     HStack(spacing: 4) {
                         Text(day).medium16()
-                        Text(normalized(time) ?? "영업시간 정보 없음")
+                        Text(normalized(time) ?? "hours_not_available".localized)
                     }
                     .regular14()
                     .padding(.bottom, 2)
@@ -64,10 +64,11 @@ struct CoreDataSection: View {
             // 휴게시간
             HStack(spacing: 4) {
                 Image("Time")
-                Text("휴게시간").medium16()
-                let breakTime = holiday?.holi_break
-                let currentWeekday = holiday?.holi_weekday ?? 0
-                Text(BreakTimeUtils.getBreakTimeText(for: breakTime, weekday: currentWeekday))
+                Text(CommonStoreHelpers.breakTime(breakTime: holiday?.holi_break, weekday: holiday?.holi_weekday ?? 0))
+//                Text("break_time".localized).medium16()
+//                let breakTime = holiday?.holi_break
+//                let currentWeekday = holiday?.holi_weekday ?? 0
+//                Text(BreakTimeUtils.getBreakTimeText(for: breakTime, weekday: currentWeekday))
             }
             
             // 정기 휴무
@@ -76,10 +77,11 @@ struct CoreDataSection: View {
                 //                Text("정기휴무").medium16()
                 
                 if let regularHolidays = holiday?.holi_regular, !regularHolidays.isEmpty {
-                    Text("\(regularHolidays.joined(separator: ", ")) 정기휴무")
+//                    Text("\(regularHolidays.joined(separator: ", ")) regular_holiday")
+                    Text("\(regularHolidays.joined(separator: ", ")) \("regular_holiday".localized)")
                         .medium16()
                 } else {
-                    Text("정기 휴무일 없음")
+                    Text("no_regular_holiday".localized)
                 }
             }
             
@@ -87,16 +89,17 @@ struct CoreDataSection: View {
                 Image("Calendar")
                 //                Text("공휴일 휴무").medium16()
                 if let publicHolidays = holiday?.holi_public, !publicHolidays.isEmpty {
-                    Text("\(publicHolidays.joined(separator: ", ")) 휴무")
+//                    Text("\(publicHolidays.joined(separator: ", ")) closed_on")
+                    Text("\(publicHolidays.joined(separator: ", ")) \("closed_on".localized)")
                         .medium16()
                 } else {
-                    Text("공휴일 휴무일 없음")
+                    Text("no_public_holiday".localized)
                 }
             }
             
             HStack(spacing: 4) {
                 Image("Phone")
-                Text(storeInfo.sto_phone ?? "등록된 연락처 없음")
+                Text(storeInfo.sto_phone ?? "no_phone_registered".localized)
             }
         }
         .regular16()

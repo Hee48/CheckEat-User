@@ -46,6 +46,8 @@ struct FindIDViewOrigin: View {
                         .padding(.top, 20)
                     UnderLinedTextField(placeholder: "email_placeholder", text: $email)
                         .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
                         .onChange(of: email) { newValue in
                             isEmailValid = isValidEmailAddress(email: newValue)
                         }
@@ -58,7 +60,9 @@ struct FindIDViewOrigin: View {
                             Text("auth_code_title")
                                 .font(.system(size: 14, weight: .bold))
                                 .padding(.top, 10)
+
                             AuthCodeTextField(placeholder: "auth_code_placeholder", text: $verificationCode)
+
                                 .font(.system(size: 14))
                                 .padding(.top, 2)
                             if showCodeErrorMessage {

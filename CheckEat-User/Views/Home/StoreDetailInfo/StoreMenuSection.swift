@@ -26,30 +26,30 @@ struct StoreMenuSection: View {
             HStack(spacing: 24) {
                 Spacer()
                 Button {
-                    selectedTab = "전체메뉴"
+                    selectedTab = "menu_tab_all".localized
                 } label: {
                     VStack(spacing: 10) {
-                        Text("전체메뉴")
+                        Text("menu_tab_all".localized)
                             .semibold16()
-                            .foregroundColor(selectedTab == "전체메뉴" ? .buttonAuth : .buttonOP20)
+                            .foregroundColor(selectedTab == "menu_tab_all".localized ? .buttonAuth : .buttonOP20)
                         
                         Rectangle()
-                            .fill(selectedTab == "전체메뉴" ? Color.buttonAuth : Color.gray.opacity(0.3))
+                            .fill(selectedTab == "menu_tab_all".localized ? Color.buttonAuth : Color.gray.opacity(0.3))
                             .frame(width: 100, height: 2)
                             .animation(.easeInOut(duration: 0.3), value: selectedTab)
                     }
                 }
                 Spacer()
                 Button {
-                    selectedTab = "채식메뉴"
+                    selectedTab = "menu_tab_vegan".localized
                 } label: {
                     VStack(spacing: 10) {
-                        Text("채식메뉴")
+                        Text("menu_tab_vegan".localized)
                             .semibold16()
-                            .foregroundColor(selectedTab == "채식메뉴" ? .buttonAuth : .buttonOP20)
+                            .foregroundColor(selectedTab == "menu_tab_vegan".localized ? .buttonAuth : .buttonOP20)
                         
                         Rectangle()
-                            .fill(selectedTab == "채식메뉴" ? Color.buttonAuth : Color.gray.opacity(0.3))
+                            .fill(selectedTab == "menu_tab_vegan".localized ? Color.buttonAuth : Color.gray.opacity(0.3))
                             .frame(width: 100, height: 2)
                             .animation(.easeInOut(duration: 0.3), value: selectedTab)
                     }
@@ -108,7 +108,7 @@ struct StoreMenuSection: View {
                                         
                                     } label: {
                                         HStack {
-                                            Text("리뷰")
+                                            Text("review_button".localized)
                                             Image(systemName: "chevron.forward")
                                                 .resizable()
                                                 .frame(width: 6, height: 9)
@@ -127,7 +127,7 @@ struct StoreMenuSection: View {
                                     HStack(alignment: .top, spacing: 4) {
                                         Image("Warn")
                                             .foregroundStyle(.buttonOP50)
-                                        Text("재료")
+                                        Text("ingredients_label".localized)
                                             .foregroundStyle(.buttonOP50)
                                         Text(getCombinedIngredients(food: food))
                                             .foregroundStyle(.black)
@@ -139,7 +139,7 @@ struct StoreMenuSection: View {
                                         HStack(spacing: 4) {
                                             Image(systemName: "exclamationmark.triangle.fill")
                                                 .font(.system(size: 12))
-                                            Text("알레르기 주의")
+                                            Text("allergy_caution_label".localized)
                                         }
                                         Text(getCombinedAllergyWarnings(food: food))
                                             .foregroundStyle(.red)
@@ -169,15 +169,19 @@ struct StoreMenuSection: View {
         allIngredients.append(contentsOf: food.foo_material)
         
         // 19종 공통 알레르기 재료들
-        if let commonAl = food.CommonAl, !commonAl.isEmpty {
-            let allergyIngredients = commonAl.compactMap { allergyMapping[$0.coal_id] }
+//        if let commonAl = food.CommonAl, !commonAl.isEmpty {
+//            let allergyIngredients = commonAl.compactMap { allergyMapping[$0.coal_id] }
+//            allIngredients.append(contentsOf: allergyIngredients)
+//        }
+        if !food.CommonAl.isEmpty {
+            let allergyIngredients = food.CommonAl.compactMap { allergyMapping[$0.coal_id] }
             allIngredients.append(contentsOf: allergyIngredients)
         }
         
         // 중복 제거 및 정렬
         let uniqueIngredients = Array(Set(allIngredients)).sorted()
         
-        return uniqueIngredients.isEmpty ? "재료 정보 없음" : uniqueIngredients.joined(separator: ", ")
+        return uniqueIngredients.isEmpty ? "no_ingredient_info".localized : uniqueIngredients.joined(separator: ", ")
     }
     
     private func getCombinedAllergyWarnings(food: MenuInfo) -> String {
@@ -226,7 +230,7 @@ struct StoreMenuSection: View {
     private func formatPrice(_ s: String) -> String {
         if let n = Int(s) {
             let f = NumberFormatter(); f.numberStyle = .decimal
-            return (f.string(from: n as NSNumber) ?? s) + "원"
+            return (f.string(from: n as NSNumber) ?? s) + "price_suffix_won".localized
         }
         return s
     }
