@@ -13,12 +13,12 @@ struct ReviewStopModal: View {
     var body: some View {
         VStack(alignment: .center) {
             Image("ExclamationMark")
-            Text("review_stop_title")
+            Text("review_stop_title".localized)
                 .lineSpacing(6)
                 .multilineTextAlignment(.center)
                 .bold20()
                 .padding(.top, 20)
-            Text("review_stop_message")
+            Text("review_stop_message".localized)
                 .lineSpacing(6)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.buttonOP50)
@@ -28,7 +28,7 @@ struct ReviewStopModal: View {
                 Button {
                     dismiss()
                 } label: {
-                    Text("common_close")
+                    Text("common_close".localized)
                         .foregroundStyle(Color.buttonEnable)
                         .semibold16()
                         .frame(minWidth: 125)
@@ -44,7 +44,7 @@ struct ReviewStopModal: View {
                 Button {
                     onClose()
                 } label: {
-                    Text("review_continue")
+                    Text("review_continue".localized)
                         .foregroundStyle(Color.white)
                         .semibold16()
                         .frame(minWidth: 125)

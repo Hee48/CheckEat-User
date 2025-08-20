@@ -56,17 +56,17 @@ struct ReviewCreated:View {
                                 HStack {
                                     Image(systemName: "exclamationmark.circle.fill")
                                         .foregroundColor(.buttonOP20)
-                                    Text("label_recommend_target")
+                                    Text("label_recommend_target".localized)
                                         .foregroundColor(.buttonOP20)
                                         .medium12()
-                                  Text(LocalizedStringKey(VeganLevel(rawValue: review.revi_reco_vegan)?.description ?? "not_vegan"))
+                                    Text(LocalizedStringKey(VeganLevel(rawValue: review.revi_reco_vegan)?.description ?? "not_vegan".localized))
                                         .medium12()
                                 }
                                 .padding(.top, 20)
                                 HStack {
                                     Image(systemName: "star.circle.fill")
                                         .foregroundColor(.buttonOP20)
-                                    Text("label_recommend")
+                                    Text("label_recommend".localized)
                                         .foregroundColor(.buttonOP20)
                                         .medium12()
                                     Text(recommendText(for: review.revi_reco_step))
@@ -87,7 +87,7 @@ struct ReviewCreated:View {
                     }
                 }
             .padding(.top, 20)
-            .navigationTitle("section_written_reviews")
+            .navigationTitle("section_written_reviews".localized)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.fetchReviewedStores()

@@ -54,7 +54,7 @@ struct FavoriteStoreScreenView: View {
                 StoreDetailInfoView(storeId: id, language: LanguageSettingsViewModel.getCurrentLanguage())
                     .presentationDetents([.large])
             }
-            .navigationTitle("favorite_store_title")
+            .navigationTitle("favorite_store_title".localized)
             .navigationBarTitleDisplayMode(.inline)
         }
     }

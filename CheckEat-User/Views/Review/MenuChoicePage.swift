@@ -19,7 +19,7 @@ struct MenuChoicePage: View {
         GeometryReader { geometry in
             VStack(alignment: .leading) {
                 ZStack {
-                    Text("review_register")
+                    Text("review_register".localized)
                         .medium16()
                     HStack {
                         Spacer()
@@ -33,7 +33,7 @@ struct MenuChoicePage: View {
                     .frame(height: 44)
                 }
                 VStack(alignment: .leading) {
-                    Text("review_my_menu")
+                    Text("review_my_menu".localized)
                         .bold20()
                         .padding(.top, 20)
                     SearchBar(searchText: $searchText, placeholder: String(localized: "review_search_placeholder")) {

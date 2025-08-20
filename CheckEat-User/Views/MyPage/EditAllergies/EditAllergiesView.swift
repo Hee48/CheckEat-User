@@ -20,10 +20,10 @@ struct EditAllergiesView: View {
     let allergenDataList: [Allergen] = AllergenData.defaultList
     var body: some View {
             VStack {
-                Text("allergy_info_check_title")
+                Text("allergy_info_check_title".localized)
                     .bold20()
                     .padding(.top, 30)
-                Text("allergy_info_check_subtitle")
+                Text("allergy_info_check_subtitle".localized)
                     .regular16()
                     .padding(.top, 20)
             }
@@ -83,7 +83,7 @@ struct EditAllergiesView: View {
                 
                 VStack(alignment: .leading) {
                     if !customAllergy.trimmingCharacters(in: .whitespaces).isEmpty {
-                        Text("allergy_my_info_title")
+                        Text("allergy_my_info_title".localized)
                             .semibold14()
                             .padding(.top, 20)
                         Text(customAllergy)
@@ -97,7 +97,7 @@ struct EditAllergiesView: View {
             Button {
                 showEditAllergies19 = true
             } label: {
-                Text("action_edit")
+                Text("action_edit".localized)
                     .foregroundStyle(Color.white)
                     .semibold16()
                     .primaryButtonStyle(isEnabled: true)
@@ -128,7 +128,7 @@ struct EditAllergiesView: View {
                     dismiss()
                 }
             }
-            .navigationTitle("allergy_edit_title")
+            .navigationTitle("allergy_edit_title".localized)
             .navigationBarTitleDisplayMode(.inline)
         }
     }

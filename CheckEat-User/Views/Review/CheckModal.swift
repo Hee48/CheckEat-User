@@ -25,13 +25,13 @@ struct CheckModal: View {
             
             VStack(alignment: .center) {
                 HStack(spacing: 0) {
-                    Text("store_name")
+                    Text("store_name".localized)
                     Text(": ")
                     Text(storeName)
                 }
                 .bold20()
                 HStack(spacing: 0) {
-                    Text("store_address")
+                    Text("store_address".localized)
                     Text(": ")
                     Text(storeAddress)
                 }
@@ -50,7 +50,7 @@ struct CheckModal: View {
                     showCheckModal = false
                     showOCRView = true
                 } label: {
-                    Text("store_name_no")
+                    Text("store_name_no".localized)
                         .foregroundStyle(Color.buttonEnable)
                         .semibold16()
                         .frame(minWidth: 130)
@@ -78,7 +78,7 @@ struct CheckModal: View {
                         }
                     }
                 } label: {
-                    Text("store_name_yes")
+                    Text("store_name_yes".localized)
                         .foregroundStyle(Color.white)
                         .semibold16()
                         .frame(minWidth: 130)

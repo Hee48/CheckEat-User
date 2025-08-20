@@ -34,7 +34,7 @@ struct MyPageChangePasswordModalView: View {
         VStack(alignment: .leading) {
             
             HStack {
-                Text("action_change_password")
+                Text("action_change_password".localized)
                     .bold20()
                 Spacer()
                 Button {
@@ -45,7 +45,7 @@ struct MyPageChangePasswordModalView: View {
             }
             .padding(.vertical)
             
-            Text("password_new_title")
+            Text("password_new_title".localized)
                 .semibold16()
             HStack {
                 Group {
@@ -82,19 +82,19 @@ struct MyPageChangePasswordModalView: View {
                 HStack {
                     Image(systemName: isLengthValid ? "checkmark" : "checkmark")
                         .foregroundColor(isLengthValid ? .green : .gray)
-                    Text("password_rule_minlen")
+                    Text("password_rule_minlen".localized)
                         .foregroundColor(isLengthValid ? .green : .gray)
                     
                     Image(systemName: isUpperLowerNumberSpecialValid ? "checkmark" : "checkmark")
                         .foregroundColor(isUpperLowerNumberSpecialValid ? .green : .gray)
-                    Text("password_rule_complexity")
+                    Text("password_rule_complexity".localized)
                         .foregroundColor(isUpperLowerNumberSpecialValid ? .green : .gray)
                 }
             }
             .regular12()
             .padding(.vertical, 8)
             
-            Text("password_confirm_title")
+            Text("password_confirm_title".localized)
                 .semibold16()
                 .padding(.top)
             
@@ -132,7 +132,7 @@ struct MyPageChangePasswordModalView: View {
                 HStack {
                     Image(systemName: isPasswordAgreement ? "checkmark" : "checkmark")
                         .foregroundColor(isPasswordAgreement ? .green : .gray)
-                    Text("password_match")
+                    Text("password_match".localized)
                         .foregroundColor(isPasswordAgreement ? .green : .gray)
                 }
             }
@@ -148,7 +148,7 @@ struct MyPageChangePasswordModalView: View {
                        }
                    }
             } label: {
-                Text("password_change_button")
+                Text("password_change_button".localized)
                     .primaryButtonStyle(isEnabled: (isLengthValid && isUpperLowerNumberSpecialValid && isPasswordAgreement))
                     .semibold16()
             }

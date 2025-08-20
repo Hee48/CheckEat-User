@@ -26,7 +26,7 @@ struct ManagerFavoriteStoreListView: View {
         }
         .padding(.top, 20)
         .listStyle(.plain)
-        .navigationTitle("favorite_store_title")
+        .navigationTitle("favorite_store_title".localized)
         .navigationBarTitleDisplayMode(.inline)
     }
 }

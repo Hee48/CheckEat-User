@@ -14,7 +14,7 @@ struct ReviewCompletedListView: View {
         ScrollView {
             VStack(spacing: 0) {
                 if viewModel.myReviews.isEmpty {
-                    Text("review_empty_list")
+                    Text("review_empty_list".localized)
                         .foregroundColor(.gray)
                         .padding()
                 } else {
@@ -60,7 +60,7 @@ struct ReviewCompletedListView: View {
                                 HStack {
                                     Image(systemName: "star.circle.fill")
                                         .foregroundColor(.buttonOP20)
-                                    Text("label_recommend")
+                                    Text("label_recommend".localized)
                                         .foregroundColor(.buttonOP20)
                                         .medium12()
                                     Text(recommendText(for: review.revi_reco_step))
@@ -70,11 +70,11 @@ struct ReviewCompletedListView: View {
                                 HStack(spacing: 6) {
                                     Image(systemName: "bubble.fill")
                                         .foregroundColor(.buttonOP20)
-                                    Text("label_evaluation")
+                                    Text("label_evaluation".localized)
                                         .medium12()
                                         .foregroundColor(.buttonOP20)
                                     if (review.revi_content ?? "").isEmpty {
-                                        Text("comment_empty")
+                                        Text("comment_empty".localized)
                                             .medium12()
                                             .foregroundColor(.buttonOP20)
                                     } else {

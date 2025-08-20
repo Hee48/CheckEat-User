@@ -20,12 +20,12 @@ struct MyPageChangePasswordCompleteModalView: View {
                 .foregroundStyle(.green)
                 .padding(.bottom)
             Group {
-                Text("password_change_complete_title1")
-                Text("password_change_complete_title2")
+                Text("password_change_complete_title1".localized)
+                Text("password_change_complete_title2".localized)
             }
             .bold20()
             
-            Text("password_change_complete_message")
+            Text("password_change_complete_message".localized)
                 .padding(.vertical, 8)
             
             Button {
@@ -34,7 +34,7 @@ struct MyPageChangePasswordCompleteModalView: View {
                         dismiss()
                     }
             } label: {
-                Text("common_close")
+                Text("common_close".localized)
                     .subButtonStyle()
                     .semibold16()
                     .padding(.top, 24)

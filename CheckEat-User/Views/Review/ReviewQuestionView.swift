@@ -28,7 +28,7 @@ struct ReviewQuestionView:View {
                 .foregroundStyle(.green)
                 .padding(.bottom)
             
-            Text("review_question_title")
+            Text("review_question_title".localized)
                 .lineSpacing(4)
                 .multilineTextAlignment(.center)
                 .bold20()
@@ -43,7 +43,7 @@ struct ReviewQuestionView:View {
                             dismiss()
                         }
                 } label: {
-                    Text("review_later")
+                    Text("review_later".localized)
                         .foregroundStyle(Color.buttonEnable)
                         .semibold16()
                         .frame(maxWidth: .infinity)
@@ -58,7 +58,7 @@ struct ReviewQuestionView:View {
                 Button {
                     reviewPath.append(.addReivewView(storeId: storeId))
                 } label: {
-                    Text("review_register")
+                    Text("review_register".localized)
                         .foregroundStyle(Color.white)
                         .semibold16()
                         .frame(maxWidth: .infinity)

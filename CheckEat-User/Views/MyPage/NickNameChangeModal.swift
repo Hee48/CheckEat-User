@@ -13,9 +13,9 @@ struct NickNameChangeModal:View {
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         VStack(alignment: .leading) {
-            Text("nickname_change_title")
+            Text("nickname_change_title".localized)
                 .bold20()
-            TextField("nickname_change_placeholder", text: $viewModel.newNickName)
+            TextField("nickname_change_placeholder".localized, text: $viewModel.newNickName)
                 .regular14()
                 .padding(.horizontal, 10)
                 .frame(width: 362, height: 52)
@@ -32,7 +32,7 @@ struct NickNameChangeModal:View {
                 myPageViewModel.loadUserInfoFromToken()
                 dismiss()
             } label: {
-                Text("nickname_change_button")
+                Text("nickname_change_button".localized)
                     .primaryButtonStyle(isEnabled: true)
                     .font(.system(size: 16, weight: .bold))
                     .frame(width: 362)

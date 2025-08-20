@@ -40,7 +40,7 @@ struct MyPageView: View {
     
     var body: some View {
         VStack {
-            Text("tab_mypage")
+            Text("tab_mypage".localized)
                 .bold18()
             ZStack {
                 ScrollView {
@@ -65,7 +65,7 @@ struct MyPageView: View {
                             AuthViewModel.shared.logout()
                             selectedTab = .home
                         } label: {
-                            Text("action_logout")
+                            Text("action_logout".localized)
                                 .semibold14()
                                 .foregroundStyle(.buttonOP20)
                                 .padding()
@@ -79,8 +79,8 @@ struct MyPageView: View {
                 .onAppear {
                     myPageViewModel.loadUserInfoFromToken()
                 }
-                .alert("dialog_withdraw_title", isPresented: $showWithdrawAlert) {
-                    Button("dialog_withdraw_confirm", role: .destructive) {
+                .alert("dialog_withdraw_title".localized, isPresented: $showWithdrawAlert) {
+                    Button("dialog_withdraw_confirm".localized, role: .destructive) {
                         deleteViewModel.withdrawUser()
                             .receive(on: DispatchQueue.main)
                             .sink(receiveCompletion: { completion in
@@ -94,15 +94,15 @@ struct MyPageView: View {
                             }, receiveValue: { })
                             .store(in: &cancellables)
                     }
-                    Button("dialog_withdraw_cancel", role: .cancel) { }
+                    Button("dialog_withdraw_cancel".localized, role: .cancel) { }
                 } message: {
-                    Text("dialog_withdraw_message")
+                    Text("dialog_withdraw_message".localized)
                 }
                 
                 MyPageMoreMenu(
                     isPresented: $showMoreMenu,
                     actions: [
-                        (title: "dialog_withdraw_title", action: { showWithdrawAlert = true })
+                        (title: "dialog_withdraw_title".localized, action: { showWithdrawAlert = true })
                     ],
                     anchor: moreMenuAnchor
                 )

@@ -61,7 +61,7 @@ struct AddReivewView: View {
         ZStack {
             VStack {
                 
-                Text("review_intro_message")
+                Text("review_intro_message".localized)
                     .lineSpacing(4)
                     .multilineTextAlignment(.center)
                     .padding(.top, 30)
@@ -79,7 +79,7 @@ struct AddReivewView: View {
                 .padding(.top, 30)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("review_my_menu")
+                    Text("review_my_menu".localized)
                         .semibold14()
                         .padding(.leading, 17)
                         .padding(.bottom, 2)
@@ -129,7 +129,7 @@ struct AddReivewView: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("review_register")
+                Text("review_register".localized)
                     .medium16()
             }
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -142,13 +142,13 @@ struct AddReivewView: View {
         }
         .actionSheet(isPresented: $showPickerSheet) {
             ActionSheet(
-                title: Text("review_photo_select"),
+                title: Text("review_photo_select".localized),
                 buttons: [
-                    .default(Text("review_camera")) {
+                    .default(Text("review_camera".localized)) {
                         imagePickerSource = .camera
                         showImagePicker = true
                     },
-                    .default(Text("review_album")) {
+                    .default(Text("review_album".localized)) {
                         imagePickerSource = .photoLibrary
                         showImagePicker = true
                     },
@@ -205,7 +205,7 @@ struct AddReivewView: View {
 }
 private func selectedMenuTextView(selectedMenu: [(id: Int, name: String)]) -> some View {
     if selectedMenu.isEmpty {
-        return Text("review_menu_select")
+        return Text("review_menu_select".localized)
             .regular14()
             .foregroundColor(.black)
             .padding()
@@ -273,7 +273,7 @@ private struct RegisterButtonView: View {
             )
         } label: {
             ZStack {
-                Text("review_register")
+                Text("review_register".localized)
                     .primaryButtonStyle()
                     .semibold16()
                 if isSubmitting {

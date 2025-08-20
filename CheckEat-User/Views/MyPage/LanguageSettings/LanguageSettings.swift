@@ -23,7 +23,7 @@ struct LanguageSettings: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
-                Text("language_setting_description")
+                Text("language_setting_description".localized)
                     .bold20()
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -60,7 +60,7 @@ struct LanguageSettings: View {
                     }
                 }
             } label: {
-                Text("language_setting_button")
+                Text("language_setting_button".localized)
                     .primaryButtonStyle()
                     .semibold16()
                     .frame(maxWidth: .infinity)
@@ -72,7 +72,7 @@ struct LanguageSettings: View {
         .onAppear {
             setupInitialLanguage()
         }
-        .navigationTitle("language_setting_title")
+        .navigationTitle("language_setting_title".localized)
         .navigationBarTitleDisplayMode(.inline)
     }
     

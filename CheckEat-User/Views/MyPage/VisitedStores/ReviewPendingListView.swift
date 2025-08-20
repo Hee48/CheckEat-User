@@ -42,7 +42,7 @@ struct ReviewPendingListView: View {
                             VStack(alignment: .leading, spacing: 6) {
                                 Text(store.sto_name)
                                     .bold18()
-                                Text("review_request_register")
+                                Text("review_request_register".localized)
                                     .medium16()
                                     .foregroundColor(Color("Button_OP50"))
                                     .padding(.top, 10)

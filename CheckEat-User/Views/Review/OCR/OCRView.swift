@@ -35,13 +35,13 @@ struct OCRView: View {
                         .frame(width: 40, height: 40 )
                         .padding(.top, 24)
                     
-                    Text("ocr_title")
+                    Text("ocr_title".localized)
                         .lineSpacing(4)
                         .multilineTextAlignment(.center)
                         .bold20()
                         .padding(.top, 20)
                     
-                    Text("ocr_subtitle")
+                    Text("ocr_subtitle".localized)
                         .lineSpacing(4)
                         .multilineTextAlignment(.center)
                         .regular16()
@@ -50,7 +50,7 @@ struct OCRView: View {
                     Button {
                         showSourcePicker = true
                     } label: {
-                        Text("ocr_add_photo_button")
+                        Text("ocr_add_photo_button".localized)
                             .primaryButtonStyle(isEnabled: true)
                             .padding(.horizontal, 20)
                             .padding(.top, 20)
@@ -62,13 +62,13 @@ struct OCRView: View {
             
             .actionSheet(isPresented: $showSourcePicker) {
                 ActionSheet(
-                    title: Text("ocr_picker_title"),
+                    title: Text("ocr_picker_title".localized),
                     buttons: [
-                        .default(Text("ocr_take_photo")) {
+                        .default(Text("ocr_take_photo".localized)) {
                             selectedSourceType = .camera
                             showImagePicker = true
                         },
-                        .default(Text("ocr_pick_from_album")) {
+                        .default(Text("ocr_pick_from_album".localized)) {
                             selectedSourceType = .photoLibrary
                             showImagePicker = true
                         },
@@ -130,7 +130,7 @@ struct OCRView: View {
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                         .scaleEffect(1.5)
                     
-                    Text("ocr_analyzing")
+                    Text("ocr_analyzing".localized)
                         .foregroundColor(.white)
                         .bold()
                 }
