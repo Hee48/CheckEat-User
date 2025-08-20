@@ -4,8 +4,9 @@
 //
 //  Created by 최준영 on 7/29/25.
 //
-import SwiftUI
 
+import SwiftUI
+import Combine
 
 enum Tab {
     case home, review, myPage
@@ -24,6 +25,7 @@ struct CustomTabBarView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @State var reviewPath: [ReviewPath] = []
     @State var isReviewFlowActive: Bool = false
+    @State private var currentLanguage: String = LanguageSettingsViewModel.getCurrentLanguage()
 
     var body: some View {
         HStack {
@@ -39,6 +41,10 @@ struct CustomTabBarView: View {
         
         .shadow(color: Color.black.opacity(0.1), radius: 8, y: -2)
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("LanguageChanged"))) { _ in
+            currentLanguage = LanguageSettingsViewModel.getCurrentLanguage()
+        }
+        .id(currentLanguage)
         .fullScreenCover(isPresented: $showLogin) {
             LoginView {
                 if let tab = intendedTab {
@@ -49,7 +55,7 @@ struct CustomTabBarView: View {
             }
         }
     }
-    private func tabItem(image: String, title: LocalizedStringKey, tab: Tab) -> some View {
+    private func tabItem(image: String, title: String, tab: Tab) -> some View {
         Button {
             switch tab {
             case .home:
@@ -69,11 +75,12 @@ struct CustomTabBarView: View {
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundColor(selectedTab == tab ? .black : .gray)
-                Text(title)
+                Text(title.localized)   // ✅ 기기 언어 대신 앱 내 설정으로 변환
                     .regular12()
                     .foregroundColor(selectedTab == tab ? .black : .gray)
             }
         }
+        .buttonStyle(.plain)
         .frame(maxWidth: .infinity)
     }
 }

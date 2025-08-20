@@ -180,7 +180,8 @@ struct StoreMenuSection: View {
         
         // 중복 제거 및 정렬
         let uniqueIngredients = Array(Set(allIngredients)).sorted()
-        
+        //        print("foo_m: \(food.foo_material), foo_c: \(food.CommonAl)")
+        //        print("uniqueIngredients: \(uniqueIngredients.joined(separator: "/"))")
         return uniqueIngredients.isEmpty ? "no_ingredient_info".localized : uniqueIngredients.joined(separator: ", ")
     }
     
@@ -200,7 +201,8 @@ struct StoreMenuSection: View {
         
         // 중복 제거 및 정렬
         let uniqueWarnings = Array(Set(allWarnings)).sorted()
-        
+        //        print("foo_m: \(food.foo_warning ?? "none"), foo_c: \(food.foo_warning_coal ?? [-1])")
+        //        print("uniqueWarnings: \(uniqueWarnings.joined(separator: "/"))")
         return uniqueWarnings.joined(separator: ", ")
     }
     

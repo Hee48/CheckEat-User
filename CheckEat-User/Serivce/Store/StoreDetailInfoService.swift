@@ -17,11 +17,23 @@ private struct StoreDetailRequest: Encodable {
 class StoreDetailInfoService {
     func loadStoreDetailInfo(storeId: Int, language: String) async throws -> StoreDetailInfo {
         let params = StoreDetailRequest(sto_id: storeId, user_lang: language)
+
+        // 회원 여부에 따른 헤더 구성 (TokenManager 유지)
+        var headers: HTTPHeaders = ["Content-Type": "application/json"]
+        if let accessToken = TokenManager.shared.getAccessToken(), !accessToken.isEmpty {
+            headers.add(name: "Authorization", value: "Bearer \(accessToken)")
+        } else {
+            print("ℹ️ 토큰 없음 → 비회원 헤더로 요청")
+        }
+
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(MainAPI.storeDetailInfo,
-                       method: .post,
-                       parameters: params,
-                       encoder: JSONParameterEncoder.default)
+            AF.request(
+                MainAPI.storeDetailInfo,
+                method: .post,
+                parameters: params,
+                encoder: JSONParameterEncoder.default,
+                headers: headers
+            )
             .validate(statusCode: 200..<300)
             .responseDecodable(of: StoreDetailInfo.self) { response in
                 switch response.result {
