@@ -39,7 +39,7 @@ class SearchByVeganLevelViewModel: ObservableObject {
             } catch {
                 await MainActor.run {
                     print("🚨 비건 레벨 검색 실패: \(error.localizedDescription)")
-                    self.errorMessage = "앗, 현재 위치 반경에는 해당하는 조건의 가게가 없어요...\n더 많은 가게를 찾아올게요!"
+                    self.errorMessage = "search_by_store_vegan_level_error".localized
                     self.isLoading = false
                 }
             }

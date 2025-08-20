@@ -27,7 +27,9 @@ struct StoreDetailInfoView: View {
             //MARK: 가게 상세정보 로딩 상태
             if viewModel.isLoading {
                 //MARK: 네트워크 통신 이후 데이터를 아직 가져오지 못 한 경우...
-                ProgressView("가게 상세정보 불러오는 중…")
+                ProgressView {
+                    Text("")
+                }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             // 에러 상태
