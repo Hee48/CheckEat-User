@@ -30,7 +30,7 @@ struct MenuInfo: Decodable, Identifiable {
     let foo_material: [String]
     let foo_price: String
     let foo_img: String?
-    let foo_vegan: Int?
+    let foo_vegan: Int
     let foo_status: Int
     let CommonAl: [CommonAlInfo]
     let foo_warning: String?

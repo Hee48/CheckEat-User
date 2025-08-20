@@ -51,7 +51,7 @@ struct FavoriteStoreScreenView: View {
                 }
             }
             .sheet(item: $selectedStoreId) { id in
-                StoreDetailInfoView(storeId: id, language: "ko")
+                StoreDetailInfoView(storeId: id, language: LanguageSettingsViewModel.getCurrentLanguage())
                     .presentationDetents([.large])
             }
             .navigationTitle("favorite_store_title")

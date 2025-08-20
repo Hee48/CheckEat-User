@@ -67,7 +67,6 @@ struct ChangePasswordView: View {
                                 .disableAutocorrection(true)
                         }
                     }
-                    
                     .overlay(alignment: .trailing) {
                         Button {
                             isNewPasswordVisible.toggle()
@@ -149,13 +148,12 @@ struct ChangePasswordView: View {
                 .padding(.bottom, 24)
                 
                 Button {
-
-                        viewModel.changePassword(email: userEmail, newPassword: newPassword) { result in
-                            if result == true {
-                                path.append(.findPwdComplete)
-                            } else if result == false {
-                                ToastManager.shared.showToast(message: "reset_password_failed")
-                            }
+                    
+                    viewModel.changePassword(email: userEmail, newPassword: newPassword) { result in
+                        if result == true {
+                            path.append(.findPwdComplete)
+                        } else if result == false {
+                            ToastManager.shared.showToast(message: "reset_password_failed")
                         }
                     }
                 } label: {
