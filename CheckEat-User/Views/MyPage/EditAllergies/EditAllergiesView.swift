@@ -17,34 +17,13 @@ struct EditAllergiesView: View {
     @State private var shouldDismiss = false
     @Binding var isPresented: Bool
     @StateObject private var myPageViewModel = MyPageViewModel()
-    let allergenDataList: [(id: Int, name: String, imageName: String)] = [
-        (1, "난류", "Egg"),
-        (2, "우유", "Milk"),
-        (3, "메밀", "Buckwheat"),
-        (4, "땅콩", "Peanut"),
-        (5, "대두", "Soy"),
-        (6, "밀", "Wheat"),
-        (7, "고등어", "Mackerel"),
-        (8, "게", "Crab"),
-        (9, "새우", "Shrimp"),
-        (10, "돼지고기", "Pork"),
-        (11, "복숭아", "Peach"),
-        (12, "토마토", "Tomato"),
-        (13, "아황산류", "Sulfites"),
-        (14, "호두", "Walnut"),
-        (15, "닭고기", "Chicken"),
-        (16, "쇠고기", "Beef"),
-        (17, "오징어", "Squid"),
-        (18, "조개류", "Shellfish"),
-        (19, "잣", "PineNut")
-    ]
-    
+    let allergenDataList: [Allergen] = AllergenData.defaultList
     var body: some View {
             VStack {
-                Text("알레르기 정보 확인")
+                Text("allergy_info_check_title")
                     .bold20()
                     .padding(.top, 30)
-                Text("나의 알레르기 정보를 확인해주세요.")
+                Text("allergy_info_check_subtitle")
                     .regular16()
                     .padding(.top, 20)
             }
@@ -55,7 +34,9 @@ struct EditAllergiesView: View {
                     
                     for id in ids {
                         if let matched = allergenDataList.first(where: { $0.id == id }) {
-                            print("✅ 매칭됨: \(matched.name)")
+                            print("✅ 매칭됨: \(matched.nameKey)")
+                            let resolved = matched.displayName
+                            print("🔤 resolved localized: \(resolved)")
                         } else {
                             print("❌ 매칭 실패: \(id)")
                         }
@@ -76,7 +57,7 @@ struct EditAllergiesView: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 112, height: 118)
-                                        Text(item.name)
+                                        Text(item.displayName)
                                             .bold20()
                                             .foregroundColor(.black)
                                             .frame(width: 112, alignment: .center)
@@ -102,7 +83,7 @@ struct EditAllergiesView: View {
                 
                 VStack(alignment: .leading) {
                     if !customAllergy.trimmingCharacters(in: .whitespaces).isEmpty {
-                        Text("나의 알러지 정보")
+                        Text("allergy_my_info_title")
                             .semibold14()
                             .padding(.top, 20)
                         Text(customAllergy)
@@ -116,7 +97,7 @@ struct EditAllergiesView: View {
             Button {
                 showEditAllergies19 = true
             } label: {
-                Text("수정")
+                Text("action_edit")
                     .foregroundStyle(Color.white)
                     .semibold16()
                     .primaryButtonStyle(isEnabled: true)
@@ -147,7 +128,7 @@ struct EditAllergiesView: View {
                     dismiss()
                 }
             }
-            .navigationTitle("알레르기 수정")
+            .navigationTitle("allergy_edit_title")
             .navigationBarTitleDisplayMode(.inline)
         }
     }

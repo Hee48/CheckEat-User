@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ReviewCreated:View {
 
@@ -18,16 +19,23 @@ struct ReviewCreated:View {
                         HStack(alignment: .top, spacing: 12) {
                             if let imageUrlString = review.images.first,
                                let url = URL(string: imageUrlString) {
-                                AsyncImage(url: url) { image in
-                                    image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                } placeholder: {
-                                    Rectangle().foregroundColor(.gray.opacity(0.2))
-                                }
-                                .frame(width: 95, height: 95)
-                                .cornerRadius(10)
-                                .clipped()
+                                KFImage(url)
+                                    .placeholder {
+                                        ZStack {
+                                            Rectangle().fill(Color("Button_OP20"))
+                                            Image(systemName: "camera.fill")
+                                                .resizable()
+                                                .frame(width: 40, height: 30)
+                                                .scaledToFit()
+                                                .foregroundColor(.white)
+                                                .padding(20)
+                                        }
+                                    }
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 95, height: 95)
+                                    .cornerRadius(10)
+                                    .clipped()
                             } else {
                                 ZStack {
                                     Rectangle()
@@ -48,17 +56,17 @@ struct ReviewCreated:View {
                                 HStack {
                                     Image(systemName: "exclamationmark.circle.fill")
                                         .foregroundColor(.buttonOP20)
-                                    Text("추천대상")
+                                    Text("label_recommend_target")
                                         .foregroundColor(.buttonOP20)
                                         .medium12()
-                                    Text(VeganLevel(rawValue: review.revi_reco_vegan)?.description ?? "비건 아님")
+                                  Text(LocalizedStringKey(VeganLevel(rawValue: review.revi_reco_vegan)?.description ?? "not_vegan"))
                                         .medium12()
                                 }
                                 .padding(.top, 20)
                                 HStack {
                                     Image(systemName: "star.circle.fill")
                                         .foregroundColor(.buttonOP20)
-                                    Text("추천")
+                                    Text("label_recommend")
                                         .foregroundColor(.buttonOP20)
                                         .medium12()
                                     Text(recommendText(for: review.revi_reco_step))
@@ -79,7 +87,7 @@ struct ReviewCreated:View {
                     }
                 }
             .padding(.top, 20)
-            .navigationTitle("작성한 리뷰")
+            .navigationTitle("section_written_reviews")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.fetchReviewedStores()
@@ -87,11 +95,11 @@ struct ReviewCreated:View {
         }
     }
     
-    func recommendText(for step: Int) -> String {
+    func recommendText(for step: Int) -> LocalizedStringKey {
         switch step {
-        case 0: return "추천 하고 싶어요"
-        case 1: return "별 생각 없어요"
-        case 2: return "추천 하고 싶지 않아요"
+        case 0: return "review_recommend_yes"
+        case 1: return "review_recommend_neutral"
+        case 2: return "review_recommend_no"
         default: return ""
         }
     }

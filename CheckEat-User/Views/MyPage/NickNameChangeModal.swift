@@ -13,9 +13,9 @@ struct NickNameChangeModal:View {
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         VStack(alignment: .leading) {
-            Text("닉네임 변경")
+            Text("nickname_change_title")
                 .bold20()
-            TextField("변경하실 닉네임을 입력해주세요.", text: $viewModel.newNickName)
+            TextField("nickname_change_placeholder", text: $viewModel.newNickName)
                 .regular14()
                 .padding(.horizontal, 10)
                 .frame(width: 362, height: 52)
@@ -32,7 +32,7 @@ struct NickNameChangeModal:View {
                 myPageViewModel.loadUserInfoFromToken()
                 dismiss()
             } label: {
-                Text("변경하기")
+                Text("nickname_change_button")
                     .primaryButtonStyle(isEnabled: true)
                     .font(.system(size: 16, weight: .bold))
                     .frame(width: 362)

@@ -18,7 +18,7 @@ struct MenuChoicePage: View {
         GeometryReader { geometry in
             VStack(alignment: .leading) {
             ZStack {
-                Text("리뷰 등록")
+                Text("review_register")
                     .medium16()
                 HStack {
                     Spacer()
@@ -32,10 +32,10 @@ struct MenuChoicePage: View {
                 .frame(height: 44)
             }
             VStack(alignment: .leading) {
-                Text("내가 먹은 메뉴")
+                Text("review_my_menu")
                     .bold20()
                     .padding(.top, 20)
-                SearchBar(searchText: $searchText, placeholder: "내가 먹은 메뉴이름을 검색해보세요.") {
+                SearchBar(searchText: $searchText, placeholder: String(localized: "review_search_placeholder")) {
                     print("검색어: \(searchText)")
                 }
             }
@@ -87,7 +87,7 @@ struct MenuChoicePage: View {
                     .map { ($0.foo_id, $0.foo_name) }
                 dismiss()
             } label: {
-                Text("선택 완료")
+                Text("review_select_done")
                     .primaryButtonStyle()
                     .semibold16()
                     .frame(maxWidth: .infinity)

@@ -42,7 +42,7 @@ struct ReviewPendingListView: View {
                             VStack(alignment: .leading, spacing: 6) {
                                 Text(store.sto_name)
                                     .bold18()
-                                Text("리뷰를 등록해주세요.")
+                                Text("review_request_register")
                                     .medium16()
                                     .foregroundColor(Color("Button_OP50"))
                                     .padding(.top, 10)
@@ -55,7 +55,7 @@ struct ReviewPendingListView: View {
                                 selectedStoreId = store.sto_id
                                 print("👉 선택된 sto_id:", store.sto_id)
                             } label: {
-                                Image("arrow.right")
+//                                Image("arrow.right")
                             }
                             .padding(.top, 30)
                         }

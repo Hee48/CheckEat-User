@@ -15,7 +15,7 @@ struct FindIDView: View {
     
     @State private var userEmail: String = ""
     @State private var authCode: String = ""
-    @State private var infoMsg = "가입시 등록하신 이메일을 입력해주세요."
+    @State private var infoMsg: LocalizedStringKey = "enter_registered_email"
     @State private var showCodeErrorMessage: Bool = false
     
     @State private var isFieldVisible: Bool = false
@@ -50,7 +50,7 @@ struct FindIDView: View {
             ZStack {
                 ScrollView {
                     VStack(alignment: .leading) {
-                        Text("아이디를 잊으셨나요?")
+                        Text("find_id_title")
                             .bold20()
                             .padding(.top, 35)
                             .padding(.bottom, 3)
@@ -59,9 +59,9 @@ struct FindIDView: View {
                             .regular16()
                             .padding(.bottom, 35)
                         
-                        Text("이메일")
+                        Text("email_label")
                             .semibold16()
-                        UnderLinedTextField(placeholder: "이메일을 입력해주세요", text: $userEmail)
+                        UnderLinedTextField(placeholder: "email_placeholder", text: $userEmail)
                             .regular14()
                             .keyboardType(.emailAddress)
                             .autocorrectionDisabled(true)
@@ -71,7 +71,7 @@ struct FindIDView: View {
                                 isValidEmailAddress(email: newValue)
                             }
                     }
-                    .navigationTitle("아이디 찾기")
+                    .navigationTitle("find_id_nav_title")
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden(true)
                     .toolbar {
@@ -97,12 +97,12 @@ struct FindIDView: View {
                         Group {
                             if !isFieldVisible {
                                 Button {
-                                    infoMsg = "입력하신 이메일로 인증코드를 전송했습니다."
+                                    infoMsg = "find_id_code_sent"
                                     isFieldVisible = true
                                     authCodeIsValid = nil
                                     resendCode()
                                 } label: {
-                                    Text("인증코드 받기")
+                                    Text("find_id_get_code")
                                         .primaryButtonStyle(isEnabled: isUserEmailValid)
                                         .semibold16()
                                 }
@@ -111,15 +111,17 @@ struct FindIDView: View {
                                 
                             } else {
                                 VStack(alignment: .leading) {
-                                    Text("인증코드")
+                                    Text("auth_code_title")
                                         .semibold16()
-                                    AuthCodeTextField(placeholder: "인증코드를 입력해주세요", text: $authCode)
+
+                                    AuthCodeTextField(placeholder: "auth_code_placeholder", text: $authCode)
+
                                         .regular14()
                                         .focused($fieldIsFocused)
                                     
                                     if showCodeErrorMessage {
                                         VStack(alignment: .leading) {
-                                            Text("잘못된 코드입니다. 다시 시도해주세요.")
+                                            Text("auth_code_invalid")
                                                 .regular12()
                                                 .foregroundStyle(.red)
                                         }
@@ -130,7 +132,7 @@ struct FindIDView: View {
                                             Button {
                                                 resendCode()
                                             } label: {
-                                                Text("인증코드 다시 보내기")
+                                                Text("auth_code_resend")
                                                     .bold14()
                                                     .foregroundStyle(.buttonAuth)
                                             }
@@ -143,14 +145,14 @@ struct FindIDView: View {
                                     } else {
                                         HStack {
                                             Spacer()
-                                            Text("인증코드를 받지 못했어요")
+                                            Text("auth_code_not_received")
                                                 .regular14()
                                             Button {
                                                 authCode = ""
                                                 authCodeIsValid = nil
                                                 resendCode()
                                             } label: {
-                                                Text("인증코드 다시 받기")
+                                                Text("auth_code_receive_again")
                                                     .bold14()
                                                     .foregroundStyle(.buttonAuth)
                                             }
@@ -171,7 +173,7 @@ struct FindIDView: View {
                                             }
                                         }
                                     } label: {
-                                        Text("완료")
+                                        Text("action_done")
                                             .primaryButtonStyle(isEnabled: canRequestAuthCode)
                                             .semibold16()
                                     }
@@ -192,12 +194,12 @@ struct FindIDView: View {
                 .safeAreaInset(edge: .bottom) {
                     VStack {
                         HStack {
-                            Text("아이디가 기억나셨나요?")
+                            Text("remember_id_question")
                                 .regular14()
                             Button {
                                dismiss()
                             } label: {
-                                Text("로그인")
+                                Text("Login")
                                     .semibold14()
                                     .foregroundStyle(.buttonAuth)
                             }

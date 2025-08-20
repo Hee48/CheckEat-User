@@ -5,7 +5,7 @@
 //  Created by Hee  on 8/6/25.
 //
 
-//마이페이지 - 이용한가게 리뷰작성된것 모델
+//마이페이지 - 이용한가게 리뷰작성된것
 struct MyReview: Codable {
     let revi_id: Int
     let revi_create: String
@@ -21,6 +21,7 @@ struct StoreInfo: Codable {
     let sto_id: Int
     let sto_name: String
     let sto_img: String?
+    let sto_name_en: String?    // 서버가 줄 수도 있으므로 옵셔널
 }
 
 struct FoodInfo: Codable {
@@ -37,20 +38,34 @@ struct MyReviewsResponse: Codable {
     let reviews: [MyReview]
 }
 
-//마이페이지 - 이용한가게 리뷰 미작성 모델
+//마이페이지 - 이용한가게 리뷰 미작성
 struct UnwrittenReviewsResponse: Codable {
     let totalCount: Int
     let page: Int
     let limit: Int
     let totalPages: Int
-    let stores: [UnwrittenStore]
+    let reviews: [UnwrittenReviewItem]
+    
+    var stores: [UnwrittenStore] {
+        reviews.map { UnwrittenStore(store: $0.store) }
+    }
+}
+
+struct UnwrittenReviewItem: Codable {
+    let revi_id: Int?
+    let store: StoreInfo
 }
 
 struct UnwrittenStore: Codable, Identifiable {
     let sto_id: Int
     let sto_name: String
-    let sto_name_en: String
+    let sto_name_en: String?
 
     var id: Int { sto_id }
+    
+    init(store: StoreInfo) {
+        self.sto_id = store.sto_id
+        self.sto_name = store.sto_name
+        self.sto_name_en = store.sto_name_en
+    }
 }
-

@@ -118,14 +118,23 @@ class ReviewViewModel: ObservableObject {
         
         print("📸 업로드할 이미지 개수: \(images.count)")
         AF.upload(multipartFormData: { multipartFormData in
+            // food_ids: string[]
             for id in foodIDs {
-                multipartFormData.append(Data("\(id)".utf8), withName: "food_ids")
+                multipartFormData.append(Data(String(id).utf8), withName: "food_ids[]")
             }
-            multipartFormData.append(Data("\(storeID)".utf8), withName: "store_id")
-            multipartFormData.append(Data(reviewContent.utf8), withName: "revi_content")
-            multipartFormData.append(Data("\(veganLevel)".utf8), withName: "revi_reco_vegan")
-            multipartFormData.append(Data("\(recommendStep)".utf8), withName: "revi_reco_step")
-            multipartFormData.append(Data("\(status)".utf8), withName: "revi_status")
+            // store_id: string
+            multipartFormData.append(Data(String(storeID).utf8), withName: "store_id")
+            // revi_content?: string (only if not empty)
+            let trimmedContent = reviewContent.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmedContent.isEmpty {
+                multipartFormData.append(Data(trimmedContent.utf8), withName: "revi_content")
+            }
+            // revi_reco_vegan: string
+            multipartFormData.append(Data(String(veganLevel).utf8), withName: "revi_reco_vegan")
+            // revi_reco_step: string
+            multipartFormData.append(Data(String(recommendStep).utf8), withName: "revi_reco_step")
+            // revi_status?: string
+            multipartFormData.append(Data(String(status).utf8), withName: "revi_status")
             
             for (index, image) in images.prefix(4).enumerated() {
                 if let imageData = image.jpegData(compressionQuality: 0.8) {

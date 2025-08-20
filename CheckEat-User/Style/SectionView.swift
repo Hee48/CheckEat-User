@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SectionView: View {
-    let title: String
-    let buttons: [(title: String, destination: SettingDestination)]
+    let title: LocalizedStringKey
+    let buttons: [(title: LocalizedStringKey, destination: SettingDestination)]
     var onButtonTap: (SettingDestination) -> Void
 
     var body: some View {
@@ -18,7 +18,7 @@ struct SectionView: View {
                 .semibold14()
                 .foregroundStyle(.buttonOP20)
             
-            ForEach(buttons, id: \.title) { button in
+            ForEach(buttons, id: \.destination) { button in
                 Button(action: {
                     onButtonTap(button.destination)
                 }) {
@@ -32,5 +32,4 @@ struct SectionView: View {
         }
     }
 }
-
 

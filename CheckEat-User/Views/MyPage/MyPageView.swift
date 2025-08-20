@@ -40,7 +40,7 @@ struct MyPageView: View {
     
     var body: some View {
         VStack {
-            Text("마이페이지")
+            Text("tab_mypage")
                 .bold18()
             ZStack {
                 ScrollView {
@@ -65,7 +65,7 @@ struct MyPageView: View {
                             AuthViewModel.shared.logout()
                             selectedTab = .home
                         } label: {
-                            Text("로그아웃")
+                            Text("action_logout")
                                 .semibold14()
                                 .foregroundStyle(.buttonOP20)
                                 .padding()
@@ -79,8 +79,8 @@ struct MyPageView: View {
                 .onAppear {
                     myPageViewModel.loadUserInfoFromToken()
                 }
-                .alert("회원탈퇴", isPresented: $showWithdrawAlert) {
-                    Button("탈퇴", role: .destructive) {
+                .alert("dialog_withdraw_title", isPresented: $showWithdrawAlert) {
+                    Button("dialog_withdraw_confirm", role: .destructive) {
                         deleteViewModel.withdrawUser()
                             .receive(on: DispatchQueue.main)
                             .sink(receiveCompletion: { completion in
@@ -94,15 +94,15 @@ struct MyPageView: View {
                             }, receiveValue: { })
                             .store(in: &cancellables)
                     }
-                    Button("취소", role: .cancel) { }
+                    Button("dialog_withdraw_cancel", role: .cancel) { }
                 } message: {
-                    Text("정말 회원 탈퇴하시겠습니까?\n탈퇴 시 모든 데이터가 삭제됩니다.")
+                    Text("dialog_withdraw_message")
                 }
                 
                 MyPageMoreMenu(
                     isPresented: $showMoreMenu,
                     actions: [
-                        (title: "회원탈퇴", action: { showWithdrawAlert = true })
+                        (title: "dialog_withdraw_title", action: { showWithdrawAlert = true })
                     ],
                     anchor: moreMenuAnchor
                 )

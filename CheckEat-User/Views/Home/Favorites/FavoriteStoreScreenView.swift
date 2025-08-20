@@ -18,7 +18,7 @@ struct FavoriteStoreScreenView: View {
         NavigationStack {
             VStack(alignment: .leading) {
                 if vm.isLoading {
-                    ProgressView("불러오는 중…")
+                    ProgressView("loading_message")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if let msg = vm.errorMessage {
                     VStack(spacing: 12) {
@@ -34,7 +34,7 @@ struct FavoriteStoreScreenView: View {
                 } else if vm.items.isEmpty {
                     VStack(spacing: 12) {
                         Image(systemName: "star").font(.largeTitle).foregroundStyle(.secondary)
-                        Text("즐겨찾기한 가게가 없습니다.").regular14()
+                        Text("empty_favorite_store").regular14()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
@@ -54,7 +54,7 @@ struct FavoriteStoreScreenView: View {
                 StoreDetailInfoView(storeId: id, language: "ko")
                     .presentationDetents([.large])
             }
-            .navigationTitle("즐겨찾기 가게")
+            .navigationTitle("favorite_store_title")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -62,7 +62,7 @@ struct FavoriteStoreScreenView: View {
 
 final class FavoriteStoreScreenViewModel: ObservableObject {
     @Published var isLoading = false
-    @Published var errorMessage: String? = nil
+    @Published var errorMessage: LocalizedStringKey? = nil
     @Published var items: [FavoriteStoreItem] = []
 
     private var bag = Set<AnyCancellable>()
@@ -78,7 +78,7 @@ final class FavoriteStoreScreenViewModel: ObservableObject {
                 guard let self else { return }
                 self.isLoading = false
                 if case let .failure(error) = completion {
-                    self.errorMessage = "즐겨찾기 목록을 가져오지 못했어요. 잠시 후 다시 시도해주세요.\n\(error.localizedDescription)"
+                    self.errorMessage = "favorite_store_error_message"
                 }
             } receiveValue: { [weak self] items in
                 self?.items = items

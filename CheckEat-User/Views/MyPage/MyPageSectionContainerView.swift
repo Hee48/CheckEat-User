@@ -26,10 +26,10 @@ struct MyPageSectionContainerView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             SectionView(
-                title: "가게",
+                title: "section_store",
                 buttons: [
-                    (title: "즐겨찾기 가게", destination: .favoriteStores),
-                    (title: "이용한 가게", destination: .visitedStores)
+                    (title: "section_favorite_stores", destination: .favoriteStores),
+                    (title: "section_visited_stores", destination: .visitedStores)
                 ]
             ) { destination in
                 handleSelection(destination)
@@ -37,31 +37,31 @@ struct MyPageSectionContainerView: View {
             
 
             SectionView(
-                title: "리뷰",
-                buttons: [(title: "작성한 리뷰", destination: .reviewCreated)]
+                title: "section_review",
+                buttons: [(title: "section_written_reviews", destination: .reviewCreated)]
             ) { destination in
                 handleSelection(destination)
             }
 
             SectionView(
-                title: "계정",
-                buttons: [(title: "비밀번호 변경", destination: .changePassword),
-                          (title: "닉네임 변경", destination: .changeNickName)]
+                title: "section_account",
+                buttons: [(title: "action_change_password", destination: .changePassword),
+                          (title: "action_change_nickname", destination: .changeNickName)]
             ) { destination in
                 handleSelection(destination)
             }
 
             SectionView(
-                title: "알러지",
+                title: "section_allergy",
                 buttons: [
-                    (title: "알러지 수정", destination: .editAllergies)]
+                    (title: "action_edit_allergy", destination: .editAllergies)]
             ) { destination in
                 handleSelection(destination)
             }
 
             SectionView(
-                title: "언어",
-                buttons: [(title: "언어설정", destination: .languageSettings)]
+                title: "section_language",
+                buttons: [(title: "action_language_settings", destination: .languageSettings)]
             ) { destination in
                 handleSelection(destination)
             }
@@ -69,7 +69,3 @@ struct MyPageSectionContainerView: View {
         .padding(.horizontal)
     }
 }
-
-//#Preview {
-//    MyPageSectionContainerView { _ in }
-//}

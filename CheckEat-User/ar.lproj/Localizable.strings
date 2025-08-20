@@ -1,0 +1,296 @@
+/*
+  Localizable.strings
+  CheckEat-User
+
+  Created by Hee  on 8/19/25.
+  
+*/
+//MARK: 로그인뷰
+"Login" = "تسجيل الدخول";
+"placeholder_id" = "أدخل معرفك";
+"placeholder_password" = "أدخل كلمة المرور";
+"label_id" = "المعرف";
+"label_password" = "كلمة المرور";
+"action_find_id" = "البحث عن المعرف";
+"action_reset_password" = "إعادة تعيين كلمة المرور";
+"label_not_member_yet" = "لست عضوًا بعد؟";
+"action_join" = "إنشاء حساب";
+//MARK: 탭바
+"tab_home" = "الرئيسية";
+"tab_mypage" = "صفحتي";
+"action_write_review" = "اكتب مراجعة";
+//MARK: 마이페이지
+"section_store" = "المتاجر";
+"common_close" = "إغلاق";
+"section_favorite_stores" = "المتاجر المفضلة";
+"section_visited_stores" = "المتاجر التي تمت زيارتها";
+"section_review" = "المراجعات";
+"section_written_reviews" = "مراجعاتي";
+"section_account" = "الحساب";
+"action_change_password" = "تغيير كلمة المرور";
+"action_change_nickname" = "تغيير الاسم المستعار";
+"action_logout" = "تسجيل الخروج";
+"section_allergy" = "الحساسية";
+"action_edit_allergy" = "تعديل الحساسية";
+"section_language" = "اللغة";
+"action_language_settings" = "إعدادات اللغة";
+"dialog_withdraw_title" = "إلغاء الحساب";
+"dialog_withdraw_confirm" = "إلغاء";
+"dialog_withdraw_cancel" = "إلغاء الأمر";
+"dialog_withdraw_message" = "هل أنت متأكد أنك تريد إلغاء الحساب؟\nسيتم حذف جميع البيانات عند الإلغاء.";
+"user_image_select_title" = "يرجى اختيار صورة";
+"nickname_change_title" = "تغيير الاسم المستعار";
+"nickname_change_placeholder" = "يرجى إدخال اسم مستعار جديد";
+"nickname_change_button" = "تغيير";
+"segment_review_written" = "تمت كتابة المراجعة";
+"segment_review_pending" = "لم تتم كتابة المراجعة";
+"visited_stores_title" = "المتاجر التي تمت زيارتها";
+"review_empty_list" = "لا توجد مراجعات";
+"label_recommend" = "موصى به";
+"label_evaluation" = "تقييم";
+"comment_empty" = "لم تتم كتابة تعليق";
+"review_recommend_yes" = "أرغب في التوصية به";
+"review_recommend_neutral" = "لا أفكر كثيرًا";
+"review_recommend_no" = "لا أرغب في التوصية به";
+"review_request_register" = "يرجى تسجيل مراجعتك.";
+"label_recommend_target" = "هدف التوصية";
+"language_setting_title" = "إعدادات اللغة";
+"language_setting_description" = "يرجى اختيار لغة.";
+"language_setting_button" = "تغيير";
+"allergy_my_info_title" = "معلومات الحساسية الخاصة بي";
+"allergy_input_hint_commas" = "يرجى الفصل باستخدام الفواصل (,).";
+"allergy_example_placeholder" = "مثال: كيوي، موز، سمسم، حمضيات";
+"action_done" = "تم";
+"allergy_edit_title" = "تعديل الحساسية";
+"allergy_info_check_title" = "التحقق من معلومات الحساسية";
+"allergy_info_check_subtitle" = "يرجى مراجعة معلومات الحساسية الخاصة بك";
+"action_edit" = "تعديل";
+"password_new_title" = "كلمة المرور الجديدة";
+"password_new_placeholder" = "يرجى إدخال كلمة مرور جديدة";
+"password_rule_minlen" = "ثمانية أحرف على الأقل";
+"password_rule_complexity" = "تتضمن أحرفًا كبيرة وصغيرة ورقمًا ورمزًا خاصًا";
+"password_confirm_title" = "تأكيد كلمة المرور";
+"password_confirm_placeholder" = "يرجى إدخال كلمة المرور مرة أخرى";
+"password_match" = "كلمتا المرور متطابقتان";
+"password_change_button" = "تغيير";
+"password_change_complete_title1" = "تم تغيير كلمة المرور";
+"password_change_complete_title2" = "بنجاح.";
+"password_change_complete_message" = "يرجى تسجيل الدخول بكلمة المرور الجديدة.";
+"common_close" = "إغلاق";
+"loading_message" = "جاري التحميل…";
+"empty_favorite_store" = "لا توجد متاجر مفضلة.";
+"favorite_store_title" = "المتاجر المفضلة";
+"favorite_store_error_message" = "تعذر جلب قائمة المتاجر المفضلة. يرجى المحاولة لاحقًا.";
+//MARK: 알러지19가지
+"allergen_egg" = "بيض";
+"allergen_milk" = "حليب";
+"allergen_buckwheat" = "حنطة سوداء";
+"allergen_peanut" = "فول سوداني";
+"allergen_soy" = "فول الصويا";
+"allergen_wheat" = "قمح";
+"allergen_mackerel" = "ماكريل";
+"allergen_crab" = "سرطان البحر";
+"allergen_shrimp" = "جمبري";
+"allergen_pork" = "لحم خنزير";
+"allergen_peach" = "خوخ";
+"allergen_tomato" = "طماطم";
+"allergen_sulfites" = "كبريتات";
+"allergen_walnut" = "جوز";
+"allergen_chicken" = "دجاج";
+"allergen_beef" = "لحم بقري";
+"allergen_squid" = "حبار";
+"allergen_shellfish" = "محار";
+"allergen_pinenut" = "صنوبر";
+//MARK: 리뷰페이지
+"ocr_title" = "يلزم صورة إيصال\nلإنشاء المراجعة.";
+"ocr_subtitle" = "التقط صورة أو اختر من الألبوم.";
+"ocr_add_photo_button" = "إضافة صورة";
+"ocr_picker_title" = "اختر صورة";
+"ocr_take_photo" = "التقاط بالكاميرا";
+"ocr_pick_from_album" = "الاختيار من الألبوم";
+"ocr_analyzing" = "جاري تحليل الصورة…";
+"review_intro_message" = "اترك مراجعة عن الطعام الذي تناولته\nوقم بمشاركتها مع الكثير من الناس!";
+"review_my_menu" = "قائمتي";
+"review_register" = "تسجيل المراجعة";
+"review_photo_select" = "اختر صورة";
+"review_camera" = "الكاميرا";
+"review_album" = "الألبوم";
+"review_menu_select" = "اختر القائمة";
+"store_name" = "اسم المتجر";
+"store_address" = "العنوان";
+"store_name_placeholder" = "أدخل اسم المتجر إذا كان مختلفًا";
+"store_name_no" = "مختلف";
+"store_name_yes" = "صحيح";
+"review_search_placeholder" = "ابحث عن اسم الطبق الذي تناولته";
+"review_select_done" = "تم الاختيار";
+"review_recommend_question" = "هل توصي بهذا الطبق؟";
+"review_dislike_reason_required" = "يرجى إخبارنا لماذا لا توصي به (إلزامي)";
+"review_like_reason_optional" = "يرجى إخبارنا لماذا توصي به (اختياري)";
+"review_reason_placeholder" = "اكتب باختصار";
+"review_failed_title" = "هذا المتجر غير مسجّل\nفي CheckEat.";
+"review_failed_message" = "لا يمكنك إرسال مراجعة.";
+"review_question_title" = "هل ترغب في تسجيل\nمراجعة الآن؟";
+"review_later" = "سجّل لاحقًا";
+"review_stop_title" = "هل تريد التوقف عن\nكتابة المراجعة؟";
+"review_stop_message" = "لا يوجد حفظ تلقائي. يجب أن تبدأ من جديد.";
+"review_continue" = "متابعة الكتابة";
+"vegan_modal_title" = "تصنيفات النباتيين";
+"vegan_modal_subtitle" = "تختلف التصنيفات النباتية حسب الأطعمة المستهلكة.";
+"vegan_type_vegan" = "نباتي: يمنع جميع المنتجات الحيوانية";
+"vegan_type_lacto" = "لاكتو: يسمح بمنتجات الألبان، يمنع البيض";
+"vegan_type_ovo" = "أوفو: يسمح بالبيض، يمنع منتجات الألبان";
+"vegan_type_lactoovo" = "لاكتو-أوفو: يسمح بمنتجات الألبان والبيض";
+"vegan_type_pesco" = "بيسكو: يسمح بالأسماك، يمنع اللحوم";
+"vegan_type_pollo" = "بولو: يسمح بالدواجن (مثل الدجاج)، يمنع اللحوم الحمراء";
+"forgot_password_title" = "هل نسيت كلمة المرور؟";
+"user_id_label" = "معرّف المستخدم";
+"user_id_placeholder" = "يرجى إدخال معرّف المستخدم";
+"email_label" = "البريد الإلكتروني";
+"email_placeholder" = "يرجى إدخال البريد الإلكتروني";
+"reset_password_title" = "إعادة تعيين كلمة المرور";
+"remember_password_question" = "هل تتذكر كلمة المرور؟";
+"reset_password_instruction" = "يرجى إعادة تعيين كلمة المرور.";
+"new_password_instruction" = "يرجى إدخال كلمة مرور جديدة";
+"new_password_label" = "كلمة المرور الجديدة";
+"new_password_placeholder" = "أدخل كلمة المرور الجديدة";
+"reset_password_failed" = "فشل في إعادة تعيين كلمة المرور. يرجى المحاولة مرة أخرى";
+"password_change_success_title" = "تم تغيير كلمة المرور";
+"password_change_success_message" = "بنجاح";
+"auth_code_title" = "رمز التحقق";
+"auth_code_placeholder" = "الرجاء إدخال رمز التحقق";
+"auth_code_resend" = "إعادة إرسال رمز التحقق";
+"auth_code_not_received" = "لم تستلم الرمز؟";
+"auth_code_receive_again" = "إعادة طلب الرمز";
+"auth_code_invalid" = "الرمز غير صحيح. يرجى المحاولة مرة أخرى";
+"find_id_title" = "هل نسيت مُعرّفك؟";
+"find_id_code_sent" = "لقد أرسلنا رمز التحقق إلى البريد الإلكتروني الذي أدخلته.";
+"find_id_get_code" = "الحصول على رمز التحقق";
+"remember_id_question" = "هل تتذكر المُعرّف؟";
+"find_id_nav_title" = "العثور على المعرّف";
+"find_pw_question" = "هل نسيت كلمة المرور؟";
+"find_pw_button" = "استرجاع كلمة المرور";
+"find_id_message_prefix" = "معرّفك هو";
+"find_id_message_suffix" = "";
+"common_close" = "إغلاق";
+"allergy_info_check_desc" = "يرجى التحقق مما إذا كانت هناك أي تعديلات على المعلومات المدخلة";
+"common_next" = "التالي";
+"common_prev" = "السابق";
+"resend" = "إعادة الإرسال";
+"checkDuplicate" = "التحقق من التكرار";
+"verify" = "تأكيد";
+"halal" = "حالة الحلال";
+"allergy" = "معلومات الحساسية";
+"nickname" = "اسم المستخدم";
+"nickname_placeholder" = "الرجاء إدخال اسم المستخدم";
+"password_not_match" = "كلمة المرور غير متطابقة";
+"enter_registered_email" = "يرجى إدخال البريد الإلكتروني الذي سجلت به.";
+"enter_registered_id_email" = "يرجى إدخال معرف المستخدم والبريد الإلكتروني اللذين سجلت بهما.";
+"terms_required_agreement" = "[مطلوب] أوافق على شروط الخدمة.";
+"signup_complete_title1" = "اكتمل";
+"signup_complete_title2" = "التسجيل";
+"vegan_category" = "تصنيف النباتيين";
+"not_applicable" = "غير متاح";
+"not_vegan" = "غير نباتي";
+"pollo" = "بولو";
+"pesco" = "بيسكو";
+"lactoovo" = "لاكتو-أوفو";
+"ovo" = "أوفو";
+"lacto" = "لاكتو";
+"vegan" = "نباتي";
+"not_halal" = "غير حلال";
+"halal" = "حلال";
+"success" = "نجاح";
+"id_available" = "اسم المستخدم متاح";
+"confirm" = "تأكيد";
+"failure" = "فشل";
+"id_duplicate" = "اسم المستخدم مستخدم بالفعل. يرجى التحقق مرة أخرى";
+"email_duplicate_failure" = "فشل التحقق من تكرار البريد الإلكتروني";
+"available" = "متاح";
+"email_available" = "هذا البريد الإلكتروني متاح.";
+"email_duplicate" = "هذا البريد الإلكتروني مستخدم بالفعل";
+"email_check_again" = "يرجى التحقق من البريد الإلكتروني مرة أخرى";
+"email_verify_success" = "اكتمل التحقق من البريد الإلكتروني";
+"email_verify_check_again" = "يرجى التحقق من رمز التحقق من البريد الإلكتروني مرة أخرى.";
+"account_deleted" = "تم حذف هذا الحساب.";
+"input_not_match_check_again" = "المعلومات التي أدخلتها غير مطابقة. يرجى التحقق مرة أخرى.";
+"auth_code_invalid" = "رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى.";
+
+// MARK: Home MapView
+// Loading and Status Messages
+"loading_stores" = "جاري تحميل قائمة المتاجر";
+"confirm" = "تأكيد";
+
+// Search Related
+"search_by_store_name" = "ابحث باسم المتجر";
+"search_current_location" = "ابحث في الموقع الحالي";
+
+// Filter Related
+"filter_vegan" = "نباتي";
+"filter_lacto" = "لاكتو";
+"filter_ovo" = "أوفو";
+"filter_lacto_ovo" = "لاكتو-أوفو";
+"filter_pesco" = "بيسكو";
+"filter_pollo" = "بولو";
+"my_filter" = "مرشحي";
+
+// MARK: - Business Hours Related
+"business_hours" = "ساعات العمل";
+"today_hours_not_available" = "ساعات اليوم غير متاحة";
+"hours_not_available" = "ساعات العمل غير متاحة";
+"break_time" = "وقت الاستراحة";
+
+// MARK: - Days of the Week
+"monday" = "الاثنين";
+"tuesday" = "الثلاثاء";
+"wednesday" = "الأربعاء";
+"thursday" = "الخميس";
+"friday" = "الجمعة";
+"saturday" = "السبت";
+"sunday" = "الأحد";
+
+// MARK: - Holiday Related
+"no_regular_holiday" = "لا توجد إجازات منتظمة";
+"regular_holiday" = "إجازة منتظمة";
+"no_public_holiday" = "لا توجد إجازات عامة";
+"closed_on" = "مغلق";
+
+// MARK: - Contact Related
+"no_phone_registered" = "لا توجد معلومات اتصال مسجلة";
+
+// MARK: - Break Time Related
+"break_time_not_available" = "معلومات وقت الاستراحة غير متاحة";
+"no_break_time" = "لا يوجد وقت استراحة";
+"info_not_available" = "المعلومات غير متاحة";
+
+// MARK: - Modal Title Related
+"filter_results_title" = " نتائج مرشح نباتي";
+"search_results_title" = " نتائج البحث";
+"nearby_stores_title" = " متاجر ضمن 2 كم";
+"stores_count" = " متجر موجود";
+"close" = "إغلاق";
+
+// MARK: - Store Information Related
+"halal_certified" = "معتمد حلال";
+"distance_from_current_location" = "تقع على";
+"meters" = "م من الموقع الحالي";
+
+// MARK: - Favorite Store Information Related
+"favorite_stores_title" = " المتاجر المفضلة";
+"favorite_fetch_error" = "تعذر جلب قائمة المفضلة. يرجى المحاولة مرة أخرى لاحقاً.";
+
+//MARK: - Menu Related
+"menu_tab_all" = "جميع القوائم";
+"menu_tab_vegan" = "قوائم نباتية/فيجَن";
+"review_button" = "المراجعات";
+"ingredients_label" = "المكوّنات";
+"allergy_caution_label" = "تحذير الحساسية";
+"no_ingredient_info" = "لا تتوفر معلومات عن المكوّنات";
+"price_suffix_won" = "WON";
+
+// MARK: - Error Message
+"favorite_fetch_error" = "عذرًا، لم نتمكن من جلب قائمة المفضلات الخاصة بكم في الوقت الحالي.\nنرجو منكم المحاولة مرة أخرى لاحقًا، ونشكركم على تفهّمكم.";
+"favorite_action_error" = "حدث خطأ أثناء محاولة تعديل المفضلة.\nنرجو منكم إعادة المحاولة لاحقًا، ونعتذر عن أي إزعاج قد سبّبناه.";
+"search_by_store_name_error" = "يبدو أن المطعم الذي تبحثون عنه غير مسجل لدينا بعد.\nسنعمل جاهدين على إضافته في أقرب وقت ممكن.";
+"search_by_store_vegan_level_error" = "لم نتمكن من العثور على مطاعم مطابقة لشروطكم في هذه المنطقة.\nنعتذر عن الإزعاج، ويرجى البحث في نطاق آخر.";
+"store_detail_info_fetch_error" = "تعذر علينا تحميل معلومات هذا المطعم في الوقت الحالي.\nنرجو إعادة المحاولة بعد قليل، شاكرين لكم صبركم.";
+"store_list_fetch_error" = "الخريطة تبدو فارغة في الوقت الراهن.\nنحن نعمل على جلب قائمة المطاعم المتاحة قريبًا.";

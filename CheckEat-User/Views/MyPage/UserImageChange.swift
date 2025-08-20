@@ -20,7 +20,7 @@ struct UserImageChange: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("이미지를 선택해주세요")
+            Text("user_image_select_title")
                 .bold18()
                 .padding(.top, 30)
 
@@ -48,7 +48,7 @@ struct UserImageChange: View {
             Button {
                 dismiss()
             } label: {
-                Text("취소")
+                Text("dialog_withdraw_cancel")
                     .primaryButtonStyle(isEnabled: true)
                     .semibold16()
                     .padding(.horizontal, 20)

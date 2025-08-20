@@ -20,16 +20,16 @@ struct Allergy19: View {
         NavigationStack {
             VStack(alignment: .leading) {
                 HStack(spacing: 10) {
-                    Text("나의 알러지 정보")
+                    Text("allergy_my_info_title")
                         .semibold14()
                     
-                    Text("쉼표(,)로 구분해서 작성해주세요.")
+                    Text("allergy_input_hint_commas")
                         .foregroundColor(.buttonOP50)
                         .regular12()
                 }
                 .padding(.leading, 17)
                 .padding(.top, 20)
-                TextField("ex. 키위,바나나,고사리,참깨,감귤류", text: $allergy)
+                TextField("allergy_example_placeholder", text: $allergy)
                     .regular14()
                     .padding(.horizontal, 10)
                     .frame(width: 362, height: 52)
@@ -88,7 +88,7 @@ struct Allergy19: View {
                         onSubmit(confirmedIDs, confirmedText)
                     }
                 )) {
-                    Text("다음")
+                    Text("common_next")
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -100,7 +100,7 @@ struct Allergy19: View {
                 .padding(.top, 20)
                 
                 Spacer()
-                .navigationTitle("회원가입")
+                .navigationTitle("action_join")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {

@@ -21,13 +21,13 @@ struct JoinBasicInfoSection: View {
     @ObservedObject var viewModel: RegisterViewModel
     var body: some View {
         VStack(alignment: .leading) {
-            Text("아이디")
+            Text("label_id")
                 .font(.system(size: 14, weight: .semibold))
                 .padding(.leading, 17)
                 .padding(.top, 25)
             ZStack(alignment: .trailing) {
                 VStack {
-                    UnderLinedTextField(placeholder: "아이디를 입력해 주세요.", text: $id)
+                    UnderLinedTextField(placeholder: "placeholder_id", text: $id)
                         .font(.system(size: 14))
                         .padding(.horizontal, 20)
                 }
@@ -37,7 +37,7 @@ struct JoinBasicInfoSection: View {
                 Button {
                     viewModel.checkIdUnique(id: id)
                 } label: {
-                    Text("중복 확인")
+                    Text("checkDuplicate")
                         .frame(width: 83, height: 34)
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(.black)
@@ -48,26 +48,26 @@ struct JoinBasicInfoSection: View {
                     
                 }
             }
-            Text("닉네임")
+            Text("nickname")
                 .semibold14()
                 .padding(.leading, 17)
                 .padding(.top, 15)
-            UnderLinedTextField(placeholder: "닉네임을 입력해 주세요.", text: $nickName)
+            UnderLinedTextField(placeholder: "nickname_placeholder", text: $nickName)
                 .font(.system(size: 14))
                 .padding(.horizontal, 20)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
 
-            Text("비밀번호")
+            Text("label_password")
                 .semibold14()
                 .padding(.leading, 17)
                 .padding(.top, 15)
             ZStack(alignment: .trailing) {
                 Group {
                     if isPasswordVisible {
-                        TextField("비밀번호를 입력해 주세요.", text: $password)
+                        TextField("placeholder_password.", text: $password)
                     } else {
-                        SecureField("비밀번호를 입력해 주세요", text: $password)
+                        SecureField("placeholder_password", text: $password)
                     }
                 }
                 .font(.system(size: 14))
@@ -104,28 +104,28 @@ struct JoinBasicInfoSection: View {
                     .frame(width: 16, height: 16)
                     .foregroundColor(isLengthValid ? .green : .buttonOP20)
                     .padding(.leading, 20)
-                Text("8자 이상")
+                Text("password_rule_minlen")
                     .font(.system(size: 12))
                     .foregroundColor(isLengthValid ? .green : .buttonOP20)
                 Image(systemName: "checkmark")
                     .frame(width: 16, height: 16)
                     .foregroundColor(isPasswordValid ? .green : .buttonOP20)
                     .padding(.leading)
-                Text("대소문자, 숫자, 특수문자 포함")
+                Text("password_rule_complexity")
                     .font(.system(size: 12))
                     .foregroundColor(isPasswordValid ? .green : .buttonOP20)
             }
             .padding(.top, 10)
-            Text("비밀번호 확인")
+            Text("password_confirm_title")
                 .semibold14()
                 .padding(.leading, 17)
                 .padding(.top, 15)
             ZStack(alignment: .trailing) {
                 Group {
                     if isPasswordConfirmVisible {
-                        TextField("비밀번호를 한번더 입력해주세요.", text: $passwordConfirm)
+                        TextField("password_confirm_placeholder", text: $passwordConfirm)
                     } else {
-                        SecureField("비밀번호를 한번더 입력해주세요", text: $passwordConfirm)
+                        SecureField("password_confirm_placeholder", text: $passwordConfirm)
                     }
                 }
                 .textInputAutocapitalization(.never)
@@ -159,14 +159,14 @@ struct JoinBasicInfoSection: View {
                         Image(systemName: "checkmark")
                             .frame(width: 16, height: 16)
                             .foregroundColor(.green)
-                        Text("비밀번호 일치")
+                        Text("password_match")
                             .font(.system(size: 12))
                             .foregroundColor(.green)
                     } else {
                         Image(systemName: "xmark")
                             .frame(width: 8, height: 8)
                             .foregroundColor(.red)
-                        Text("비밀번호 불일치")
+                        Text("password_not_match")
                             .font(.system(size: 12))
                             .foregroundColor(.red)
                     }

@@ -22,8 +22,8 @@ struct UserRegistrationComplete: View {
                 .padding(.bottom)
             
             Group {
-                Text("회원가입이")
-                Text("완료되었습니다.")
+                Text("signup_complete_title1")
+                Text("signup_complete_title2")
             }
             .bold20()
             
@@ -32,7 +32,7 @@ struct UserRegistrationComplete: View {
             Button {
                 showJoin = false
             }label: {
-                Text("로그인")
+                Text("Login")
                     .primaryButtonStyle()
                     .semibold16()
                     .frame(maxWidth: .infinity)
