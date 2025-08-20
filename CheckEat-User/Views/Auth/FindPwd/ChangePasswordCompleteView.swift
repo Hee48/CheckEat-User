@@ -25,8 +25,8 @@ struct ChangePasswordCompleteView: View {
                 .foregroundStyle(.green)
                 .padding(.bottom)
             Group {
-                Text("비밀번호가")
-                Text("성공적으로 변경되었습니다.")
+                Text("password_change_success_title")
+                Text("password_change_success_message")
             }
             .bold20()
             
@@ -37,7 +37,7 @@ struct ChangePasswordCompleteView: View {
                     path.removeAll()
                 }
             } label: {
-                Text("로그인")
+                Text("Login")
                     .primaryButtonStyle()
                     .semibold16()
                     .padding(.vertical, 24)

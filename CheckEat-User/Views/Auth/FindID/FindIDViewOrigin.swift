@@ -36,15 +36,15 @@ struct FindIDViewOrigin: View {
         GeometryReader { _ in
             NavigationStack {
                 VStack (alignment: .leading) {
-                    Text("아이디를 잊으셨나요?").font(.system(size: 20,weight: .bold))
+                    Text("find_id_title").font(.system(size: 20,weight: .bold))
                         .padding(.top, 3)
                     Text(infoMessage)
                         .font(.system(size: 16, weight: .light))
                         .padding(.top, 3)
-                    Text("이메일")
+                    Text("email_label")
                         .font(.system(size: 14, weight: .bold))
                         .padding(.top, 20)
-                    UnderLinedTextField(placeholder: "이메일을 입력해 주세요.", text: $email)
+                    UnderLinedTextField(placeholder: "email_placeholder", text: $email)
                         .keyboardType(.emailAddress)
                         .onChange(of: email) { newValue in
                             isEmailValid = isValidEmailAddress(email: newValue)
@@ -55,14 +55,14 @@ struct FindIDViewOrigin: View {
                     
                     if showVerificationField {
                         VStack(alignment: .leading){
-                            Text("인증코드")
+                            Text("auth_code_title")
                                 .font(.system(size: 14, weight: .bold))
                                 .padding(.top, 10)
-                            UnderLinedTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
+                            UnderLinedTextField(placeholder: "auth_code_placeholder", text: $verificationCode)
                                 .font(.system(size: 14))
                                 .padding(.top, 2)
                             if showCodeErrorMessage {
-                                Text("잘못된 코드입니다. 다시 시도해 주세요.")
+                                Text("auth_code_invalid")
                                     .foregroundColor(.red)
                                     .font(.system(size: 12))
                             }
@@ -73,15 +73,15 @@ struct FindIDViewOrigin: View {
                                 resendCode()
                             } label: {
                                 if timerActive {
-                                    Text("인증코드 다시 보내기")
+                                    Text("auth_code_resend")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(Color("Button_OP70"))
                                         .padding(.top, 20)
                                         .padding(.leading, 80)
                                 } else {
-                                    (Text("인증코드를 받지 못했어요  ")
+                                    (Text("auth_code_not_received")
                                         .font(.system(size: 16, weight: .light)) +
-                                     Text("  인증코드 다시받기")
+                                     Text("auth_code_receive_again")
                                         .font(.system(size: 16, weight: .bold)))
                                     .foregroundColor(Color.black)
                                     .padding(.top, 20)
@@ -110,11 +110,11 @@ struct FindIDViewOrigin: View {
                     withAnimation {
                         showVerificationField = true
                         startTimer()
-                        infoMessage = "입력하신 이메일로 인증코드를 전송했습니다."
+                        infoMessage = "find_id_code_sent"
                     }
                 }
             } label: {
-                        Text(showVerificationField ? "완료" : "인증코드 받기")
+                        Text(showVerificationField ? "action_done" : "find_id_get_code")
                             .semibold16()
                             .foregroundColor(.white)
                             .primaryButtonStyle(isEnabled: isButtonEnabled)
@@ -130,7 +130,7 @@ struct FindIDViewOrigin: View {
                 }
                 .padding(.top, 50)
                 .padding(.leading, 15)
-                .navigationTitle("아이디 찾기")
+                .navigationTitle("find_id_nav_title")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
@@ -149,9 +149,9 @@ struct FindIDViewOrigin: View {
                     Button {
                         goToLogin = true
                     } label: {
-                        Text("아이디가 기억나셨나요? ").font(.system(size: 14 ,weight: .light))
+                        Text("remember_id_question").font(.system(size: 14 ,weight: .light))
                             .foregroundStyle(Color.black) +
-                        Text(" 로그인").font(.system(size: 14, weight: .bold))
+                        Text("Login").font(.system(size: 14, weight: .bold))
                             .foregroundStyle(Color.black)
                     }
                     .padding(.bottom, 30)

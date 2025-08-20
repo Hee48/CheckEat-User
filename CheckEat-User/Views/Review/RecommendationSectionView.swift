@@ -14,7 +14,7 @@ struct RecommendationSectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text("메뉴를 추천하시나요?")
+            Text("review_recommend_menu_question")
                 .semibold14()
                 .padding(.top, 40)
 
@@ -26,7 +26,7 @@ struct RecommendationSectionView: View {
                         } label: {
                             HStack {
                                 Text(type.emoji)
-                                Text(type.rawValue)
+                                Text(type.titleKey)
                             }
                             .medium14()
                             .padding(.horizontal, 12)
@@ -42,16 +42,16 @@ struct RecommendationSectionView: View {
             .padding(.top, 10)
 
             if selectedRecommendation == .dislike {
-                TextFieldSection(title: "추천 하고 싶지 않은 이유를 알려주세요(필수)", text: $dislikeReasonText)
+                TextFieldSection(title: "review_dislike_reason_required", text: $dislikeReasonText)
             } else if selectedRecommendation == .like {
-                TextFieldSection(title: "추천 하고 싶은 이유를 알려주세요(선택)", text: $likeReasonText)
+                TextFieldSection(title: "review_like_reason_optional", text: $likeReasonText)
             }
         }
     }
 }
 
 private struct TextFieldSection: View {
-    let title: String
+    let title: LocalizedStringKey
     @Binding var text: String
 
     var body: some View {
@@ -61,7 +61,7 @@ private struct TextFieldSection: View {
                 .foregroundColor(.black)
                 .padding(.leading, 4)
 
-            TextField("간단히 작성", text: $text)
+            TextField(LocalizedStringKey("review_reason_placeholder"), text: $text)
                 .regular14()
                 .padding()
                 .background(

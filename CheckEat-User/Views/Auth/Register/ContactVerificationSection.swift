@@ -13,7 +13,6 @@ struct ContactVerificationSection: View {
     @State private var isEmailValid: Bool = false
     @Binding var verificationCode: String
     @Binding var didSendCode: Bool
-//    private let correctAuthCode = "1234"
     @State private var isVerificationCodeValid: Bool = true
     @State private var showCodeErrorMessage: Bool = false
     @State private var hasSentOnce: Bool = false
@@ -25,12 +24,12 @@ struct ContactVerificationSection: View {
     @Binding var selectedHalalStatus: HalaStatus
     var body: some View {
         VStack(alignment: .leading){
-            Text("이메일")
+            Text("email_label")
                 .semibold14()
                 .padding(.leading, 17)
                 .padding(.top, 10)
             ZStack(alignment: .trailing) {
-                UnderLinedTextField(placeholder: "이메일을 입력해 주세요", text: $email)
+                UnderLinedTextField(placeholder: "email_placeholder", text: $email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
@@ -49,7 +48,7 @@ struct ContactVerificationSection: View {
                         hasSentOnce = true
                     }
                 } label: {
-                    Text(didSendCode ? "재전송" : "중복 확인")
+                    Text(didSendCode ? "resend" : "checkDuplicate")
                         .frame(width: 97, height: 34)
                         .bold14()
                         .foregroundColor(.black)
@@ -62,12 +61,12 @@ struct ContactVerificationSection: View {
 
             }
             if didSendCode {
-                Text("인증코드")
+                Text("auth_code_title")
                     .semibold14()
                     .padding(.leading, 17)
                     .padding(.top, 10)
                 ZStack(alignment: .trailing) {
-                    AuthCodeTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
+                    AuthCodeTextField(placeholder: "auth_code_placeholder", text: $verificationCode)
                         .regular14()
                         .padding(.horizontal, 20)
                         .padding(.top, 5)
@@ -79,7 +78,7 @@ struct ContactVerificationSection: View {
                             showCodeErrorMessage = !isSuccess
                         }
                     } label: {
-                        Text("인증하기")
+                        Text("verify")
                             .frame(width: 97, height: 34)
                             .bold14()
                             .foregroundColor(.black)
@@ -90,7 +89,7 @@ struct ContactVerificationSection: View {
                     }
                 }
                 if showCodeErrorMessage {
-                    Text("잘못된 코드입니다. 다시 시도해 주세요.")
+                    Text("auth_code_invalid")
                         .foregroundColor(.red)
                         .font(.system(size: 12))
                         .padding(.leading, 17)
@@ -101,7 +100,7 @@ struct ContactVerificationSection: View {
         .tapToDismissKeyboard()
         VeganDropDown(selected: $selectedVeganType)
             .padding(.top, 10)
-        Text("할랄 여부")
+        Text("halal")
             .semibold14()
             .padding(.leading, 17)
             .padding(.top, 10)
@@ -139,7 +138,7 @@ struct ContactVerificationSection: View {
         .padding(.leading, 17)
         .padding(.top, 10)
         
-        Text("알러지 여부")
+        Text("allergy")
             .semibold14()
             .padding(.leading, 17)
             .padding(.top, 10)

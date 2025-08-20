@@ -6,35 +6,39 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 struct Allergen: Identifiable {
     let imageName: String
-    let displayName: String
+    let nameKey: String
     let id: Int
+    
+    var displayName: String {
+        NSLocalizedString(nameKey, tableName: nil, bundle: .main, value: "", comment: "")
+    }
+    var localizedNameKey: LocalizedStringKey { LocalizedStringKey(nameKey) }
 }
 
 struct AllergenData {
     static let defaultList: [Allergen] = [
-        Allergen(imageName: "Egg", displayName: "난류", id: 1),
-        Allergen(imageName: "Milk", displayName: "우유", id: 2),
-        Allergen(imageName: "Buckwheat", displayName: "메밀", id: 3),
-        Allergen(imageName: "Peanut", displayName: "땅콩", id: 4),
-        Allergen(imageName: "Soy", displayName: "대두", id: 5),
-        Allergen(imageName: "Wheat", displayName: "밀", id: 6),
-        Allergen(imageName: "Mackerel", displayName: "고등어", id: 7),
-        Allergen(imageName: "Crab", displayName: "게", id: 8),
-        Allergen(imageName: "Shrimp", displayName: "새우", id: 9),
-        Allergen(imageName: "Pork", displayName: "돼지고기", id: 10),
-        Allergen(imageName: "Peach", displayName: "복숭아", id: 11),
-        Allergen(imageName: "Tomato", displayName: "토마토", id: 12),
-        Allergen(imageName: "Sulfites", displayName: "아황산류", id: 13),
-        Allergen(imageName: "Walnut", displayName: "호두", id: 14),
-        Allergen(imageName: "Chicken", displayName: "닭고기", id: 15),
-        Allergen(imageName: "Beef", displayName: "쇠고기", id: 16),
-        Allergen(imageName: "Squid", displayName: "오징어", id: 17),
-        Allergen(imageName: "Shellfish", displayName: "조개류", id: 18),
-        Allergen(imageName: "PineNut", displayName: "잣", id: 19)
+        Allergen(imageName: "Egg",        nameKey: "allergen_egg",        id: 1),
+        Allergen(imageName: "Milk",       nameKey: "allergen_milk",       id: 2),
+        Allergen(imageName: "Buckwheat",  nameKey: "allergen_buckwheat",  id: 3),
+        Allergen(imageName: "Peanut",     nameKey: "allergen_peanut",     id: 4),
+        Allergen(imageName: "Soy",        nameKey: "allergen_soy",        id: 5),
+        Allergen(imageName: "Wheat",      nameKey: "allergen_wheat",      id: 6),
+        Allergen(imageName: "Mackerel",   nameKey: "allergen_mackerel",   id: 7),
+        Allergen(imageName: "Crab",       nameKey: "allergen_crab",       id: 8),
+        Allergen(imageName: "Shrimp",     nameKey: "allergen_shrimp",     id: 9),
+        Allergen(imageName: "Pork",       nameKey: "allergen_pork",       id: 10),
+        Allergen(imageName: "Peach",      nameKey: "allergen_peach",      id: 11),
+        Allergen(imageName: "Tomato",     nameKey: "allergen_tomato",     id: 12),
+        Allergen(imageName: "Sulfites",   nameKey: "allergen_sulfites",   id: 13),
+        Allergen(imageName: "Walnut",     nameKey: "allergen_walnut",     id: 14),
+        Allergen(imageName: "Chicken",    nameKey: "allergen_chicken",    id: 15),
+        Allergen(imageName: "Beef",       nameKey: "allergen_beef",       id: 16),
+        Allergen(imageName: "Squid",      nameKey: "allergen_squid",      id: 17),
+        Allergen(imageName: "Shellfish",  nameKey: "allergen_shellfish",  id: 18),
+        Allergen(imageName: "PineNut",    nameKey: "allergen_pinenut",    id: 19)
     ]
 }
-

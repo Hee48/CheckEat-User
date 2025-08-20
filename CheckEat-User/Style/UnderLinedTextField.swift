@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct UnderLinedTextField: View {
-    let placeholder: String
+    let placeholder: LocalizedStringKey
     var isSecure: Bool = false
     @Binding var text: String
     @FocusState private var isFocused: Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 4){
             if isSecure {
-                SecureField(placeholder, text: $text)
+                SecureField("", text: $text, prompt: Text(placeholder))
                     .padding(.vertical, 8)
                     .focused($isFocused)
             } else {
-                TextField(placeholder, text: $text)
+                TextField("", text: $text, prompt: Text(placeholder))
                     .padding(.vertical, 8)
                     .focused($isFocused)
             }
@@ -32,7 +32,7 @@ struct UnderLinedTextField: View {
 }
 
 struct AuthCodeTextField: View {
-    let placeholder: String
+    let placeholder: LocalizedStringKey
     @Binding var text: String
     @FocusState private var isFocused: Bool
     

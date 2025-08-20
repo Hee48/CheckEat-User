@@ -8,9 +8,9 @@
 import SwiftUI
 
 enum MenuRecommendType: String, CaseIterable, Identifiable {
-    case like = "추천 하고 싶어요"
-    case neutral = "별 생각 없어요"
-    case dislike = "추천 하고 싶지 않아요"
+    case like = "review_recommend_yes"
+    case neutral = "review_recommend_neutral"
+    case dislike = "review_recommend_no"
     
     var id: String { rawValue }
     
@@ -28,6 +28,9 @@ enum MenuRecommendType: String, CaseIterable, Identifiable {
         case .dislike: return 2
         }
     }
+    var titleKey: LocalizedStringKey {
+        LocalizedStringKey(self.rawValue)
+    }
 }
 
 struct AddReivewView: View {
@@ -42,6 +45,7 @@ struct AddReivewView: View {
     @State private var selectedImage: UIImage? = nil
     @State private var showPickerSheet = false
     @State private var showMenuChoice = false
+    @State private var isSubmitting = false
     
     @State private var selectedImages: [UIImage] = []
     @State private var selectedMenu: [(id: Int, name: String)] = []
@@ -57,7 +61,7 @@ struct AddReivewView: View {
         ZStack {
             VStack {
                 
-                Text("내가 먹은 음식에 대한 리뷰를 남겨\n많은 사람과 공유해보세요!")
+                Text("review_intro_message")
                     .lineSpacing(4)
                     .multilineTextAlignment(.center)
                     .padding(.top, 30)
@@ -75,7 +79,7 @@ struct AddReivewView: View {
                 .padding(.top, 30)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("내가 먹은 메뉴")
+                    Text("review_my_menu")
                         .semibold14()
                         .padding(.leading, 17)
                         .padding(.bottom, 2)
@@ -125,7 +129,7 @@ struct AddReivewView: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("리뷰 등록")
+                Text("review_register")
                     .medium16()
             }
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -138,13 +142,13 @@ struct AddReivewView: View {
         }
         .actionSheet(isPresented: $showPickerSheet) {
             ActionSheet(
-                title: Text("사진 선택"),
+                title: Text("review_photo_select"),
                 buttons: [
-                    .default(Text("카메라")) {
+                    .default(Text("review_camera")) {
                         imagePickerSource = .camera
                         showImagePicker = true
                     },
-                    .default(Text("앨범")) {
+                    .default(Text("review_album")) {
                         imagePickerSource = .photoLibrary
                         showImagePicker = true
                     },
@@ -175,6 +179,7 @@ struct AddReivewView: View {
         }
         .onReceive(viewModel.$registerSuccess) { success in
             if success {
+                isSubmitting = false
                 isPresented = false
                 showCheckModal = false
                 reviewPath.removeAll()
@@ -193,26 +198,34 @@ struct AddReivewView: View {
             selectedMenu: selectedMenu,
             storeId: storeId,
             viewModel: viewModel,
-            selectedImages: selectedImages
+            selectedImages: selectedImages,
+            isSubmitting: $isSubmitting
         )
     }
 }
 private func selectedMenuTextView(selectedMenu: [(id: Int, name: String)]) -> some View {
-    let text: String
     if selectedMenu.isEmpty {
-        text = "메뉴 선택하기"
+        return Text("review_menu_select")
+            .regular14()
+            .foregroundColor(.black)
+            .padding()
+            .frame(width: 362, height: 56)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.black, lineWidth: 1)
+            )
     } else {
-        text = selectedMenu.map { $0.name }.joined(separator: ", ")
+        let joined = selectedMenu.map { $0.name }.joined(separator: ", ")
+        return Text(joined)
+            .regular14()
+            .foregroundColor(.black)
+            .padding()
+            .frame(width: 362, height: 56)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.black, lineWidth: 1)
+            )
     }
-    return Text(text)
-        .regular14()
-        .foregroundColor(.black)
-        .padding()
-        .frame(width: 362, height: 56)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.black, lineWidth: 1)
-        )
 }
 
 private struct RegisterButtonView: View {
@@ -224,16 +237,20 @@ private struct RegisterButtonView: View {
     let storeId: Int
     let viewModel: ReviewViewModel
     let selectedImages: [UIImage]
+    @Binding var isSubmitting: Bool
     
     var body: some View {
         Button {
+            // 중복 탭 가드
+            guard !isSubmitting else { return }
+            isSubmitting = true
+            
             let veganLevel = selectedType.rawValue
             let recommendation = selectedRecommendation.serverValue
             let dislikeReason = dislikeReasonText.trimmingCharacters(in: .whitespacesAndNewlines)
             let likeReason = likeReasonText.trimmingCharacters(in: .whitespacesAndNewlines)
             let reviewContent = selectedRecommendation == .dislike ? dislikeReason : likeReason
             let foodIDs = selectedMenu.map { $0.id }
-            
             
             // ✅ 디버깅용 프린트
             print("👉 보내는 데이터:")
@@ -255,13 +272,21 @@ private struct RegisterButtonView: View {
                 images: selectedImages
             )
         } label: {
-            Text("리뷰 등록")
-                .primaryButtonStyle()
-                .semibold16()
-                .frame(maxWidth: .infinity)
-                .frame(height: 56)
+            ZStack {
+                Text("review_register")
+                    .primaryButtonStyle()
+                    .semibold16()
+                if isSubmitting {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 56)
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 30)
+        .disabled(isSubmitting)                 // 버튼 비활성화
+        .allowsHitTesting(!isSubmitting)        // 탭 차단 (보조)
     }
 }

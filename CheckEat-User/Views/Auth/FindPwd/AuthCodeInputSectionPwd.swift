@@ -29,9 +29,9 @@ struct AuthCodeInputSectionPwd: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("인증코드")
+            Text("auth_code_title")
                 .semibold16()
-            UnderLinedTextField(placeholder: "인증코드를 입력해주세요", text: $authCode)
+            UnderLinedTextField(placeholder: "auth_code_placeholder", text: $authCode)
                 .regular14()
                 .focused($fieldIsFocused)
             
@@ -48,7 +48,7 @@ struct AuthCodeInputSectionPwd: View {
                     Button {
                         resendCode()
                     } label: {
-                        Text("인증코드 다시 보내기")
+                        Text("auth_code_resend")
                             .bold14()
                             .foregroundStyle(.buttonAuth)
                     }
@@ -61,14 +61,14 @@ struct AuthCodeInputSectionPwd: View {
             } else {
                 HStack {
                     Spacer()
-                    Text("인증코드를 받지 못했어요")
+                    Text("auth_code_not_received")
                         .regular14()
                     Button {
                         authCode = ""
                         authCodeIsValid = nil
                         resendCode()
                     } label: {
-                        Text("인증코드 다시 받기")
+                        Text("auth_code_receive_again")
                             .bold14()
                             .foregroundStyle(.buttonAuth)
                     }
@@ -88,7 +88,7 @@ struct AuthCodeInputSectionPwd: View {
                         }
                     }
                 } label: {
-                    Text("완료")
+                    Text("action_done")
                         .primaryButtonStyle(isEnabled: canRequestAuthCode)
                         .semibold16()
                 }

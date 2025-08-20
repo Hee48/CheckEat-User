@@ -46,11 +46,11 @@ class RegisterViewModel: ObservableObject {
               } receiveValue: { [weak self] response in
                   self?.isIdAvailable = response.status == 200
                   if response.status == 200 {
-                      self?.alertItem = AlertItem(title: "성공", message: "아이디 사용 가능합니다.", dissmissButton: .default(Text("확인")))
+                      self?.alertItem = AlertItem(title: "success", message: "id_available", dissmissButton: .default(Text("confirm")))
                       print("아이디 사용 가능 ✅")
                   } else {
                       print("아이디 중복됨 : \(response.message)")
-                      self?.alertItem = AlertItem(title: "실패", message: "아이디가 중복입니다 확인해주세요.", dissmissButton: .default(Text("확인")))
+                      self?.alertItem = AlertItem(title: "failure", message: "id_duplicate", dissmissButton: .default(Text("confirm")))
                   }
               }
               .store(in: &cancellables)
@@ -66,17 +66,17 @@ class RegisterViewModel: ObservableObject {
                       print("이메일 중복확인 완료 ✅")
                   case .failure(let error):
                       print("이메일 중복확인 실패 ❌❌❌ \(error.localizedDescription)")
-                      self?.alertItem = AlertItem(title: "이메일 중복 확인 실패", message: error.localizedDescription, dissmissButton: .default(Text("확인")))
+                      self?.alertItem = AlertItem(title: "email_duplicate_failure", message: LocalizedStringKey(error.localizedDescription), dissmissButton: .default(Text("confirm")))
                   }
               } receiveValue: { [weak self] response in
                   if response.status == 200 {
                       print("이메일 사용 가능 ✅")
                       completion()
-                      self?.alertItem = AlertItem(title: "사용 가능", message: "이 이메일은 사용 가능합니다.", dissmissButton: .default(Text("확인")))
+                      self?.alertItem = AlertItem(title: "available", message: "email_available", dissmissButton: .default(Text("confirm")))
                       self?.sendEmailToken(email: email, language: self?.languageCode ?? "ko")
                   } else {
                       print("이메일 중복돰: \(response.message)")
-                      self?.alertItem = AlertItem(title: "중복된 이메일 입니다", message: "이메일을 다시 확인 해주세요.", dissmissButton: .default(Text("확인")))
+                      self?.alertItem = AlertItem(title: "email_duplicate", message: "email_check_again", dissmissButton: .default(Text("confirm")))
                   }
               }
               .store(in: &cancellables)
@@ -118,11 +118,11 @@ class RegisterViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] response in
                 if response.status == "success" {
-                    self?.alertItem = AlertItem(title: "성공", message: "이메일 인증이 완료되었습니다.", dissmissButton: .default(Text("확인")))
+                    self?.alertItem = AlertItem(title: "success", message: "email_verify_success", dissmissButton: .default(Text("confirm")))
                     print("이메일 인증 성공 ✅")
                     completion(true)
                 } else {
-                    self?.alertItem = AlertItem(title: "실패", message: "이메일 인증코드를 다시 확인해주세요.", dissmissButton: .default(Text("확인")))
+                    self?.alertItem = AlertItem(title: "failure", message: "email_verify_check_again", dissmissButton: .default(Text("confirm")))
                     print("이메일 인증 실패: \(response.message)")
                     completion(false)
                 }

@@ -20,12 +20,12 @@ struct MyPageChangePasswordCompleteModalView: View {
                 .foregroundStyle(.green)
                 .padding(.bottom)
             Group {
-                Text("비밀번호 변경이")
-                Text("완료되었습니다.")
+                Text("password_change_complete_title1")
+                Text("password_change_complete_title2")
             }
             .bold20()
             
-            Text("새로운 비밀번호로 로그인해주세요.")
+            Text("password_change_complete_message")
                 .padding(.vertical, 8)
             
             Button {
@@ -34,7 +34,7 @@ struct MyPageChangePasswordCompleteModalView: View {
                         dismiss()
                     }
             } label: {
-                Text("닫기")
+                Text("common_close")
                     .subButtonStyle()
                     .semibold16()
                     .padding(.top, 24)

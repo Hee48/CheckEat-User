@@ -13,7 +13,7 @@ struct LanguageSettings: View {
         case "English": return "en"
         case "한국어": return "ko"
         case "عربي": return "ar"
-        default: return "en" // 기본값 또는 오류 처리
+        default: return "en" 
         }
     }
     @Environment(\.dismiss) private var dismiss
@@ -23,7 +23,7 @@ struct LanguageSettings: View {
     var body: some View {
             VStack {
                 VStack(alignment: .leading) {
-                    Text("언어를 선택해 주세요.")
+                    Text("language_setting_description")
                         .bold20()
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -60,7 +60,7 @@ struct LanguageSettings: View {
                         }
                     }
                 } label: {
-                    Text("변경하기")
+                    Text("language_setting_button")
                         .primaryButtonStyle()
                         .semibold16()
                         .frame(maxWidth: .infinity)
@@ -69,7 +69,7 @@ struct LanguageSettings: View {
                 .padding(.horizontal, 20)
                 .padding(.bottom, 30)
             }
-            .navigationTitle("언어 설정")
+            .navigationTitle("language_setting_title")
             .navigationBarTitleDisplayMode(.inline)
         }
 }

@@ -52,6 +52,9 @@ class VisitedStoreViewModel: ObservableObject {
         
         AF.request(MyPageAPI.unreviewedStoresURL, method: .post, headers: headers)
             .validate()
+            .responseString { response in
+                print("📡 Raw response body:", response.value ?? "nil")
+            }
             .publishDecodable(type: UnwrittenReviewsResponse.self)
             .sink { completion in
                 switch completion {

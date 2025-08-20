@@ -41,26 +41,26 @@ struct ChangePasswordView: View {
         
         ScrollView {
             VStack(alignment: .leading) {
-                Text("비밀번호를 재설정 해주세요.")
+                Text("reset_password_instruction")
                     .bold20()
                     .padding(.top, 35)
-                Text("새로운 비밀번호를 입력해주세요.")
+                Text("new_password_instruction")
                     .regular16()
                     .padding(.top, 1)
                     .padding(.bottom, 35)
                 
-                Text("새로운 비밀번호")
+                Text("new_password_label")
                     .semibold16()
                 HStack {
                     Group {
                         if isNewPasswordVisible {
-                            UnderLinedTextField(placeholder: "새로운 비밀번호를 입력해주세요", text: $newPassword)
+                            UnderLinedTextField(placeholder: "new_password_placeholder", text: $newPassword)
                                 .focused($isNewPasswordFocused)
                                 .textContentType(.newPassword)
                                 .autocapitalization(.none)
                                 .disableAutocorrection(true)
                         } else {
-                            UnderLinedTextField(placeholder: "새로운 비밀번호를 입력해주세요", isSecure: true, text: $newPassword)
+                            UnderLinedTextField(placeholder: "new_password_placeholder", isSecure: true, text: $newPassword)
                                 .focused($isNewPasswordFocused)
                                 .textContentType(.newPassword)
                         }
@@ -82,32 +82,32 @@ struct ChangePasswordView: View {
                     HStack {
                         Image(systemName: isLengthValid ? "checkmark" : "checkmark")
                             .foregroundColor(isLengthValid ? .green : .gray)
-                        Text("8자 이상")
+                        Text("password_rule_minlen")
                             .foregroundColor(isLengthValid ? .green : .gray)
                         
                         Image(systemName: isUpperLowerNumberSpecialValid ? "checkmark" : "checkmark")
                             .foregroundColor(isUpperLowerNumberSpecialValid ? .green : .gray)
-                        Text("대소문자, 숫자, 특수문자 포함")
+                        Text("password_rule_complexity")
                             .foregroundColor(isUpperLowerNumberSpecialValid ? .green : .gray)
                     }
                 }
                 .regular12()
                 .padding(.vertical, 8)
                 
-                Text("비밀번호 확인")
+                Text("password_confirm_title")
                     .semibold16()
                     .padding(.top)
                 
                 HStack {
                     Group {
                         if isConfirmPasswordVisible {
-                            UnderLinedTextField(placeholder: "비밀번호를 한 번 더 입력해주세요", text: $confirmPassword)
+                            UnderLinedTextField(placeholder: "password_confirm_placeholder", text: $confirmPassword)
                                 .focused($isConfirmPasswordFocused)
                                 .textContentType(.newPassword)
                                 .autocapitalization(.none)
                                 .disableAutocorrection(true)
                         } else {
-                            UnderLinedTextField(placeholder: "비밀번호를 한 번 더 입력해주세요", isSecure: true, text: $confirmPassword)
+                            UnderLinedTextField(placeholder: "password_confirm_placeholder", isSecure: true, text: $confirmPassword)
                                 .focused($isConfirmPasswordFocused)
                                 .textContentType(.newPassword)
                         }
@@ -128,7 +128,7 @@ struct ChangePasswordView: View {
                     HStack {
                         Image(systemName: isPasswordAgreement ? "checkmark" : "checkmark")
                             .foregroundColor(isPasswordAgreement ? .green : .gray)
-                        Text("비밀번호 일치")
+                        Text("password_match")
                             .foregroundColor(isPasswordAgreement ? .green : .gray)
                     }
                 }
@@ -141,11 +141,11 @@ struct ChangePasswordView: View {
                             if result == true {
                                 path.append(.findPwdComplete)
                             } else if result == false {
-                                ToastManager.shared.showToast(message: "비밀번호 재설정에 실패했습니다. 다시 시도해주세요.")
+                                ToastManager.shared.showToast(message: "reset_password_failed")
                             }
                         }
                 } label: {
-                    Text("비밀번호 재설정")
+                    Text("reset_password_title")
                         .primaryButtonStyle(isEnabled: (isLengthValid && isUpperLowerNumberSpecialValid && isPasswordAgreement))
                         .semibold16()
                 }
@@ -154,7 +154,7 @@ struct ChangePasswordView: View {
             .tapToDismissKeyboard()
         }
         .padding(.horizontal)
-        .navigationTitle("비밀번호 재설정")
+        .navigationTitle("reset_password_title")
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: newPassword) {
             validatePassword()

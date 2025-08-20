@@ -54,7 +54,7 @@ struct JoinView: View {
                             HStack(spacing: 8) {
                                 CheckBoxButton(isChecked: $isChecked)
                                     .padding(.top, 10)
-                                Text("[필수] 서비스이용약관에 동의합니다.")
+                                Text("terms_required_agreement")
                                     .font(.system(size: 14, weight: .medium))
                                     .padding(.top, 10)
                             }
@@ -75,7 +75,7 @@ struct JoinView: View {
                                 }
                             }
                         } label: {
-                            Text("완료")
+                            Text("action_done")
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                                 .frame(width: 362, height: 56, alignment: .center)
@@ -104,7 +104,7 @@ struct JoinView: View {
                         Alert(title: Text(alert.title), message: Text(alert.message),
                               dismissButton: alert.dissmissButton)
                     })
-                    .navigationTitle("회원가입")
+                    .navigationTitle("action_join")
                     .navigationBarTitleDisplayMode(.inline)
                     NavigationLink(value: JoinViewPath.joinComplete) {
                         EmptyView()

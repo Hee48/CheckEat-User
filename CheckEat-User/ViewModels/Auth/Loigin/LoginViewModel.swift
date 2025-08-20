@@ -33,13 +33,13 @@ class LoginViewModel: ObservableObject {
                 if let data = resp.data,
                    let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let message = json["message"] as? String {
-                    if message == "탈퇴한 회원입니다." {
+                    if message == "account_deleted" {
                         self.alertMessage = message
                     } else {
-                        self.alertMessage = "입력하신 정보가 일치하지 않습니다. 다시 확인해주세요"
+                        self.alertMessage = "input_not_match_check_again"
                     }
                 } else {
-                    self.alertMessage = "입력하신 정보가 일치하지 않습니다. 다시 확인해주세요"
+                    self.alertMessage = "input_not_match_check_again"
                 }
             }
             .publishDecodable(type: LoginResponse.self)

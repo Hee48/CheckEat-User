@@ -22,30 +22,30 @@ struct LoginView: View {
         NavigationStack {
             ZStack {
                 VStack(alignment: .leading) {
-                    Text("로그인")
+                    Text("Login")
                         .bold20()
                         .padding(.vertical, 35)
                     
-                    Text("아이디")
+                    Text("label_id")
                         .semibold16()
-                    UnderLinedTextField(placeholder: "아이디를 입력해주세요", text: $viewModel.loginId)
+                    UnderLinedTextField(placeholder: "placeholder_id", text: $viewModel.loginId)
                         .regular14()
                         .keyboardType(.asciiCapable)
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .padding(.bottom)
                     
-                    Text("비밀번호")
+                    Text("label_password")
                         .semibold16()
                     
                     Group {
                         if isPasswordVisible {
-                            UnderLinedTextField(placeholder: "비밀번호를 입력해주세요", text: $viewModel.password)
+                            UnderLinedTextField(placeholder: "placeholder_password", text: $viewModel.password)
                                 .textContentType(.password)
                                 .autocapitalization(.none)
                                 .disableAutocorrection(true)
                         } else {
-                            UnderLinedTextField(placeholder: "비밀번호를 입력해주세요", isSecure: true, text: $viewModel.password)
+                            UnderLinedTextField(placeholder: "placeholder_password", isSecure: true, text: $viewModel.password)
                                 .textContentType(.password)
                                 .autocapitalization(.none)
                                 .disableAutocorrection(true)
@@ -67,7 +67,7 @@ struct LoginView: View {
                         }
                     }
                     
-                    Text(viewModel.alertMessage)
+                    Text(LocalizedStringKey(viewModel.alertMessage))
                         .regular12()
                         .foregroundStyle(.red)
                         .padding(.bottom, 24)
@@ -76,7 +76,7 @@ struct LoginView: View {
                     Button {
                         viewModel.login()
                     } label: {
-                        Text("로그인")
+                        Text("Login")
                             .primaryButtonStyle()
                             .semibold16()
                     }
@@ -93,7 +93,7 @@ struct LoginView: View {
                         Button {
                             showFindId = true
                         } label: {
-                            Text("아이디 찾기")
+                            Text("action_find_id")
                                 .foregroundStyle(.buttonOP50)
                         }
                         .fullScreenCover(isPresented: $showFindId) {
@@ -104,7 +104,7 @@ struct LoginView: View {
                         Button {
                             showFindPwd = true
                         } label: {
-                            Text("비밀번호 재설정")
+                            Text("action_reset_password")
                                 .foregroundStyle(.buttonOP50)
                         }
                         .fullScreenCover(isPresented: $showFindPwd) {
@@ -125,12 +125,12 @@ struct LoginView: View {
                 VStack {
                     HStack {
                         Spacer()
-                        Text("아직 회원이 아니신가요?")
+                        Text("label_not_member_yet")
                             .regular14()
                         Button {
                             showJoin = true
                         } label: {
-                            Text("회원가입")
+                            Text("action_join")
                                 .semibold14()
                                 .foregroundStyle(.buttonAuth)
                         }
@@ -144,7 +144,7 @@ struct LoginView: View {
                 .padding(.horizontal)
             }
             .ignoresSafeArea(.keyboard)
-            .navigationTitle("로그인")
+            .navigationTitle("Login")
             .navigationBarTitleDisplayMode(.inline)
             .interactiveDismissDisabled(!allowsDismiss)
             .toolbar {
