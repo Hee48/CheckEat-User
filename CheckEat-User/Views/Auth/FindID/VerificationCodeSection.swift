@@ -19,7 +19,7 @@ struct VerificationCodeSection: View {
             Text("인증코드")
                 .font(.system(size: 14, weight: .semibold))
                 .padding(.top, 10)
-            UnderLinedTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
+            AuthCodeTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
                 .font(.system(size: 14))
                 .padding(.top, 2)
             

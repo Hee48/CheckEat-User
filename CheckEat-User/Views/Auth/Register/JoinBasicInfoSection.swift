@@ -81,13 +81,17 @@ struct JoinBasicInfoSection: View {
                     isPasswordValid = isValidPassword(newVaule)
                     isLengthValid = newVaule.count >= 8
                 }
-                Button {
-                    isPasswordVisible.toggle()
-                } label: {
-                    Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
-                        .frame(width: 16, height: 16)
-                        .foregroundColor(.buttonOP50)
-                        .padding(.trailing, 30)
+                .overlay(alignment: .trailing) {
+                    Button {
+                        isPasswordVisible.toggle()
+                    } label: {
+                        Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
+                            .frame(width: 16, height: 16)
+                            .foregroundColor(.buttonOP50)
+                            .padding(.bottom, 30)
+                            .padding(.trailing, 8)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
             Rectangle()
@@ -131,13 +135,17 @@ struct JoinBasicInfoSection: View {
                 .padding(.top, 5)
                 .focused($isPasswordConfirmFocused)
                 .frame(height: 40)
-                Button {
-                    isPasswordConfirmVisible.toggle()
-                } label: {
-                    Image(systemName: isPasswordConfirmVisible ? "eye" : "eye.slash")
-                        .frame(width: 16, height: 16)
-                        .foregroundColor(.buttonOP50)
-                        .padding(.trailing, 30)
+                .overlay(alignment: .trailing) {
+                    Button {
+                        isPasswordVisible.toggle()
+                    } label: {
+                        Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
+                            .frame(width: 16, height: 16)
+                            .foregroundColor(.buttonOP50)
+                            .padding(.bottom, 30)
+                            .padding(.trailing, 8)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
             Rectangle()

@@ -46,6 +46,8 @@ struct FindIDViewOrigin: View {
                         .padding(.top, 20)
                     UnderLinedTextField(placeholder: "이메일을 입력해 주세요.", text: $email)
                         .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
                         .onChange(of: email) { newValue in
                             isEmailValid = isValidEmailAddress(email: newValue)
                         }
@@ -58,7 +60,7 @@ struct FindIDViewOrigin: View {
                             Text("인증코드")
                                 .font(.system(size: 14, weight: .bold))
                                 .padding(.top, 10)
-                            UnderLinedTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
+                            AuthCodeTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
                                 .font(.system(size: 14))
                                 .padding(.top, 2)
                             if showCodeErrorMessage {
