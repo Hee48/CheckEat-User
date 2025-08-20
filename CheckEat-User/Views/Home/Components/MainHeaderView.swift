@@ -29,7 +29,7 @@ struct MainHeaderView: View {
         VStack(spacing: 16) {
             SearchBar(
                 searchText: $searchText,
-                placeholder: "가게명으로 검색해보세요",
+                placeholder: "search_by_store_name".localized,
                 onSearch: {
                     viewModel.performSearchByName(
                         searchText: searchText,

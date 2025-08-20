@@ -34,7 +34,7 @@ struct MyPageChangePasswordModalView: View {
         VStack(alignment: .leading) {
             
             HStack {
-                Text("비밀번호 변경")
+                Text("action_change_password".localized)
                     .bold20()
                 Spacer()
                 Button {
@@ -45,30 +45,34 @@ struct MyPageChangePasswordModalView: View {
             }
             .padding(.vertical)
             
-            Text("새로운 비밀번호")
+            Text("password_new_title".localized)
                 .semibold16()
             HStack {
                 Group {
                     if isNewPasswordVisible {
-                        UnderLinedTextField(placeholder: "새로운 비밀번호를 입력해주세요", text: $newPassword)
+                        UnderLinedTextField(placeholder: "password_new_placeholder", text: $newPassword)
                             .focused($isNewPasswordFocused)
                             .textContentType(.newPassword)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     } else {
-                        UnderLinedTextField(placeholder: "새로운 비밀번호를 입력해주세요", isSecure: true, text: $newPassword)
+                        UnderLinedTextField(placeholder: "password_new_placeholder", isSecure: true, text: $newPassword)
                             .focused($isNewPasswordFocused)
                             .textContentType(.newPassword)
                     }
                 }
                 
-                Button {
-                    isNewPasswordVisible.toggle()
-                } label: {
-                    Image(systemName: isNewPasswordVisible ? "eye" : "eye.slash")
-                        .foregroundColor(.gray)
-                        .padding(8)
-                        .contentShape(Rectangle())
+                .overlay(alignment: .trailing) {
+                    Button {
+                        isConfirmPasswordVisible.toggle()
+                    } label: {
+                        Image(systemName: isConfirmPasswordVisible ? "eye" : "eye.slash")
+                            .frame(width: 16, height: 16)
+                            .foregroundColor(.buttonOP50)
+                            .padding(.bottom, 30)
+                            .padding(.trailing, 8)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
             .regular14()
@@ -78,44 +82,48 @@ struct MyPageChangePasswordModalView: View {
                 HStack {
                     Image(systemName: isLengthValid ? "checkmark" : "checkmark")
                         .foregroundColor(isLengthValid ? .green : .gray)
-                    Text("8자 이상")
+                    Text("password_rule_minlen".localized)
                         .foregroundColor(isLengthValid ? .green : .gray)
                     
                     Image(systemName: isUpperLowerNumberSpecialValid ? "checkmark" : "checkmark")
                         .foregroundColor(isUpperLowerNumberSpecialValid ? .green : .gray)
-                    Text("대소문자, 숫자, 특수문자 포함")
+                    Text("password_rule_complexity".localized)
                         .foregroundColor(isUpperLowerNumberSpecialValid ? .green : .gray)
                 }
             }
             .regular12()
             .padding(.vertical, 8)
             
-            Text("비밀번호 확인")
+            Text("password_confirm_title".localized)
                 .semibold16()
                 .padding(.top)
             
             HStack {
                 Group {
                     if isConfirmPasswordVisible {
-                        UnderLinedTextField(placeholder: "비밀번호를 한 번 더 입력해주세요", text: $confirmPassword)
+                        UnderLinedTextField(placeholder: "password_confirm_placeholder", text: $confirmPassword)
                             .focused($isConfirmPasswordFocused)
                             .textContentType(.newPassword)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     } else {
-                        UnderLinedTextField(placeholder: "비밀번호를 한 번 더 입력해주세요", isSecure: true, text: $confirmPassword)
+                        UnderLinedTextField(placeholder: "password_confirm_placeholder", isSecure: true, text: $confirmPassword)
                             .focused($isConfirmPasswordFocused)
                             .textContentType(.newPassword)
                     }
                 }
                 
-                Button {
-                    isConfirmPasswordVisible.toggle()
-                } label: {
-                    Image(systemName: isConfirmPasswordVisible ? "eye" : "eye.slash")
-                        .foregroundColor(.gray)
-                        .padding(8)
-                        .contentShape(Rectangle())
+                .overlay(alignment: .trailing) {
+                    Button {
+                        isConfirmPasswordVisible.toggle()
+                    } label: {
+                        Image(systemName: isConfirmPasswordVisible ? "eye" : "eye.slash")
+                            .frame(width: 16, height: 16)
+                            .foregroundColor(.buttonOP50)
+                            .padding(.bottom, 30)
+                            .padding(.trailing, 8)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
             .regular14()
@@ -124,7 +132,7 @@ struct MyPageChangePasswordModalView: View {
                 HStack {
                     Image(systemName: isPasswordAgreement ? "checkmark" : "checkmark")
                         .foregroundColor(isPasswordAgreement ? .green : .gray)
-                    Text("비밀번호 일치")
+                    Text("password_match".localized)
                         .foregroundColor(isPasswordAgreement ? .green : .gray)
                 }
             }
@@ -140,7 +148,7 @@ struct MyPageChangePasswordModalView: View {
                        }
                    }
             } label: {
-                Text("변경하기")
+                Text("password_change_button".localized)
                     .primaryButtonStyle(isEnabled: (isLengthValid && isUpperLowerNumberSpecialValid && isPasswordAgreement))
                     .semibold16()
             }

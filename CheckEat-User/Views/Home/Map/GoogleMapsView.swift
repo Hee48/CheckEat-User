@@ -333,7 +333,7 @@ struct GoogleMapsView: UIViewRepresentable {
         if shouldShowSearchButton {
             let searchButton = UIButton(type: .system)
             searchButton.tag = 999
-            searchButton.setTitle("현재 위치에서 검색", for: .normal)
+            searchButton.setTitle(NSLocalizedString("search_current_location".localized, comment: ""), for: .normal)
             searchButton.setTitleColor(.buttonOP50, for: .normal)
             searchButton.backgroundColor = .white
             searchButton.layer.cornerRadius = 18
@@ -350,9 +350,9 @@ struct GoogleMapsView: UIViewRepresentable {
             NSLayoutConstraint.activate([
                 searchButton.topAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: 150), // 서치바
                 searchButton.centerXAnchor.constraint(equalTo: mapView.centerXAnchor), // 가운데 정렬
-                searchButton.heightAnchor.constraint(equalToConstant: 36),
-                searchButton.widthAnchor.constraint(equalToConstant: 150) // 버튼 너비 고정
+                searchButton.widthAnchor.constraint(lessThanOrEqualToConstant: 280)
             ])
+            searchButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
         } else {
             print("🔘 검색 버튼 숨김")
         }

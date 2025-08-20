@@ -1,0 +1,296 @@
+/*
+  Localizable.strings
+  CheckEat-User
+
+  Created by Hee  on 8/19/25.
+  
+*/
+//MARK: 로그인뷰
+"Login" = "로그인";
+"placeholder_id" = "아이디를 입력해주세요";
+"placeholder_password" = "비밀번호를 입력해주세요";
+"label_id" = "아이디";
+"label_password" = "비밀번호";
+"action_find_id" = "아이디 찾기";
+"action_reset_password" = "비밀번호 재설정";
+"label_not_member_yet" = "아직 회원이 아니신가요?";
+"action_join" = "회원가입";
+//MARK: 탭바
+"tab_home" = "홈";
+"tab_mypage" = "마이페이지";
+"action_write_review" = "리뷰 작성";
+//MARK: 마이페이지
+"section_store" = "가게";
+"section_favorite_stores" = "즐겨찾기 가게";
+"section_visited_stores" = "이용한 가게";
+"section_review" = "리뷰";
+"section_written_reviews" = "작성한 리뷰";
+"section_account" = "계정";
+"action_change_password" = "비밀번호 변경";
+"action_change_nickname" = "닉네임 변경";
+"action_logout" = "로그아웃";
+"section_allergy" = "알러지";
+"action_edit_allergy" = "알러지 수정";
+"section_language" = "언어";
+"action_language_settings" = "언어 설정";
+"dialog_withdraw_title" = "회원탈퇴";
+"dialog_withdraw_confirm" = "탈퇴";
+"dialog_withdraw_cancel" = "취소";
+"dialog_withdraw_message" = "정말 회원 탈퇴하시겠습니까?\n탈퇴 시 모든 데이터가 삭제됩니다.";
+"user_image_select_title" = "이미지를 선택해주세요";
+"nickname_change_title" = "닉네임 변경";
+"nickname_change_placeholder" = "변경하실 닉네임을 입력해주세요";
+"nickname_change_button" = "변경하기";
+"segment_review_written" = "리뷰작성";
+"segment_review_pending" = "리뷰미작성";
+"visited_stores_title" = "이용한 가게";
+"review_empty_list" = "리뷰가 없습니다";
+"label_recommend" = "추천";
+"label_evaluation" = "평가";
+"comment_empty" = "코멘트가 작성되지 않았습니다";
+"review_recommend_yes" = "추천 하고 싶어요";
+"review_recommend_neutral" = "별 생각 없어요";
+"review_recommend_no" = "추천 하고 싶지 않아요";
+"review_request_register" = "리뷰를 등록해주세요";
+"label_recommend_target" = "추천대상";
+"language_setting_title" = "언어 설정";
+"language_setting_description" = "언어를 선택해 주세요";
+"language_setting_button" = "변경하기";
+"allergy_my_info_title" = "나의 알러지 정보";
+"allergy_input_hint_commas" = "쉼표(,)로 구분해서 작성해주세요";
+"allergy_example_placeholder" = "ex. 키위,바나나,참깨,감귤류";
+"action_done" = "완료";
+"allergy_edit_title" = "알레르기 수정";
+"allergy_info_check_title" = "알레르기 정보 확인";
+"allergy_info_check_subtitle" = "나의 알러지 정보를 확인해주세요";
+"action_edit" = "수정";
+"password_new_title" = "새로운 비밀번호";
+"password_new_placeholder" = "새로운 비밀번호를 입력해주세요";
+"password_rule_minlen" = "8자 이상";
+"password_rule_complexity" = "대소문자, 숫자, 특수문자 포함";
+"password_confirm_title" = "비밀번호 확인";
+"password_confirm_placeholder" = "비밀번호를 한 번 더 입력해주세요";
+"password_match" = "비밀번호 일치";
+"password_change_button" = "변경하기";
+"password_change_complete_title1" = "비밀번호 변경이";
+"password_change_complete_title2" = "완료되었습니다.";
+"password_change_complete_message" = "새로운 비밀번호로 로그인해주세요.";
+"common_close" = "닫기";
+"loading_message" = "불러오는 중…";
+"empty_favorite_store" = "즐겨찾기한 가게가 없습니다";
+"favorite_store_title" = "즐겨찾기 가게";
+"favorite_store_error_message" = "즐겨찾기 목록을 가져오지 못했어요. 잠시 후 다시 시도해주세요";
+//MARK: 알러지19가지
+"allergen_egg" = "난류";
+"allergen_milk" = "우유";
+"allergen_buckwheat" = "메밀";
+"allergen_peanut" = "땅콩";
+"allergen_soy" = "대두";
+"allergen_wheat" = "밀";
+"allergen_mackerel" = "고등어";
+"allergen_crab" = "게";
+"allergen_shrimp" = "새우";
+"allergen_pork" = "돼지고기";
+"allergen_peach" = "복숭아";
+"allergen_tomato" = "토마토";
+"allergen_sulfites" = "아황산류";
+"allergen_walnut" = "호두";
+"allergen_chicken" = "닭고기";
+"allergen_beef" = "쇠고기";
+"allergen_squid" = "오징어";
+"allergen_shellfish" = "조개류";
+"allergen_pinenut" = "잣";
+//MARK: 리뷰페이지
+"review_recommend_question" = "어떤사람에게 추천하시나요?";
+"ocr_title" = "리뷰 작성을 위한\n영수증 이미지가 필요해요.";
+"ocr_subtitle" = "카메라로 촬영하거나\n앨범에서 선택해 주세요.";
+"ocr_add_photo_button" = "사진추가";
+"ocr_picker_title" = "이미지를 선택하세요";
+"ocr_take_photo" = "카메라로 촬영";
+"ocr_pick_from_album" = "앨범에서 선택";
+"ocr_analyzing" = "이미지를 분석 중입니다";
+"review_intro_message" = "내가 먹은 음식에 대한 리뷰를 남겨\n많은 사람과 공유해보세요!";
+"review_my_menu" = "내가 먹은 메뉴";
+"review_register" = "리뷰 등록";
+"review_photo_select" = "사진 선택";
+"review_camera" = "카메라";
+"review_album" = "앨범";
+"review_menu_select" = "메뉴 선택하기";
+"store_name" = "가게명";
+"store_address" = "주소";
+"store_name_placeholder" = "가게명이 다르다면 입력해주세요";
+"store_name_no" = "다릅니다";
+"store_name_yes" = "맞습니다";
+"review_search_placeholder" = "내가 먹은 메뉴이름을 검색해보세요";
+"review_select_done" = "선택 완료";
+"review_recommend_menu_question" = "메뉴를 추천하시나요?";
+"review_dislike_reason_required" = "추천 하고 싶지 않은 이유를 알려주세요(필수)";
+"review_like_reason_optional" = "추천 하고 싶은 이유를 알려주세요(선택)";
+"review_reason_placeholder" = "간단히 작성";
+"review_failed_title" = "CheckEat에\n등록되지 않은 가게입니다.";
+"review_failed_message" = "리뷰를 등록할 수 없습니다";
+"review_question_title" = "바로 리뷰를\n등록하시겠어요?";
+"review_later" = "다음에 등록";
+"review_stop_title" = "리뷰작성을\n그만하시겠습니까?";
+"review_stop_message" = "리뷰 등록은 중간저장이 없으며,\n처음부터 작성해야합니다.";
+"review_continue" = "계속작성";
+"vegan_modal_title" = "비건 구분";
+"vegan_modal_subtitle" = "섭취하는 음식의 범위에 따라 비건 구분이 달라집니다.";
+"vegan_type_vegan" = "비건: 동물성 식품 전부 섭취 금지";
+"vegan_type_lacto" = "락토: 유제품 허용, 달걀은 금지";
+"vegan_type_ovo" = "오보: 달걀 허용, 유제품은 금지";
+"vegan_type_lactoovo" = "락토 오보: 유제품과 달걀 허용";
+"vegan_type_pesco" = "페스코: 생선 허용, 육류는 금지";
+"vegan_type_pollo" = "폴로: 가금류(닭 등) 허용, 붉은 고기 금지";
+"forgot_password_title" = "비밀번호를 잊으셨나요?";
+"user_id_label" = "아이디";
+"user_id_placeholder" = "아이디를 입력해주세요";
+"email_label" = "이메일";
+"email_placeholder" = "이메일을 입력해주세요";
+"reset_password_title" = "비밀번호 재설정";
+"remember_password_question" = "비밀번호가 기억나셨나요?";
+"reset_password_instruction" = "비밀번호를 재설정 해주세요.";
+"new_password_instruction" = "새로운 비밀번호를 입력해주세요";
+"new_password_label" = "새로운 비밀번호";
+"new_password_placeholder" = "새로운 비밀번호를 입력해주세요";
+"reset_password_failed" = "비밀번호 재설정에 실패했습니다. 다시 시도해주세요";
+"password_change_success_title" = "비밀번호가";
+"password_change_success_message" = "성공적으로 변경되었습니다";
+"auth_code_title" = "인증코드";
+"auth_code_placeholder" = "인증코드를 입력해주세요";
+"auth_code_resend" = "인증코드 다시 보내기";
+"auth_code_not_received" = "인증코드를 받지 못했어요";
+"auth_code_receive_again" = "인증코드 다시 받기";
+"auth_code_invalid" = "잘못된 코드입니다. 다시 시도해 주세요";
+"find_id_title" = "아이디를 잊으셨나요?";
+"find_id_code_sent" = "입력하신 이메일로 인증코드를 전송했습니다.";
+"find_id_get_code" = "인증코드 받기";
+"remember_id_question" = "아이디가 기억나셨나요?";
+"find_id_nav_title" = "아이디 찾기";
+"find_pw_question" = "비밀번호를 잊으셨나요?";
+"find_pw_button" = "비밀번호 찾기";
+"find_id_message_prefix" = "회원님의 아이디는";
+"find_id_message_suffix" = "입니다";
+"common_close" = "닫기";
+"allergy_info_check_desc" = "입력한 정보에 수정사항이 있는지 확인해 주세요";
+"common_next" = "다음";
+"common_prev" = "이전";
+"resend" = "재전송";
+"checkDuplicate" = "중복 확인";
+"verify" = "인증하기";
+"halal" = "할랄 여부";
+"allergy" = "알러지 여부";
+"nickname" = "닉네임";
+"nickname_placeholder" = "닉네임을 입력해 주세요";
+"password_not_match" = "비밀번호 불일치";
+"enter_registered_email" = "가입시 등록하신 이메일을 입력해주세요.";
+"enter_registered_id_email" = "가입시 등록하신 아이디와 이메일을 입력해주세요.";
+"terms_required_agreement" = "[필수] 서비스이용약관에 동의합니다.";
+"signup_complete_title1" = "회원가입이";
+"signup_complete_title2" = "완료되었습니다";
+"vegan_category" = "채식 구분";
+"not_applicable" = "해당 없음";
+"not_vegan" = "비건 아님";
+"pollo" = "폴로";
+"pesco" = "페스코";
+"lactoovo" = "락토오보";
+"ovo" = "오보";
+"lacto" = "락토";
+"vegan" = "비건";
+"not_halal" = "할랄 아님";
+"halal" = "할랄";
+"success" = "성공";
+"id_available" = "아이디 사용 가능합니다";
+"confirm" = "확인";
+"failure" = "실패";
+"id_duplicate" = "아이디가 중복입니다 확인해주세요";
+"email_duplicate_failure" = "이메일 중복 확인 실패";
+"available" = "사용 가능";
+"email_available" = "이 이메일은 사용 가능합니다.";
+"email_duplicate" = "중복된 이메일 입니다";
+"email_check_again" = "이메일을 다시 확인 해주세요";
+"email_verify_success" = "이메일 인증이 완료되었습니다";
+"email_verify_check_again" = "이메일 인증코드를 다시 확인해주세요.";
+"account_deleted" = "탈퇴한 회원입니다.";
+"input_not_match_check_again" = "입력하신 정보가 일치하지 않습니다. 다시 확인해주세요";
+"auth_code_invalid" = "잘못된 인증코드입니다. 다시 시도해주세요.";
+
+// MARK: 홈 맵뷰
+// 로딩 및 상태 메시지
+"loading_stores" = "가게 목록을 불러오는 중...";
+"loading_store_detail_info" = "가게 상세정보 불러오는 중...";
+"confirm" = "확인";
+
+// 검색 관련
+"search_by_store_name" = "가게명으로 검색해보세요";
+"search_current_location" = "현재 위치에서 검색";
+
+// 필터 관련
+"filter_vegan" = "비건";
+"filter_lacto" = "락토";
+"filter_ovo" = "오보";
+"filter_lacto_ovo" = "락토오보";
+"filter_pesco" = "페스코";
+"filter_pollo" = "폴로";
+"my_filter" = "마이필터";
+
+// MARK: - 영업시간 관련
+"business_hours" = "영업시간";
+"today_hours_not_available" = "금일 영업시간 정보 없음";
+"hours_not_available" = "영업시간 정보 없음";
+"break_time" = "휴게시간";
+
+// MARK: - 요일
+"monday" = "월요일";
+"tuesday" = "화요일";
+"wednesday" = "수요일";
+"thursday" = "목요일";
+"friday" = "금요일";
+"saturday" = "토요일";
+"sunday" = "일요일";
+
+// MARK: - 휴무일 관련
+"no_regular_holiday" = "정기 휴무일 없음";
+"regular_holiday" = "정기휴무";
+"no_public_holiday" = "공휴일 휴무일 없음";
+"closed_on" = "휴무";
+
+// MARK: - 연락처 관련
+"no_phone_registered" = "등록된 연락처 없음";
+
+// MARK: - 휴게시간 관련
+"break_time_not_available" = "휴게시간 정보 없음";
+"no_break_time" = "휴게시간 없음";
+"info_not_available" = "정보 없음";
+
+// MARK: - 모달 제목 관련
+"filter_results_title" = "비건 필터 결과";
+"search_results_title" = "검색 결과";
+"nearby_stores_title" = "2km 반경 가게";
+"stores_count" = "곳 조회";
+"close" = "닫기";
+
+// MARK: - 가게 정보 관련
+"halal_certified" = "할랄 인증";
+"distance_from_current_location" = "현재 위치에서";
+"meters" = "m 거리에 있어요";
+
+// MARK: - 즐겨찾기 관련
+"favorite_stores_title" = "즐겨찾기한 가게";
+
+//MARK: - 메뉴 정보 관련
+"menu_tab_all" = "전체메뉴";
+"menu_tab_vegan" = "채식메뉴";
+"review_button" = "리뷰";
+"ingredients_label" = "재료";
+"allergy_caution_label" = "알레르기 주의";
+"no_ingredient_info" = "재료 정보 없음";
+"price_suffix_won" = "원";
+
+// MARK: - 에러 메세지
+"favorite_fetch_error" = "즐겨찾기 목록을 가져오지 못했어요.\n잠시 후 다시 시도해주세요!";
+"favorite_action_error" = "즐겨찾기 등록/해제 처리에 실패했어요.\n잠시 후 다시 시도해주세요!";
+"search_by_store_name_error" = "헉? 숨은 맛집을 알고 계시네요!\n찾으시는 가게는 아직 등록되어있지 않아요.";
+"search_by_store_vegan_level_error" = "앗, 현재 위치 반경에는 해당하는 조건의 가게가 없어요.\n더 많은 가게를 찾아올게요!";
+"store_detail_info_fetch_error" = "해당 가게 정보를 가져오는 데 실패했어요.\n잠시 후 다시 시도해주세요!";
+"store_list_fetch_error" = "사막 같은 지도네요...\n가게 몇 방울만 수집해올게요...";

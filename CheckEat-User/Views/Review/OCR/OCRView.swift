@@ -35,13 +35,13 @@ struct OCRView: View {
                         .frame(width: 40, height: 40 )
                         .padding(.top, 24)
                     
-                    Text("리뷰 작성을 위한\n영수증 이미지가 필요해요.")
+                    Text("ocr_title".localized)
                         .lineSpacing(4)
                         .multilineTextAlignment(.center)
                         .bold20()
                         .padding(.top, 20)
                     
-                    Text("카메라로 촬영하거나\n앨범에서 선택해 주세요.")
+                    Text("ocr_subtitle".localized)
                         .lineSpacing(4)
                         .multilineTextAlignment(.center)
                         .regular16()
@@ -50,7 +50,7 @@ struct OCRView: View {
                     Button {
                         showSourcePicker = true
                     } label: {
-                        Text("사진추가")
+                        Text("ocr_add_photo_button".localized)
                             .primaryButtonStyle(isEnabled: true)
                             .padding(.horizontal, 20)
                             .padding(.top, 20)
@@ -62,13 +62,13 @@ struct OCRView: View {
             
             .actionSheet(isPresented: $showSourcePicker) {
                 ActionSheet(
-                    title: Text("이미지를 선택하세요"),
+                    title: Text("ocr_picker_title".localized),
                     buttons: [
-                        .default(Text("카메라로 촬영")) {
+                        .default(Text("ocr_take_photo".localized)) {
                             selectedSourceType = .camera
                             showImagePicker = true
                         },
-                        .default(Text("앨범에서 선택")) {
+                        .default(Text("ocr_pick_from_album".localized)) {
                             selectedSourceType = .photoLibrary
                             showImagePicker = true
                         },
@@ -130,7 +130,7 @@ struct OCRView: View {
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                         .scaleEffect(1.5)
                     
-                    Text("이미지를 분석 중입니다")
+                    Text("ocr_analyzing".localized)
                         .foregroundColor(.white)
                         .bold()
                 }

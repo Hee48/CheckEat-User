@@ -28,7 +28,7 @@ struct ReviewQuestionView:View {
                 .foregroundStyle(.green)
                 .padding(.bottom)
             
-            Text("바로 리뷰를\n등록하시겠어요?")
+            Text("review_question_title".localized)
                 .lineSpacing(4)
                 .multilineTextAlignment(.center)
                 .bold20()
@@ -43,7 +43,7 @@ struct ReviewQuestionView:View {
                             dismiss()
                         }
                 } label: {
-                    Text("다음에등록")
+                    Text("review_later".localized)
                         .foregroundStyle(Color.buttonEnable)
                         .semibold16()
                         .frame(maxWidth: .infinity)
@@ -58,7 +58,7 @@ struct ReviewQuestionView:View {
                 Button {
                     reviewPath.append(.addReivewView(storeId: storeId))
                 } label: {
-                    Text("리뷰등록")
+                    Text("review_register".localized)
                         .foregroundStyle(Color.white)
                         .semibold16()
                         .frame(maxWidth: .infinity)

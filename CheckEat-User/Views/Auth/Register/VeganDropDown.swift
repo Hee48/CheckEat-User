@@ -15,7 +15,7 @@ struct VeganDropDown: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("채식 구분")
+            Text("vegan_category")
                 .semibold14()
                 .padding(.leading, 17)
             Button {
@@ -24,7 +24,7 @@ struct VeganDropDown: View {
                 }
             } label: {
                 HStack {
-                    Text(selected.description.isEmpty ? "해당 없음" : selected.description)
+                    Text(LocalizedStringKey(selected.description.isEmpty ? "not_applicable" : selected.description))
                         .regular14()
                         .foregroundColor(selected == .none ? .gray : .black)
                     Spacer()
@@ -49,7 +49,7 @@ struct VeganDropDown: View {
                             }
                         } label: {
                             HStack {
-                                Text(option.description)
+                                Text(LocalizedStringKey(option.description))
                                     .regular14()
                                     .foregroundColor(.black)
                                 Spacer()

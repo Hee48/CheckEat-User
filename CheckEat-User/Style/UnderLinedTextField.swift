@@ -11,46 +11,79 @@ struct UnderLinedTextField: View {
     let placeholder: String
     var isSecure: Bool = false
     @Binding var text: String
+
     @FocusState private var isFocused: Bool
+    @State private var currentLanguage = LanguageSettingsViewModel.getCurrentLanguage()
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 4){
+        VStack(alignment: .leading, spacing: 4) {
             if isSecure {
-                SecureField(placeholder, text: $text)
-                    .padding(.vertical, 8)
-                    .focused($isFocused)
+                SecureField(
+                    "",
+                    text: $text,
+                    prompt: Text(placeholder.localized)
+                )
+                .textContentType(.newPassword)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+                .padding(.vertical, 8)
+                .focused($isFocused)
             } else {
-                TextField(placeholder, text: $text)
-                    .padding(.vertical, 8)
-                    .focused($isFocused)
+                TextField(
+                    "",
+                    text: $text,
+                    prompt: Text(placeholder.localized)
+                )
+                .textContentType(.password)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+                .padding(.vertical, 8)
+                .focused($isFocused)
             }
+
             Rectangle()
                 .frame(height: 1)
                 .foregroundColor(isFocused || !text.isEmpty ? .black : Color(red: 0.85, green: 0.85, blue: 0.85))
                 .animation(.easeInOut(duration: 0.1), value: isFocused)
         }
+        // 언어 변경 시 강제 리빌드 (플레이스홀더 문자열도 재평가)
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("LanguageChanged"))) { _ in
+            currentLanguage = LanguageSettingsViewModel.getCurrentLanguage()
+        }
+        .id(currentLanguage)
     }
 }
 
 struct AuthCodeTextField: View {
     let placeholder: String
     @Binding var text: String
+
     @FocusState private var isFocused: Bool
-    
+    @State private var currentLanguage = LanguageSettingsViewModel.getCurrentLanguage()
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 4){
-            TextField(placeholder, text: $text)
-                .autocapitalization(.allCharacters) // 키보드에서 대문자 제안
-                .disableAutocorrection(true) // 자동 수정 비활성화
-                .padding(.vertical, 8)
-                .focused($isFocused)
-                .onChange(of: text) { oldValue, newValue in
-                    // 입력된 텍스트를 강제로 대문자로 변환
-                    text = newValue.uppercased()
-                }
+        VStack(alignment: .leading, spacing: 4) {
+            TextField(
+                "",
+                text: $text,
+                prompt: Text(placeholder.localized)
+            )
+            .autocapitalization(.allCharacters)
+            .disableAutocorrection(true)
+            .padding(.vertical, 8)
+            .focused($isFocused)
+            .onChange(of: text) { _, newValue in
+                text = newValue.uppercased()
+            }
+
             Rectangle()
                 .frame(height: 1)
                 .foregroundColor(isFocused || !text.isEmpty ? .black : Color(red: 0.85, green: 0.85, blue: 0.85))
                 .animation(.easeInOut(duration: 0.1), value: isFocused)
         }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("LanguageChanged"))) { _ in
+            currentLanguage = LanguageSettingsViewModel.getCurrentLanguage()
+        }
+        .id(currentLanguage)
     }
 }

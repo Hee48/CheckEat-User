@@ -13,34 +13,14 @@ struct Allergy19Review: View {
     var onConfirm: (_ ids: [Int], _ text: String) -> Void
     @Environment(\.dismiss) private var dismiss
     @State private var showJoinComplete = false
-    let allergenDataList: [(id: Int, name: String, imageName: String)] = [
-        (1, "난류", "Egg"),
-        (2, "우유", "Milk"),
-        (3, "메밀", "Buckwheat"),
-        (4, "땅콩", "Peanut"),
-        (5, "대두", "Soy"),
-        (6, "밀", "Wheat"),
-        (7, "고등어", "Mackerel"),
-        (8, "게", "Crab"),
-        (9, "새우", "Shrimp"),
-        (10, "돼지고기", "Pork"),
-        (11, "복숭아", "Peach"),
-        (12, "토마토", "Tomato"),
-        (13, "아황산류", "Sulfites"),
-        (14, "호두", "Walnut"),
-        (15, "닭고기", "Chicken"),
-        (16, "쇠고기", "Beef"),
-        (17, "오징어", "Squid"),
-        (18, "조개류", "Shellfish"),
-        (19, "잣", "PineNut")
-    ]
+    let allergenDataList: [Allergen] = AllergenData.defaultList
     var body: some View {
         NavigationStack {
             VStack {
-                Text("알레르기 정보 확인")
+                Text("allergy_info_check_title")
                     .bold20()
                     .padding(.top, 30)
-                Text("입력한 정보에 수정사항이 있는지 확인해 주세요.")
+                Text("allergy_info_check_desc")
                     .regular16()
                     .padding(.top, 20)
             }
@@ -55,7 +35,7 @@ struct Allergy19Review: View {
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: 112, height: 118)
-                                            Text(item.name)
+                                            Text(item.displayName)
                                                 .bold20()
                                                 .foregroundColor(.black)
                                                 .frame(width: 112, alignment: .center)
@@ -81,7 +61,7 @@ struct Allergy19Review: View {
 
                 VStack(alignment: .leading) {
                     if !customAllergyText.trimmingCharacters(in: .whitespaces).isEmpty {
-                        Text("나의 알러지 정보")
+                        Text("allergy_my_info_title")
                             .semibold14()
                             .padding(.top, 20)
                         Text(customAllergyText)
@@ -96,7 +76,7 @@ struct Allergy19Review: View {
             Button {
                 dismiss()
             } label: {
-                Text("이전")
+                Text("common_prev")
                     .foregroundStyle(Color.buttonEnable)
                     .semibold16()
                     .frame(minWidth: 130)
@@ -112,7 +92,7 @@ struct Allergy19Review: View {
             Button {
                 onConfirm(selectedAllergyIDs, customAllergyText)
             } label: {
-                Text("다음")
+                Text("common_next")
                     .foregroundStyle(Color.white)
                     .semibold16()
                     .frame(minWidth: 130)
@@ -123,7 +103,7 @@ struct Allergy19Review: View {
                 }
             }
             .padding(.trailing, 25)
-            .navigationTitle("회원가입")
+            .navigationTitle("action_join")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
             .toolbar {

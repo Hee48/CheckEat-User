@@ -11,7 +11,7 @@ struct UserImageChange: View {
     @Binding var selectedImageName: String
     @Environment(\.dismiss) private var dismiss
 
-    private let candidates = ["user1","user2","user3","user4","user5","user6"]
+    private let candidates = ["user1".localized,"user2".localized,"user3".localized,"user4".localized,"user5".localized,"user6".localized]
     private let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16),
@@ -20,7 +20,7 @@ struct UserImageChange: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("이미지를 선택해주세요")
+            Text("user_image_select_title".localized)
                 .bold18()
                 .padding(.top, 30)
 
@@ -48,7 +48,7 @@ struct UserImageChange: View {
             Button {
                 dismiss()
             } label: {
-                Text("취소")
+                Text("dialog_withdraw_cancel".localized)
                     .primaryButtonStyle(isEnabled: true)
                     .semibold16()
                     .padding(.horizontal, 20)

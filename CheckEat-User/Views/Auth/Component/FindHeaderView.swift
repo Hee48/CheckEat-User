@@ -9,8 +9,8 @@ import SwiftUI
 
 struct FindHeaderView: View {
     
-    var title: String
-    var subtitle: String
+    var title: LocalizedStringKey
+    var subtitle: LocalizedStringKey
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {

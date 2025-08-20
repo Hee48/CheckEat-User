@@ -1,0 +1,296 @@
+/*
+  Localizable.strings
+  CheckEat-User
+
+  Created by Hee  on 8/19/25.
+  
+*/
+//MARK: 로그인뷰
+"Login" = "Login";
+"placeholder_id" = "Enter your ID";
+"placeholder_password" = "Enter your password";
+"label_id" = "ID";
+"label_password" = "Password";
+"action_find_id" = "Find ID";
+"action_reset_password" = "Reset Password";
+"label_not_member_yet" = "Not a member yet?";
+"action_join" = "Sign Up";
+//MARK: 탭바
+"tab_home" = "Home";
+"action_write_review" = "Write Review";
+//MARK: 마이페이지
+"section_store" = "Stores";
+"section_favorite_stores" = "Favorite Stores";
+"section_visited_stores" = "Visited Stores";
+"section_review" = "Reviews";
+"section_account" = "Account";
+"action_change_password" = "Change Password";
+"action_change_nickname" = "Change Nickname";
+"action_logout" = "Log out";
+"section_allergy" = "Allergy";
+"action_edit_allergy" = "Edit Allergy";
+"section_language" = "Language";
+"action_language_settings" = "Language Settings";
+"dialog_withdraw_title" = "Withdraw Account";
+"dialog_withdraw_confirm" = "Withdraw";
+"dialog_withdraw_cancel" = "Cancel";
+"dialog_withdraw_message" = "Are you sure you want to withdraw?\nAll data will be deleted upon withdrawal.";
+"user_image_select_title" = "Please select an image";
+"nickname_change_title" = "Change Nickname";
+"nickname_change_placeholder" = "Please enter a new nickname";
+"nickname_change_button" = "Confirm";
+"segment_review_written" = "Reviewed";
+"segment_review_pending" = "Not Reviewed";
+"visited_stores_title" = "Visited Stores";
+"review_empty_list" = "No reviews yet";
+"label_recommend" = "Recommend";
+"label_evaluation" = "Evaluation";
+"comment_empty" = "No comment written";
+"review_recommend_yes" = "I want to recommend it";
+"review_recommend_neutral" = "I have no particular thoughts";
+"review_recommend_no" = "I don’t want to recommend it";
+"review_request_register" = "Please register your review";
+"label_recommend_target" = "Recommendation Target";
+"language_setting_title" = "Language Settings";
+"language_setting_description" = "Please select a language.";
+"language_setting_button" = "Change";
+"allergy_my_info_title" = "My Allergy Information";
+"allergy_input_hint_commas" = "Please separate items with commas (,).";
+"allergy_example_placeholder" = "e.g., kiwi, banana, sesame, citrus";
+"action_done" = "Done";
+"allergy_edit_title" = "Edit Allergies";
+"allergy_info_check_title" = "Allergy Information Check";
+"allergy_info_check_subtitle" = "Please review your allergy information";
+"action_edit" = "Edit";
+"password_new_title" = "New Password";
+"password_new_placeholder" = "Please enter a new password";
+"password_rule_minlen" = "At least 8 characters";
+"password_rule_complexity" = "Include upper/lowercase, number, and special character";
+"password_confirm_title" = "Confirm Password";
+"password_confirm_placeholder" = "Please re-enter your password";
+"password_match" = "Passwords match";
+"password_change_button" = "Change";
+"password_change_complete_title1" = "Password change";
+"password_change_complete_title2" = "completed.";
+"password_change_complete_message" = "Please log in with your new password.";
+"loading_message" = "Loading…";
+"empty_favorite_store" = "No favorite stores.";
+"favorite_store_title" = "Favorite Stores";
+"favorite_store_error_message" = "Could not fetch favorite store list. Please try again later.";
+//MARK: 알러지19가지
+"allergen_egg" = "Egg";
+"allergen_milk" = "Milk";
+"allergen_buckwheat" = "Buckwheat";
+"allergen_peanut" = "Peanut";
+"allergen_soy" = "Soy";
+"allergen_wheat" = "Wheat";
+"allergen_mackerel" = "Mackerel";
+"allergen_crab" = "Crab";
+"allergen_shrimp" = "Shrimp";
+"allergen_pork" = "Pork";
+"allergen_peach" = "Peach";
+"allergen_tomato" = "Tomato";
+"allergen_sulfites" = "Sulfites";
+"allergen_walnut" = "Walnut";
+"allergen_chicken" = "Chicken";
+"allergen_beef" = "Beef";
+"allergen_squid" = "Squid";
+"allergen_shellfish" = "Shellfish";
+"allergen_pinenut" = "Pine Nut";
+"review_recommend_question" = "Who would you recommend this to?";
+//MARK: 리뷰페이지
+"ocr_title" = "A receipt image is required\nfor writing a review.";
+"ocr_subtitle" = "Take a photo or select one from your album.";
+"ocr_add_photo_button" = "Add Photo";
+"ocr_picker_title" = "Select an image";
+"ocr_take_photo" = "Take Photo";
+"ocr_pick_from_album" = "Choose from Album";
+"ocr_analyzing" = "Analyzing the image…";
+"review_intro_message" = "Leave a review of the food you ate\nand share it with many people!";
+"review_my_menu" = "My Menu";
+"review_register" = "Submit Review";
+"review_photo_select" = "Select Photo";
+"review_camera" = "Camera";
+"review_album" = "Album";
+"review_menu_select" = "Choose Menu";
+"store_name" = "Store Name";
+"store_address" = "Address";
+"store_name_placeholder" = "Enter the store name if it is different";
+"store_name_no" = "No";
+"store_name_yes" = "Yes";
+"review_search_placeholder" = "Search for the menu you ate";
+"review_select_done" = "Done";
+"review_recommend_menu_question" = "Would you recommend this menu?";
+"review_dislike_reason_required" = "Please tell us why you wouldn’t recommend it (required)";
+"review_like_reason_optional" = "Please tell us why you would recommend it (optional)";
+"review_reason_placeholder" = "Write briefly";
+"review_failed_title" = "This store is not\nregistered in CheckEat.";
+"review_failed_message" = "You cannot submit a review.";
+"common_close" = "Close";
+"review_question_title" = "Would you like to\nregister a review now?";
+"review_later" = "Register later";
+"review_stop_title" = "Do you want to stop\nwriting the review?";
+"review_stop_message" = "There is no auto-save. You will have to start over.";
+"review_continue" = "Continue writing";
+"vegan_modal_title" = "Vegan Categories";
+"vegan_modal_subtitle" = "Vegan categories vary depending on what foods are consumed.";
+"vegan_type_vegan" = "Vegan: Avoids all animal products";
+"vegan_type_lacto" = "Lacto: Allows dairy, excludes eggs";
+"vegan_type_ovo" = "Ovo: Allows eggs, excludes dairy";
+"vegan_type_lactoovo" = "Lacto-Ovo: Allows both dairy and eggs";
+"vegan_type_pesco" = "Pesco: Allows fish, excludes meat";
+"vegan_type_pollo" = "Pollo: Allows poultry (chicken, etc.), excludes red meat";
+"forgot_password_title" = "Forgot your password?";
+"user_id_label" = "User ID";
+"user_id_placeholder" = "Please enter your User ID";
+"email_label" = "Email";
+"email_placeholder" = "Please enter your email";
+"reset_password_title" = "Reset Password";
+"remember_password_question" = "Do you remember your password?";
+"reset_password_instruction" = "Please reset your password.";
+"new_password_instruction" = "Please enter a new password";
+"new_password_label" = "New Password";
+"new_password_placeholder" = "Enter your new password";
+"reset_password_failed" = "Failed to reset password. Please try again";
+"password_change_success_title" = "Password";
+"password_change_success_message" = "has been successfully changed";
+"auth_code_title" = "Verification Code";
+"auth_code_placeholder" = "Please enter the verification code";
+"auth_code_resend" = "Resend verification code";
+"auth_code_not_received" = "Didn’t receive the code?";
+"auth_code_receive_again" = "Get code again";
+"auth_code_invalid" = "The code is incorrect. Please try again";
+"find_id_title" = "Forgot your ID?";
+"find_id_code_sent" = "We have sent a verification code to the email you entered.";
+"find_id_get_code" = "Get verification code";
+"remember_id_question" = "Do you remember your ID?";
+"find_id_nav_title" = "Find ID";
+"find_pw_question" = "Forgot your password?";
+"find_pw_button" = "Find Password";
+"find_id_message_prefix" = "Your ID is";
+"find_id_message_suffix" = "";
+"common_close" = "Close";
+"allergy_info_check_desc" = "Please check if there are any corrections to the entered information.";
+"common_next" = "Next";
+"common_prev" = "Previous";
+"resend" = "Resend";
+"checkDuplicate" = "Check Duplicate";
+"verify" = "Verify";
+"halal" = "Halal Status";
+"allergy" = "Allergy Information";
+"tab_mypage" = "My Page";
+"section_written_reviews" = "Written Reviews";
+"nickname" = "Nickname";
+"nickname_placeholder" = "Please enter your nickname";
+"password_not_match" = "Passwords do not match";
+"enter_registered_email" = "Please enter the email you registered with.";
+"enter_registered_id_email" = "Please enter the ID and email you registered with.";
+"terms_required_agreement" = "[Required] I agree to the Terms of Service.";
+"signup_complete_title1" = "Sign-up";
+"signup_complete_title2" = "completed";
+"vegan_category" = "Vegan Category";
+"not_applicable" = "Not Applicable";
+"not_vegan" = "Not Vegan";
+"pollo" = "Pollo";
+"pesco" = "Pesco";
+"lactoovo" = "Lacto-Ovo";
+"ovo" = "Ovo";
+"lacto" = "Lacto";
+"vegan" = "Vegan";
+"not_halal" = "Not Halal";
+"halal" = "Halal";
+"success" = "Success";
+"id_available" = "This ID is available";
+"confirm" = "Confirm";
+"failure" = "Failure";
+"id_duplicate" = "This ID is already taken. Please check again.";
+"email_duplicate_failure" = "Email duplication check failed";
+"available" = "Available";
+"email_available" = "This email is available.";
+"email_duplicate" = "This email is already registered";
+"email_check_again" = "Please check your email again";
+"email_verify_success" = "Email verification completed";
+"email_verify_check_again" = "Please check the email verification code again.";
+"account_deleted" = "This account has been deleted.";
+"input_not_match_check_again" = "The information you entered does not match. Please check again.";
+"auth_code_invalid" = "The verification code is incorrect. Please try again.";
+
+// MARK: Home MapView
+// Loading and Status Messages
+"loading_stores" = "Loading store list...";
+"confirm" = "Confirm";
+
+// Search Related
+"search_by_store_name" = "Search by store name";
+"search_current_location" = "Search at current location";
+
+// Filter Related
+"filter_vegan" = "Vegan";
+"filter_lacto" = "Lacto";
+"filter_ovo" = "Ovo";
+"filter_lacto_ovo" = "Lacto-Ovo";
+"filter_pesco" = "Pesco";
+"filter_pollo" = "Pollo";
+"my_filter" = "My Filter";
+
+// MARK: - Business Hours Related
+"business_hours" = "Business Hours";
+"today_hours_not_available" = "Today's hours not available";
+"hours_not_available" = "Hours not available";
+"break_time" = "Break Time";
+
+// MARK: - Days of the Week
+"monday" = "Monday";
+"tuesday" = "Tuesday";
+"wednesday" = "Wednesday";
+"thursday" = "Thursday";
+"friday" = "Friday";
+"saturday" = "Saturday";
+"sunday" = "Sunday";
+
+// MARK: - Holiday Related
+"no_regular_holiday" = "No regular holidays";
+"regular_holiday" = "Regular Holiday";
+"no_public_holiday" = "No public holidays";
+"closed_on" = "Closed";
+
+// MARK: - Contact Related
+"no_phone_registered" = "No contact information registered";
+
+// MARK: - Break Time Related
+"break_time_not_available" = "Break time information not available";
+"no_break_time" = "No break time";
+"info_not_available" = "Information not available";
+
+// MARK: - Modal Title Related
+"filter_results_title" = "Vegan Filter Results";
+"search_results_title" = "Search Results";
+"nearby_stores_title" = "Stores within 2km";
+"stores_count" = " stores found";
+"close" = "Close";
+
+// MARK: - Store Information Related
+"halal_certified" = "Halal Certified";
+"distance_from_current_location" = "Located";
+"meters" = "m from current location";
+
+// MARK: - Favorite Store Information Related
+"favorite_stores_title" = "Favorite Stores";
+"favorite_fetch_error" = "Unable to fetch favorites list. Please try again later.";
+
+//MARK: - Menu Related
+"menu_tab_all" = "All Menu";
+"menu_tab_vegan" = "Vegetarian/Vegan";
+"review_button" = "Reviews";
+"ingredients_label" = "Ingredients";
+"allergy_caution_label" = "Allergy Warning";
+"no_ingredient_info" = "No ingredient info";
+"price_suffix_won" = "WON";
+
+// MARK: - Error Message
+"favorite_fetch_error" = "Uh-oh, your favorites are playing hide and seek!\nGive us a moment, we’ll catch them soon!";
+"favorite_action_error" = "Whoops! The favorite button slipped on a banana peel.\nTry again in a sec!";
+"search_by_store_name_error" = "Wow, you know a secret spot even we don’t!\nLooks like this restaurant hasn’t joined our adventure yet.";
+"search_by_store_vegan_level_error" = "Hmm… no matching spots nearby.\nHow about moving the radar a bit further to find more places?";
+"store_detail_info_fetch_error" = "This restaurant’s details are taking a coffee break.\nPlease check back in a moment!";
+"store_list_fetch_error" = "The map looks like a desert right now…\nHold on, we’re sending an oasis of restaurants your way!";

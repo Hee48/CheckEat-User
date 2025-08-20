@@ -24,12 +24,20 @@ struct CheckModal: View {
             Spacer()
             
             VStack(alignment: .center) {
-                Text("가게명 : \(storeName)")
-                    .bold20()
-                Text("주소 : \(storeAddress)")
-                    .medium16()
-                    .padding(.top, 12)
-                UnderLinedTextField(placeholder: "가게명이 다르다면 입력해주세요", text: $editedStoreName)
+                HStack(spacing: 0) {
+                    Text("store_name".localized)
+                    Text(": ")
+                    Text(storeName)
+                }
+                .bold20()
+                HStack(spacing: 0) {
+                    Text("store_address".localized)
+                    Text(": ")
+                    Text(storeAddress)
+                }
+                .medium16()
+                .padding(.top, 12)
+                UnderLinedTextField(placeholder: "store_name_placeholder", text: $editedStoreName)
                     .regular16()
                     .padding(.horizontal, 20)
                     .padding(.top, 20)
@@ -42,7 +50,7 @@ struct CheckModal: View {
                     showCheckModal = false
                     showOCRView = true
                 } label: {
-                    Text("다릅니다")
+                    Text("store_name_no".localized)
                         .foregroundStyle(Color.buttonEnable)
                         .semibold16()
                         .frame(minWidth: 130)
@@ -70,7 +78,7 @@ struct CheckModal: View {
                         }
                     }
                 } label: {
-                    Text("맞습니다")
+                    Text("store_name_yes".localized)
                         .foregroundStyle(Color.white)
                         .semibold16()
                         .frame(minWidth: 130)

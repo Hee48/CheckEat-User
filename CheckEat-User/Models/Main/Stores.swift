@@ -10,6 +10,7 @@ struct Stores: Decodable, Identifiable, Hashable {
     
     let storeId: Int
     let sto_name: String
+    let sto_name_en: String
     let sto_latitude: Double
     let sto_longitude: Double
     let sto_type: String
@@ -30,7 +31,7 @@ struct Stores: Decodable, Identifiable, Hashable {
     
     enum CodingKeys: String, CodingKey {
         case storeId = "sto_id"
-        case sto_name, sto_latitude, sto_longitude, sto_type, sto_address, sto_halal, sto_status, sto_img, distance, holi_weekday, today_runtime, holi_break, holi_regular, holi_public
+        case sto_name, sto_name_en, sto_latitude, sto_longitude, sto_type, sto_address, sto_halal, sto_status, sto_img, distance, holi_weekday, today_runtime, holi_break, holi_regular, holi_public
     }
     
     var id: Int { storeId }

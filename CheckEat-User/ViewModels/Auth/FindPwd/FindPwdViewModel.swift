@@ -81,7 +81,7 @@ class FindPwdViewModel: ObservableObject {
                 } else {
                     print("❌ 응답 디코딩 실패")
                     completion(false)
-                    self?.alertMessage = "잘못된 인증코드입니다. 다시 시도해주세요."
+                    self?.alertMessage = "auth_code_invalid"
                 }
             }
             .store(in: &cancellables)

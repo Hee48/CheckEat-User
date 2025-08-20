@@ -12,17 +12,19 @@ struct SectionView: View {
     let buttons: [(title: String, destination: SettingDestination)]
     var onButtonTap: (SettingDestination) -> Void
 
+    @State private var currentLanguage = LanguageSettingsViewModel.getCurrentLanguage()
+
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text(title)
+            Text(title.localized)
                 .semibold14()
                 .foregroundStyle(.buttonOP20)
-            
-            ForEach(buttons, id: \.title) { button in
-                Button(action: {
+
+            ForEach(buttons, id: \.destination) { button in
+                Button {
                     onButtonTap(button.destination)
-                }) {
-                    Text(button.title)
+                } label: {
+                    Text(button.title.localized)
                         .medium16()
                         .foregroundStyle(.buttonAuth)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -30,7 +32,10 @@ struct SectionView: View {
                 }
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("LanguageChanged"))) { _ in
+            currentLanguage = LanguageSettingsViewModel.getCurrentLanguage()
+        }
+        .id(currentLanguage)
     }
 }
-
 

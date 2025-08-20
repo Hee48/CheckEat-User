@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ReviewCompletedListView: View {
     @ObservedObject var viewModel: VisitedStoreViewModel
@@ -13,7 +14,7 @@ struct ReviewCompletedListView: View {
         ScrollView {
             VStack(spacing: 0) {
                 if viewModel.myReviews.isEmpty {
-                    Text("리뷰가 없습니다.")
+                    Text("review_empty_list".localized)
                         .foregroundColor(.gray)
                         .padding()
                 } else {
@@ -21,13 +22,20 @@ struct ReviewCompletedListView: View {
                         HStack(alignment: .top, spacing: 12) {
                             if let imageUrlString = review.images.first,
                                let url = URL(string: imageUrlString) {
-                                AsyncImage(url: url) { image in
-                                    image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                } placeholder: {
-                                    Rectangle().foregroundColor(.gray.opacity(0.2))
-                                }
+                                KFImage(url)
+                                    .placeholder {
+                                        ZStack {
+                                            Rectangle().fill(Color("Button_OP20"))
+                                            Image(systemName: "camera.fill")
+                                                .resizable()
+                                                .frame(width: 40, height: 30)
+                                                .scaledToFit()
+                                                .foregroundColor(.white)
+                                                .padding(20)
+                                        }
+                                    }
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
                                 .frame(width: 95, height: 95)
                                 .cornerRadius(10)
                                 .clipped()
@@ -52,7 +60,7 @@ struct ReviewCompletedListView: View {
                                 HStack {
                                     Image(systemName: "star.circle.fill")
                                         .foregroundColor(.buttonOP20)
-                                    Text("추천")
+                                    Text("label_recommend".localized)
                                         .foregroundColor(.buttonOP20)
                                         .medium12()
                                     Text(recommendText(for: review.revi_reco_step))
@@ -62,11 +70,11 @@ struct ReviewCompletedListView: View {
                                 HStack(spacing: 6) {
                                     Image(systemName: "bubble.fill")
                                         .foregroundColor(.buttonOP20)
-                                    Text("평가")
+                                    Text("label_evaluation".localized)
                                         .medium12()
                                         .foregroundColor(.buttonOP20)
                                     if (review.revi_content ?? "").isEmpty {
-                                        Text("코멘트가 작성되지 않았습니다.")
+                                        Text("comment_empty".localized)
                                             .medium12()
                                             .foregroundColor(.buttonOP20)
                                     } else {
@@ -95,11 +103,11 @@ struct ReviewCompletedListView: View {
         }
     }
     
-    func recommendText(for step: Int) -> String {
+    func recommendText(for step: Int) -> LocalizedStringKey {
         switch step {
-        case 0: return "추천 하고 싶어요"
-        case 1: return "별 생각 없어요"
-        case 2: return "추천 하고 싶지 않아요"
+        case 0: return "review_recommend_yes"
+        case 1: return "review_recommend_neutral"
+        case 2: return "review_recommend_no"
         default: return ""
         }
     }

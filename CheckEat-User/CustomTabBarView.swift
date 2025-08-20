@@ -27,11 +27,11 @@ struct CustomTabBarView: View {
 
     var body: some View {
         HStack {
-            tabItem(image: "Home", title: "홈", tab: .home)
+            tabItem(image: "Home", title: "tab_home", tab: .home)
                 .frame(maxWidth: .infinity)
-            tabItem(image: "Edit", title: "리뷰작성", tab: .review)
+            tabItem(image: "Edit", title: "action_write_review", tab: .review)
                 .frame(maxWidth: .infinity)
-            tabItem(image: "User", title: "마이페이지", tab: .myPage)
+            tabItem(image: "User", title: "tab_mypage", tab: .myPage)
                 .frame(maxWidth: .infinity)
         }
         .frame(height: 70)
@@ -49,7 +49,7 @@ struct CustomTabBarView: View {
             }
         }
     }
-    private func tabItem(image: String, title: String, tab: Tab) -> some View {
+    private func tabItem(image: String, title: LocalizedStringKey, tab: Tab) -> some View {
         Button {
             switch tab {
             case .home:
@@ -77,4 +77,3 @@ struct CustomTabBarView: View {
         .frame(maxWidth: .infinity)
     }
 }
-

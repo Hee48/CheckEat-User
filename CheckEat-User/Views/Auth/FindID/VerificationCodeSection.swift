@@ -16,15 +16,17 @@ struct VerificationCodeSection: View {
     var resendCodeAction: ()-> Void
     var body: some View {
         VStack(alignment: .leading){
-            Text("인증코드")
+            Text("auth_code_title")
                 .font(.system(size: 14, weight: .semibold))
                 .padding(.top, 10)
-            UnderLinedTextField(placeholder: "인증코드를 입력해 주세요.", text: $verificationCode)
+
+            AuthCodeTextField(placeholder: "auth_code_placeholder", text: $verificationCode)
+
                 .font(.system(size: 14))
                 .padding(.top, 2)
             
             if showCodeErrorMessage {
-                Text("잘못된 코드입니다. 다시 시도해 주세요.")
+                Text("auth_code_invalid")
                     .foregroundColor(.red)
                     .font(.system(size: 12))
             }
@@ -33,15 +35,15 @@ struct VerificationCodeSection: View {
                     resendCodeAction()
                 } label: {
                     if timerActive {
-                        Text("인증코드 다시 보내기")
+                        Text("auth_code_resend")
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundColor(Color("Button_OP70"))
                             .padding(.top, 20)
                             .padding(.leading, 80)
                     } else {
-                        (Text("인증코드를 받지 못했어요  ")
+                        (Text("auth_code_not_received")
                             .font(.system(size: 16, weight: .light)) +
-                         Text("  인증코드 다시받기")
+                         Text("auth_code_receive_again")
                             .font(.system(size: 16, weight: .semibold)))
                         .foregroundColor(Color.black)
                         .padding(.top, 20)

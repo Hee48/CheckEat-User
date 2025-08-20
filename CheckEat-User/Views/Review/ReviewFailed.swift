@@ -33,11 +33,11 @@ struct ReviewFailed: View {
                 .foregroundStyle(.green)
                 .padding(.bottom)
             
-            Text("CheckEat에\n등록되지 않은 가게입니다.")
+            Text("review_failed_title".localized)
                 .lineSpacing(4)
                 .multilineTextAlignment(.center)
                 .bold20()
-            Text("리뷰를 등록할수 없습니다")
+            Text("review_failed_message".localized)
                 .padding(.top, 20)
                 .regular16()
             Spacer()
@@ -48,7 +48,7 @@ struct ReviewFailed: View {
                         dismiss()
                     }
             } label: {
-                Text("닫기")
+                Text("common_close".localized)
                     .primaryButtonStyle()
                     .semibold16()
                     .frame(maxWidth: .infinity)

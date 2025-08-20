@@ -13,12 +13,12 @@ struct ReviewStopModal: View {
     var body: some View {
         VStack(alignment: .center) {
             Image("ExclamationMark")
-            Text("리뷰작성을\n그만하시겠습니까?")
+            Text("review_stop_title".localized)
                 .lineSpacing(6)
                 .multilineTextAlignment(.center)
                 .bold20()
                 .padding(.top, 20)
-            Text("리뷰 등록은 중간저장이 없으며,\n처음부터 작성해야합니다.")
+            Text("review_stop_message".localized)
                 .lineSpacing(6)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.buttonOP50)
@@ -28,7 +28,7 @@ struct ReviewStopModal: View {
                 Button {
                     dismiss()
                 } label: {
-                    Text("닫기")
+                    Text("common_close".localized)
                         .foregroundStyle(Color.buttonEnable)
                         .semibold16()
                         .frame(minWidth: 125)
@@ -44,7 +44,7 @@ struct ReviewStopModal: View {
                 Button {
                     onClose()
                 } label: {
-                    Text("계속작성")
+                    Text("review_continue".localized)
                         .foregroundStyle(Color.white)
                         .semibold16()
                         .frame(minWidth: 125)

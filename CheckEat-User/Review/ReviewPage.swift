@@ -44,12 +44,12 @@ struct StoreMenuItem: Decodable {
 }
 //리뷰등록 요청
 struct RegisterReviewRequest: Codable {
-    let food_ids: [Int]
-    let store_id: Int
+    let food_ids: [String]
+    let store_id: String
     let revi_content: String?
-    let revi_reco_vegan: Int
-    let revi_reco_step: Int
-    let revi_status: Int
+    let revi_reco_vegan: String
+    let revi_reco_step: String
+    let revi_status: String?
 }
 //리뷰등록 응답
 struct RegisterReviewResponse: Decodable {

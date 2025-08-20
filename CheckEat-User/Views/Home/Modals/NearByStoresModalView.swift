@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreLocation
+import Kingfisher
 
 struct NearByStoresModalView: View {
     
@@ -25,16 +26,15 @@ struct NearByStoresModalView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                // 제목을 모드에 따라 다르게 표시
                 if isFilterMode {
-                    Text("🔍 비건 필터 결과 (\(stores.count)곳 조회)")
+                    Text("filter_results_title".localized + " (\(stores.count)" + "stores_count".localized + ")")
                 } else if isSearchMode {
-                    Text("🔍 검색 결과 (\(stores.count)곳 조회)")
+                    Text("search_results_title".localized + " (\(stores.count)" + "stores_count".localized + ")")
                 } else {
-                    Text("🔍 2Km 반경 가게 (\(stores.count)곳 조회)")
+                    Text("nearby_stores_title".localized + " (\(stores.count)" + "stores_count".localized + ")")
                 }
                 Spacer()
-                Button("닫기") {
+                Button("close".localized) {
                     isPresented = false
                 }
                 .regular14()
@@ -46,8 +46,10 @@ struct NearByStoresModalView: View {
             .padding(.bottom, 4)
             
             if viewModel.isLoading {
-                ProgressView("가게 목록을 불러오는 중...")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                ProgressView{
+                    Text("loading_stores".localized)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let errorMessage = viewModel.errorMessage {
                 VStack {
                     Image(systemName: "exclamationmark.triangle")
@@ -81,7 +83,7 @@ struct NearByStoresModalView: View {
             }
         }
         .sheet(item: $selectedStoreId) { id in
-            StoreDetailInfoView(storeId: id, language: "ko")
+            StoreDetailInfoView(storeId: id, language: LanguageSettingsViewModel.getCurrentLanguage())
                 .presentationDetents([.large])
         }
     }
@@ -100,29 +102,33 @@ extension NearByStoresModalView {
     private func storeCell(for store: Stores) -> some View {
         
         VStack(alignment: .leading, spacing: 8) {
-            AsyncImage(url: URL(string: store.sto_img ?? "")) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 100)
-                    .cornerRadius(8)
-            } placeholder: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8)
-                        .frame(height: 100)
-                        .frame(maxWidth: .infinity)
-                        .foregroundStyle(.buttonSoft)
-                    Image(systemName: "storefront.fill")
-                        .foregroundStyle(.buttonEnable)
+            KFImage(URL(string: store.sto_img ?? ""))
+                .placeholder {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .frame(height: 100)
+                            .frame(maxWidth: .infinity)
+                            .foregroundStyle(.buttonSoft)
+                        Image(systemName: "storefront.fill")
+                            .foregroundStyle(.buttonEnable)
+                    }
                 }
-            }
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 100)
+                .cornerRadius(8)
             
             HStack {
-                Text(store.sto_name)
-                    .bold20()
+                if LanguageSettingsViewModel.getCurrentLanguage() == "ko" {
+                    Text(store.sto_name)
+                        .bold20()
+                } else {
+                    Text(store.sto_name_en)
+                        .bold20()
+                }
                 
                 if store.sto_halal == 1 {
-                    Text("할랄 인증")
+                    Text("halal_certified")
                         .foregroundColor(.white)
                         .medium12()
                         .padding(.vertical, 4)
@@ -140,22 +146,18 @@ extension NearByStoresModalView {
                 }
                 HStack {
                     Image("Time")
-                    if let runtime = store.today_runtime {
-                        Text("영업시간 \(runtime)")
-                    } else {
-                        Text("영업시간 정보 없음")
-                    }
+                    Text(CommonStoreHelpers.businessHours(store.today_runtime))
                 }
                 HStack {
                     Image("Time")
-                    Text("휴게시간 \(BreakTimeUtils.getBreakTimeText(for: store.holi_break, weekday: store.holi_weekday))")
+                    Text(CommonStoreHelpers.breakTime(breakTime: store.holi_break, weekday: store.holi_weekday))
                 }
             }
             .foregroundColor(.secondary)
             
             HStack {
                 Image("Desc")
-                Text("현재 위치에서 \(Int(store.distance))m 거리에 있어요")
+                Text(getDistanceText(Int(store.distance)))
                     .foregroundColor(.buttonEnable)
             }
             .padding(.bottom, 4)
@@ -165,5 +167,9 @@ extension NearByStoresModalView {
         .background(Color(.white))
         .cornerRadius(12)
         .shadow(radius: 2)
+    }
+    
+    private func getDistanceText(_ distance: Int) -> String {
+        return "\("distance_from_current_location".localized) \(distance)\("meters".localized)"
     }
 }

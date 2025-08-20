@@ -13,7 +13,7 @@ struct VeganTypeSelectorView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
-                Text("어떤 사람에게 추천하시나요?")
+                Text("review_recommend_question".localized)
                     .semibold14()
                 Button {
                     showVeganModal = true
@@ -30,7 +30,7 @@ struct VeganTypeSelectorView: View {
                         Button {
                             selectedType = type
                         } label: {
-                            Text(type.description)
+                            Text(LocalizedStringKey(type.description))
                                 .medium14()
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 8)

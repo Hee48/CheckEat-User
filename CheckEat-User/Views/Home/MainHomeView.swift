@@ -110,7 +110,9 @@ struct MainHomeView: View {
             // 4. 로딩 상태 표시 (맨 위)
             if storeViewModel.isLoading {
                 VStack {
-                    ProgressView("가게 목록을 불러오는 중...")
+                    ProgressView {
+                        Text("loading_stores".localized)
+                    }
                         .padding()
                         .background(Color.white)
                         .cornerRadius(8)
@@ -131,7 +133,7 @@ struct MainHomeView: View {
                         Button {
                             storeViewModel.errorMessage = nil
                         } label: {
-                            Text("확인")
+                            Text("confirm".localized)
                                 .primaryButtonStyle()
                                 .regular16()
                         }
@@ -157,7 +159,7 @@ struct MainHomeView: View {
                         Button {
                             searchErrorMessage = nil
                         } label: {
-                            Text("확인")
+                            Text("confirm".localized)
                                 .primaryButtonStyle()
                                 .regular16()
                         }
@@ -183,7 +185,7 @@ struct MainHomeView: View {
                         Button {
                             filterErrorMessage = nil
                         } label: {
-                            Text("확인")
+                            Text("confirm".localized)
                                 .primaryButtonStyle()
                                 .regular16()
                         }
@@ -237,7 +239,7 @@ struct MainHomeView: View {
                 .presentationDetents([.medium, .large])
         }
         .sheet(item: $selectedStoreId) { id in
-            StoreDetailInfoView(storeId: id, language: "ko")
+            StoreDetailInfoView(storeId: id, language: LanguageSettingsViewModel.getCurrentLanguage())
                 .presentationDetents([.medium, .large])
         }
         .fullScreenCover(isPresented: $showingLoginView) {

@@ -16,11 +16,11 @@ struct MyPageMoreMenu: View {
         if isPresented {
             VStack(spacing: 0) {
                 ForEach(actions.indices, id: \.self) { idx in
-                    Button {	
+                    Button {    
                         actions[idx].action()
                         isPresented = false
                     } label: {
-                        Text(actions[idx].title)
+                        Text(LocalizedStringKey(actions[idx].title))
                             .regular14()
                             .foregroundColor(.primary)
                             .padding(12)

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct FoodReviewView: View {
     
@@ -87,22 +88,21 @@ struct FoodReviewRow: View {
     var body: some View {
         VStack {
             HStack(alignment: .top, spacing: 12) {
-                AsyncImage(url: URL(string: review.revi_img ?? "")) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(maxWidth: 70)
-                        .cornerRadius(8)
-                } placeholder: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 8)
-                            .frame(width: 70, height: 70)
-                            .foregroundStyle(.buttonOP)
-                        Image(systemName: "quote.opening")
-                            .foregroundStyle(.buttonEnable)
+                KFImage(URL(string: review.revi_img ?? ""))
+                    .placeholder {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 8)
+                                .frame(width: 70, height: 70)
+                                .foregroundStyle(.buttonOP)
+                            Image(systemName: "quote.opening")
+                                .foregroundStyle(.buttonEnable)
+                        }
                     }
-                }
-
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxWidth: 70)
+                    .cornerRadius(8)
+                
                 VStack(alignment: .leading, spacing: 6) {
                     Text("리뷰어")
                         .bold20()
@@ -145,7 +145,7 @@ struct FoodReviewRow: View {
                                 .foregroundStyle(.buttonAuth)
                         } else {
                             Text("코멘트가 작성되지 않았습니다.")
-                                .foregroundStyle(.buttonOP20) 
+                                .foregroundStyle(.buttonOP20)
                         }
                     }
                     .foregroundStyle(.buttonOP20)

@@ -79,7 +79,7 @@ class MainHeaderViewModel: ObservableObject {
             storeName: searchText,
             latitude: String(center.latitude),
             longitude: String(center.longitude),
-            language: "ko",
+            language: LanguageSettingsViewModel.getCurrentLanguage(),
             radius: "500000" // 가게명 검색시 반경 넓히기?
         )
     }
@@ -109,7 +109,7 @@ class MainHeaderViewModel: ObservableObject {
             veganLevel: mappedVeganLevel,
             latitude: String(center.latitude),
             longitude: String(center.longitude),
-            language: "ko",
+            language: LanguageSettingsViewModel.getCurrentLanguage(),
             radius: "2000"
         )
     }

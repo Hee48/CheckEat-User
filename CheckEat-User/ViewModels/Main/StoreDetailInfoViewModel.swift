@@ -11,7 +11,16 @@ import Combine
 @MainActor
 class StoreDetailInfoViewModel: ObservableObject {
     
-    @Published var storeDetailInfo: StoreDetailInfo? = nil
+    @Published var storeDetailInfo: StoreDetailInfo? = nil {
+        didSet {
+            // 디버깅용: 데이터 업데이트 확인
+            print("🔄 storeDetailInfo 업데이트됨: \(storeDetailInfo?.sto_name ?? "nil")")
+            if let info = storeDetailInfo {
+                print("📍 가게명: \(info.sto_name)")
+                print("🍽️ 메뉴 개수: \(info.food_list.count)")
+            }
+        }
+    }
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var isFavoriteLoading = false
@@ -38,12 +47,13 @@ class StoreDetailInfoViewModel: ObservableObject {
                     print("✅ 서버에서 즐겨찾기 목록 로드 완료")
                 case .failure(let error):
                     print("❌ 서버에서 즐겨찾기 목록 로드 실패:", error.localizedDescription)
-                    self.errorMessage = "즐겨찾기 목록을 가져오는데 실패했습니다."
+                    // 즐겨찾기 에러는 앱 동작에 치명적이지 않으므로 빈 배열로 처리
+                    self.favoriteStoreIds = []
+                    // self.errorMessage = "즐겨찾기 목록을 가져오는데 실패했습니다."
                 }
             } receiveValue: { storeIds in
                 // 서버에서 받은 store_id 배열을 Set으로 변환
                 self.favoriteStoreIds = Set(storeIds)
-                
                 print("📌 서버에서 가져온 즐겨찾기 가게 수: \(storeIds.count)개")
             }
             .store(in: &cancellables)
@@ -72,7 +82,7 @@ class StoreDetailInfoViewModel: ObservableObject {
                     print("즐겨찾기 토글 완료")
                 case .failure(let error):
                     print("즐겨찾기 토글 실패:", error.localizedDescription)
-                    self.errorMessage = "즐겨찾기 처리에 실패했습니다."
+                    self.errorMessage = "favorite_action_error".localized
                 }
             } receiveValue: { success in
                 if success {
@@ -89,21 +99,35 @@ class StoreDetailInfoViewModel: ObservableObject {
     }
 
     func loadStoreDetailInfo(storeId: Int, language: String) {
+        print("📡 상세 정보 로드 시작 - storeId: \(storeId)")
+        
         errorMessage = nil
         isLoading = true
-
+        
         Task {
-            defer { isLoading = false }
             do {
                 let storeDetailInfo = try await storeDetailInfoService.loadStoreDetailInfo(
                     storeId: storeId,
                     language: language
                 )
-                print("✅ 가게 상세 정보 조회 성공")
-                self.storeDetailInfo = storeDetailInfo
+                
+                print("✅ API 응답 받음: \(storeDetailInfo.sto_name)")
+                print("🍽️ 메뉴 개수: \(storeDetailInfo.food_list.count)")
+                
+                // 메인 스레드에서 UI 업데이트 보장
+                await MainActor.run {
+                    self.storeDetailInfo = storeDetailInfo
+                    self.isLoading = false
+                    print("✅ UI 업데이트 완료")
+                }
+                
             } catch {
-                print(" 가게 상세 정보 조회 실패: \(error.localizedDescription)")
-                self.errorMessage = "해당 가게 정보를 가져오는 데 실패했어요...\n잠시후에 다시 시도해주세요!"
+                print("❌ 가게 상세 정보 조회 실패: \(error.localizedDescription)")
+                
+                await MainActor.run {
+                    self.errorMessage = "store_detail_info_fetch_error".localized
+                    self.isLoading = false
+                }
             }
         }
     }

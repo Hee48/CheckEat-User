@@ -11,7 +11,7 @@ struct VisitedStores: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var selectedIndex: Int = 0
-    let segments = ["리뷰작성", "리뷰미작성"]
+    let segments = ["segment_review_written".localized, "segment_review_pending".localized]
     @State private var selectedMenuIndex: Int? = nil
     @State private var showMenu: Bool = false
     @State private var anchorFrame: CGRect = .zero
@@ -38,7 +38,7 @@ struct VisitedStores: View {
             Spacer()
             
         }
-        .navigationTitle("이용한 가게")
+        .navigationTitle("visited_stores_title".localized)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             reviewCompletedViewModel.fetchReviewedStores()

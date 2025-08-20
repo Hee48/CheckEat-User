@@ -21,7 +21,7 @@ struct SegmentedControl: View {
                     }
                 } label: {
                     VStack(spacing: 4) {
-                        Text(segments[index])
+                        Text(LocalizedStringKey(segments[index]))
                             .fontWeight(selectedIndex == index ? .bold : .regular)
                             .foregroundColor(.black)
                             .padding(.vertical, 8)

@@ -133,19 +133,19 @@ enum VeganLevel: Int, CaseIterable, Identifiable {
     var description: String {
         switch self {
         case .none:
-            return "비건 아님"
+            return "not_vegan"
         case .level1:
-            return "폴로"
+            return "pollo"
         case .level2:
-            return "페스코"
+            return "pesco"
         case .level3:
-            return "락토 오보"
+            return "lactoovo"
         case .level4:
-            return "오보"
+            return "ovo"
         case .level5:
-            return "락토"
+            return "lacto"
         case .level6:
-            return "비건"
+            return "vegan"
         }
     }
 }
@@ -157,9 +157,9 @@ enum HalaStatus: Int, CaseIterable {
     var description: String {
         switch self {
         case .no:
-            return "할랄 아님"
+            return "not_halal"
         case .yes:
-            return "할랄"
+            return "halal"
         }
     }
 }
@@ -175,4 +175,3 @@ struct RefreshResponse: Decodable {
     let accessToken: String
     let refreshToken: String
 }
-

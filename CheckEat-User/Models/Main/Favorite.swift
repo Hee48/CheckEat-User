@@ -5,7 +5,6 @@
 //  Created by 최준영 on 8/12/25.
 //
 
-
 struct FavoriteStore: Decodable {
     
     let message: String
@@ -16,10 +15,11 @@ struct FavoriteStore: Decodable {
 struct FavoriteStoreItem: Decodable {
     let sto_id: Int
     let sto_name: String
+    let sto_name_en: String
     let sto_img: String?
     let sto_address: String
     let today_runtime: String?
-    let today_weekday: Int
+    let holi_weekday: Int
     let holi_break: String?
     let holi_regular: [String]?
     let holi_public: [String]?

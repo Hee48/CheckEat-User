@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import Kingfisher
 
 struct ManageFavoriteModalView: View {
     
@@ -19,10 +20,10 @@ struct ManageFavoriteModalView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-//                Text("⭐️ 즐겨찾기한 가게 (\(viewModel.items.count)곳)")
-                Text("⭐️ 즐겨찾기한 가게")
+                Image(systemName: "bookmark.fill")
+                Text("favorite_stores_title".localized)
                 Spacer()
-                Button("닫기") {
+                Button("close".localized) {
                     isPresented = false
                 }
                 .regular14()
@@ -35,8 +36,10 @@ struct ManageFavoriteModalView: View {
             
             // Content
             if viewModel.isLoading {
-                ProgressView("불러오는 중…")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                ProgressView {
+                    Text("loading_stores".localized)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let msg = viewModel.errorMessage {
                 VStack(spacing: 12) {
                     Image(systemName: "exclamationmark.triangle")
@@ -68,7 +71,7 @@ struct ManageFavoriteModalView: View {
             viewModel.load()
         }
         .sheet(item: $selectedStoreId) { id in
-            StoreDetailInfoView(storeId: id, language: "ko")
+            StoreDetailInfoView(storeId: id, language: LanguageSettingsViewModel.getCurrentLanguage())
                 .presentationDetents([.large])
         }
     }
@@ -78,22 +81,20 @@ extension ManageFavoriteModalView {
     @ViewBuilder
     private func favoriteCell(for item: FavoriteStoreItem) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            AsyncImage(url: URL(string: item.sto_img ?? "")) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 100)
-                    .cornerRadius(8)
-            } placeholder: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8)
-                        .frame(height: 100)
-                        .frame(maxWidth: .infinity)
-                        .foregroundStyle(.buttonSoft)
-                    Image(systemName: "storefront.fill")
-                        .foregroundStyle(.buttonEnable)
+            KFImage(URL(string: item.sto_img ?? ""))
+                .placeholder {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .frame(height: 100)
+                            .foregroundStyle(.buttonOP)
+                        Image(systemName: "fork.knife")
+                            .foregroundStyle(.buttonEnable)
+                    }
                 }
-            }
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 100)
+                .cornerRadius(8)
             
             Text(item.sto_name)
                 .bold20()
@@ -105,21 +106,13 @@ extension ManageFavoriteModalView {
                 }
                 HStack {
                     Image("Time")
-                    if let runtime = item.today_runtime {
-                        Text("영업시간 \(runtime)")
-                    } else {
-                        Text("영업시간 정보 없음")
-                    }
+                    Text(CommonStoreHelpers.businessHours(item.today_runtime))
                 }
                 HStack {
                     Image("Time")
-                    let breakTime = item.holi_break
-                    let currentWeekday = item.today_weekday
-                    Text("휴게시간 \(BreakTimeUtils.getBreakTimeText(for: item.holi_break, weekday: item.today_weekday))")
+                    Text(CommonStoreHelpers.breakTime(breakTime: item.holi_break, weekday: item.holi_weekday))
                 }
             }
-            .regular14()
-            .foregroundColor(.secondary)
             .regular14()
             .foregroundColor(.secondary)
         }
@@ -135,21 +128,21 @@ class ManageFavoriteModalViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String? = nil
     @Published var items: [FavoriteStoreItem] = []
-
+    
     private var bag = Set<AnyCancellable>()
     private let service = ManageFavoriteService()
-
+    
     func load() {
         errorMessage = nil
         isLoading = true
-
+        
         service.fetchFavoriteStoreItems()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self else { return }
                 self.isLoading = false
                 if case let .failure(error) = completion {
-                    self.errorMessage = "즐겨찾기 목록을 가져오지 못했어요. 잠시 후 다시 시도해주세요.\n\(error.localizedDescription)"
+                    self.errorMessage = "favorite_fetch_error".localized
                 }
             } receiveValue: { [weak self] items in
                 self?.items = items

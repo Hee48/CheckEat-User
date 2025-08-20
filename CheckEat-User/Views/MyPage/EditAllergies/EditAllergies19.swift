@@ -26,16 +26,16 @@ struct EditAllergies19: View {
     var body: some View {
             VStack(alignment: .leading) {
                 HStack(spacing: 10) {
-                    Text("나의 알러지 정보")
+                    Text("allergy_my_info_title".localized)
                         .semibold14()
                     
-                    Text("쉼표(,)로 구분해서 작성해주세요.")
+                    Text("allergy_input_hint_commas".localized)
                         .foregroundColor(.buttonOP50)
                         .regular12()
                 }
                 .padding(.leading, 17)
                 .padding(.top, 20)
-                TextField("ex. 키위,바나나,고사리,참깨,감귤류", text: $allergy)
+                TextField("allergy_example_placeholder".localized, text: $allergy)
                     .regular14()
                     .padding(.horizontal, 10)
                     .frame(width: 362, height: 52)
@@ -94,7 +94,7 @@ struct EditAllergies19: View {
                     onSubmit(selectedAllergens, allergy.trimmingCharacters(in: .whitespacesAndNewlines))
                     viewModel.editAllergies(commonIDs: selectedAllergens, personalAllergy: allergy)
                 } label: {
-                    Text("완료")
+                    Text("action_done".localized)
                         .semibold16()
                         .primaryButtonStyle(isEnabled: true)
                         .padding(.horizontal, 20)
@@ -109,7 +109,7 @@ struct EditAllergies19: View {
                 
                 Spacer()
 
-                .navigationTitle("알레르기 수정")
+                    .navigationTitle("allergy_edit_title".localized)
                 .navigationBarTitleDisplayMode(.inline)
                 
             }

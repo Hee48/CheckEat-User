@@ -19,7 +19,7 @@ struct FindPwdView: View {
     @State private var userId: String = ""
     @State private var userEmail: String = ""
     @State private var authCode: String = ""
-    @State private var infoMsg = "가입시 등록하신 아이디와 이메일을 입력해주세요."
+    @State private var infoMsg = "enter_registered_id_email"
     //MARK: 키보드 dismiss와 비슷한 동작
     @FocusState private var fieldIsFocused: Bool
     
@@ -55,19 +55,19 @@ struct FindPwdView: View {
             ZStack {
                 ScrollView {
                     VStack(alignment: .leading) {
-                        FindHeaderView(title: "비밀번호를 잊으셨나요?", subtitle: infoMsg)
+                        FindHeaderView(title: LocalizedStringKey("forgot_password_title"), subtitle: LocalizedStringKey(infoMsg))
                         
-                        Text("아이디")
+                        Text("user_id_label")
                             .semibold16()
-                        UnderLinedTextField(placeholder: "아이디를 입력해주세요", text: $userId)
+                        UnderLinedTextField(placeholder: "user_id_placeholder", text: $userId)
                             .regular14()
                             .autocorrectionDisabled(true)
                             .textInputAutocapitalization(.never)
                             .focused($fieldIsFocused)
                             .padding(.bottom)
-                        Text("이메일")
+                        Text("email_label")
                             .semibold16()
-                        UnderLinedTextField(placeholder: "이메일을 입력해주세요", text: $userEmail)
+                        UnderLinedTextField(placeholder: "email_placeholder", text: $userEmail)
                             .regular14()
                             .keyboardType(.emailAddress)
                             .autocorrectionDisabled(true)
@@ -115,7 +115,7 @@ struct FindPwdView: View {
                 }
             }
             .ignoresSafeArea(.keyboard)
-            .navigationTitle("비밀번호 재설정")
+            .navigationTitle("reset_password_title")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
             .toolbar {
@@ -139,12 +139,12 @@ struct FindPwdView: View {
             .safeAreaInset(edge: .bottom) {
                 VStack {
                     HStack {
-                        Text("비밀번호가 기억나셨나요?")
+                        Text("remember_password_question")
                             .regular14()
                         Button {
                             showFindPwd = false
                         } label: {
-                            Text("로그인")
+                            Text("Login")
                                 .semibold14()
                                 .foregroundStyle(.buttonAuth)
                         }

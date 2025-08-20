@@ -22,17 +22,17 @@ struct FindIDComplete: View {
                 .frame(width: 50, height: 50)
                 .foregroundStyle(.green)
                 .padding(.bottom, 16)
-            Text("회원님의 아이디는")
+            Text("find_id_message_prefix")
                 .foregroundColor(.buttonOP70)
                 .medium16()
             Text(userID)
                 .font(.system(size: 16, weight: .semibold))
-            + Text(" 입니다.")
+            + Text("find_id_message_suffix")
                 .foregroundColor(.buttonOP70)
                 .font(.system(size: 16, weight: .medium))
                 
             HStack {
-                Text("비밀번호를 잊으셨나요?")
+                Text("find_pw_question")
                     .foregroundStyle(.buttonOP70)
                     .regular14()
                 Button {
@@ -42,7 +42,7 @@ struct FindIDComplete: View {
                         showFindPw = true
                     }
                 } label: {
-                    Text("비밀번호 찾기")
+                    Text("find_pw_button")
                         .bold14()
                         .foregroundStyle(.buttonAuth)
                 }
@@ -52,7 +52,7 @@ struct FindIDComplete: View {
             Button {
                 showFindId = false
             } label: {
-                Text("로그인")
+                Text("Login")
                     .primaryButtonStyle()
                     .semibold16()
             }

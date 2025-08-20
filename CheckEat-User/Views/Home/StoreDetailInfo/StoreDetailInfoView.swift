@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct StoreDetailInfoView: View {
     
@@ -20,15 +21,17 @@ struct StoreDetailInfoView: View {
     // 전체 운영 보여주기 (러닝타임)
     @State var showRunningTimeField: Bool = false
     // 탭 선택 상태
-    @State var selectedTab: String = "전체메뉴"
+    @State var selectedTab: String = "menu_tab_all".localized
     
     var body: some View {
         GeometryReader { geo in
             //MARK: 가게 상세정보 로딩 상태
             if viewModel.isLoading {
                 //MARK: 네트워크 통신 이후 데이터를 아직 가져오지 못 한 경우...
-                ProgressView("가게 상세정보 불러오는 중…")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                ProgressView {
+                    Text("")
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             // 에러 상태
             else if let errorMessage = viewModel.errorMessage {
@@ -43,18 +46,17 @@ struct StoreDetailInfoView: View {
                             Rectangle()
                                 .fill(.buttonSoft)
                                 .frame(maxWidth: .infinity, minHeight: geo.size.height * 0.3)
-                            AsyncImage(url: URL(string: storeInfo.sto_img ?? "")) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: geo.size.width, height: geo.size.height * 0.3)
-                                    .clipped()
-                            } placeholder: {
-                                Image(systemName: "storefront.fill")
-                                    .resizable()
-                                    .frame(width: 60, height: 60)
-                                    .foregroundStyle(.buttonEnable)
-                            }
+                            KFImage(URL(string: storeInfo.sto_img ?? ""))
+                                .placeholder {
+                                    Image(systemName: "storefront.fill")
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                        .foregroundStyle(.buttonEnable)
+                                }
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: geo.size.width, height: geo.size.height * 0.3)
+                                .clipped()
                         }
                         
                         VStack(alignment: .leading, spacing: 8) {
