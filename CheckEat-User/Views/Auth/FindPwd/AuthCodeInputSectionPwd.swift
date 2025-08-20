@@ -31,7 +31,7 @@ struct AuthCodeInputSectionPwd: View {
         VStack(alignment: .leading) {
             Text("auth_code_title")
                 .semibold16()
-            UnderLinedTextField(placeholder: "auth_code_placeholder", text: $authCode)
+            AuthCodeTextField(placeholder: "auth_code_placeholder", text: $authCode)
                 .regular14()
                 .focused($fieldIsFocused)
             

@@ -58,7 +58,7 @@ struct FindIDViewOrigin: View {
                             Text("auth_code_title")
                                 .font(.system(size: 14, weight: .bold))
                                 .padding(.top, 10)
-                            UnderLinedTextField(placeholder: "auth_code_placeholder", text: $verificationCode)
+                            AuthCodeTextField(placeholder: "auth_code_placeholder", text: $verificationCode)
                                 .font(.system(size: 14))
                                 .padding(.top, 2)
                             if showCodeErrorMessage {
