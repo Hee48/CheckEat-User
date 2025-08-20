@@ -40,12 +40,15 @@ struct BreakTimeUtils {
     // - Returns: 표시할 브레이크 타임 텍스트
     static func getBreakTimeText(for breakTime: String?, weekday: Int) -> String {
         guard let breakTime = breakTime else {
-            return "휴게시간 정보 없음"
+            return "break_time_not_available".localized
         }
         
-        if breakTime == "NONE" {
-            return "휴게시간 없음"
+        if breakTime == "" {
+            return "no_break_time".localized
         }
+//        if breakTime == "NONE" {
+//            return "휴게시간 없음"
+//        }
         
         if breakTime.contains("W:") || breakTime.contains("E:") {
             let parsed = parseBreakTime(breakTime)
@@ -55,14 +58,14 @@ struct BreakTimeUtils {
                 if !parsed.weekend.isEmpty {
                     return "\(parsed.weekend.joined(separator: ", "))"
                 } else {
-                    return "정보 없음"
+                    return "info_not_available".localized
                 }
             } else {
                 // 평일
                 if !parsed.weekday.isEmpty {
                     return "\(parsed.weekday.joined(separator: ", "))"
                 } else {
-                    return "정보 없음"
+                    return "info_not_available".localized
                 }
             }
         } else {
