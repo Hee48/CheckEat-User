@@ -16,7 +16,7 @@ class LanguageSettingsViewModel: ObservableObject {
     // 현재 언어 가져오기 (우선순위 적용)
     static func getCurrentLanguage() -> String {
         if let saved = UserDefaults.standard.string(forKey: "app_selected_language") {
-            print("📱 저장된 앱 언어 사용: \(saved)")
+//            print("📱 저장된 앱 언어 사용: \(saved)")
             return saved // 앱에서 설정한 언어
         }
         
