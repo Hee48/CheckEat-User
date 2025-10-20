@@ -45,7 +45,7 @@ Communication
 
 ### Libraries
 
-<p align="center"> 
+
   <img src="https://raw.githubusercontent.com/Alamofire/Alamofire/master/Resources/AlamofireLogo.png" alt="Alamofire" width="150" style="vertical-align: middle;"/> 
   <img src="https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/logo.png" alt="Kingfisher" width="250" style="vertical-align: middle;"/> 
   <img src="https://camo.githubusercontent.com/02804be0335f940fda9348bca178897ffcf10b542f5ec04fda40c9dfffec001c/68747470733a2f2f63646e2e61757468302e636f6d2f776562736974652f73646b732f62616e6e6572732f6a77746465636f64652d73776966742d62616e6e65722e706e67" alt="JWTDecode" width="230" style="vertical-align: middle;"/> 
