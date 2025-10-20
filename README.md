@@ -1,1 +1,54 @@
 # CheckEat-User
+
+## 2025 채용연계형 부트캠프 - 최종 프로젝트
+
+CheckEat - User 은 비건·할랄·알레르기 등 식이 제한자를 위한 음식 재료 정보를 제공하는 애플리케이션 외식 시 제한된 정보와 선택지의 불편함에서 출발한 앱
+<br/>
+<br/>
+Period : 25.06.30 ~ 08.22
+<br/>
+
+<br/>
+
+### 기능
+- 로그인 기능
+- 마이페이지 기능
+- 구단선택 가능
+
+
+
+
+<br/>
+
+### Stacks
+
+Language
+<br/>
+<img src="https://img.shields.io/badge/swift-%23FA7343.svg?&style=for-the-badge&logo=swift&logoColor=white" />
+<br/>
+<br/>
+Framework
+<br/>
+![SwiftUI](https://img.shields.io/badge/SwiftUI-1E90FF?style=for-the-badge&logo=swift&logoColor=white)
+
+Communication
+<br/>
+<img src="https://img.shields.io/badge/github-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white" />
+<img src="https://img.shields.io/badge/figma-%23F24E1E.svg?&style=for-the-badge&logo=figma&logoColor=white" />
+<img src="https://img.shields.io/badge/notion-%23000000.svg?&style=for-the-badge&logo=notion&logoColor=white" />
+
+
+<br/>
+<br/>
+
+
+### 팀원 
+- 최준영
+- 최하진
+- 김민희
+
+<br/>
+<br/>
+
+
+## 구현 페이지 
